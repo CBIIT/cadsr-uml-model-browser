@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+
+<beans>
+
+
+
+  <bean id="umlDomainModelQueryService" class="gov.nih.nci.cadsr.service.impl.UmlDomainModelQueryServiceImpl">
+
+  </bean>
+
+  <bean id="adminComponentQueryService" class="gov.nih.nci.cadsr.service.impl.AdminComponentQueryService">
+
+  </bean>
+
+  <bean id="conceptQueryService" class="gov.nih.nci.cadsr.service.impl.ConceptQueryService">
+
+  </bean>
+  
+  <bean id="dataElementConceptQueryService" class="gov.nih.nci.cadsr.service.impl.DataElementConceptQueryService">
+
+  </bean>  
+  
+  <bean id="dataElementQueryService" class="gov.nih.nci.cadsr.service.impl.DataElementQueryService">
+
+  </bean>  
+  
+    <bean id="objectClassQueryService" class="gov.nih.nci.cadsr.service.impl.ObjectClassQueryService">
+  
+  </bean>  
+  
+  <bean id="propertyQueryService" class="gov.nih.nci.cadsr.service.impl.PropertyQueryService">
+
+  </bean>  
+  
+</beans>
+
