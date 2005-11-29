@@ -1,9 +1,8 @@
-package gov.nih.nci.ncicb.cadsr.cdebrowser.tree;
+package gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree;
 
 public interface TreeConstants  {
   public static final String DE_SEARCH_TREE = "deTree";
   public static final String FORM_SEARCH_TREE = "formTree";
-  public static final String CLASS_SEARCH_TREE = "umlClassTree";
   public static final String TREE_TYPE_URL_PARAM = "treeType";
   public static final String FUNCTION_NAME_URL_PARAM = "functionName";
   public static final String EXTRA_URL_PARAMS = "extraURLParameters";
@@ -11,8 +10,6 @@ public interface TreeConstants  {
   public static final String DE_SEARCH_FUNCTION = "performAction";
   public static final String FORM_SEARCH_FUNCTION = "formSearchAction";
   public static final String FORM_DETAILS_FUNCTION = "formDetailsAction";
-  public static final String CLASS_SEARCH_FUNCTION = "classSearchAction";
-  public static final String CLASS_DETAILS_FUNCTION = "classDetailsAction";
   public static final String CTEP_USER_FLAG = "ctepUser";
 
   public static final String TREE_BREADCRUMBS="treeBreadCrumbs";

@@ -1,24 +1,19 @@
 <%@ page contentType="text/html;charset=windows-1252"%>
 <%@page import="gov.nih.nci.ncicb.cadsr.util.* " %>
 <%@page import="gov.nih.nci.ncicb.cadsr.CaDSRConstants"%>
-<%@page import="gov.nih.nci.ncicb.cadsr.resource.Context"%>
+
 <%@page import="java.util.HashMap " %>
-<%@page import="gov.nih.nci.ncicb.cadsr.cdebrowser.tree.TreeConstants " %>
+<%@page import="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.TreeConstants " %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
 <%@ taglib uri="/WEB-INF/cdebrowser.tld" prefix="cde"%>
 
-<cde:checkAccess
-  role="<%=CaDSRConstants.CDE_MANAGER%>"
-  key="accessValue"
-  contextName="<%=Context.CTEP%>"
-  />
+
   
 <%
 
-  String ctepUser = (String)pageContext.getAttribute("accessValue");
-  String treeURL;
+
 /*
   String umlTreeURL;
     umlTreeURL = 

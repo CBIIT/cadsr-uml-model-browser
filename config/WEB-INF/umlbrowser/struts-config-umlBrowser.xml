@@ -38,14 +38,7 @@
 
   </action-mappings>  
 
-    <plug-in className="gov.nih.nci.ncicb.cadsr.struts.common.ObjectPlugIn">
-      <set-property 
-        property="applicationKey" 
-        value="ApplicationServiceLocatorClassName"/>
-      <set-property 
-        property="className" 
-        value="gov.nih.nci.ncicb.cadsr.servicelocator.spring.ApplicationServiceLocatorImpl"/>      
-    </plug-in>
+
 
  
 </struts-config>
