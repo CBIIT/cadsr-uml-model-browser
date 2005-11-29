@@ -1,7 +1,7 @@
 package gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions;
 
 import gov.nih.nci.ncicb.cadsr.jsp.bean.PaginationBean;
-import gov.nih.nci.ncicb.cadsr.struts.common.BaseDispatchAction;
+
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLAttribute;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConstants;
 
@@ -88,7 +88,7 @@ public class UMLSearchAction extends BaseDispatchAction
       HttpServletRequest request,
       HttpServletResponse response) throws IOException, ServletException {
 
-    
+
       DynaActionForm dynaForm = (DynaActionForm) form;
       String resetCrumbs = (String) dynaForm.get(UMLBrowserFormConstants.RESET_CRUMBS);
       Collection umlClasses = new ArrayList();
@@ -106,8 +106,8 @@ public class UMLSearchAction extends BaseDispatchAction
               "caCore", "Tissue", "1", "2192778");
       umlClasses.add(umlCls);
 
-      setSessionObject(request,  UMLBrowserFormConstants.CLASS_SEARCH_RESULTS, umlClasses,true);    
-        setSessionObject(request,  UMLBrowserFormConstants.CLASS_ATTRIBUTE_VIEW, true, true);    
+      setSessionObject(request,  UMLBrowserFormConstants.CLASS_SEARCH_RESULTS, umlClasses,true);
+        setSessionObject(request,  UMLBrowserFormConstants.CLASS_ATTRIBUTE_VIEW, true, true);
 
         PaginationBean pb = new PaginationBean();
 
@@ -123,9 +123,9 @@ public class UMLSearchAction extends BaseDispatchAction
           comparator.setPrimary("className");
           comparator.setOrder(comparator.ASCENDING);
           Collections.sort((List)umlClasses,comparator);
-          setSessionObject(request,UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR,comparator);      
+          setSessionObject(request,UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR,comparator);
         }
-          
+
         setSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS_PAGINATION, pb,true);
 
 
@@ -139,7 +139,7 @@ public class UMLSearchAction extends BaseDispatchAction
       HttpServletResponse response) throws IOException, ServletException {
 
       removeSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS);
-    
+
       DynaActionForm dynaForm = (DynaActionForm) form;
       Collection umlAttributes = new ArrayList();
 
@@ -164,20 +164,20 @@ public class UMLSearchAction extends BaseDispatchAction
         umlAtt = new UMLAttribute("EVSId", "java.lang.String", "2178533",  "NCI Concept Code",
               "2223296", "Agent NCI Concept Code","Agent NCI Concept Code java.lang.String", "2223868");
               umlAttributes.add(umlAtt);
-              
+
         umlAtt = new UMLAttribute("source", "java.lang.String", "2178533",  "Source",
               "2223297", "Agent Source","Agent Source java.lang.String", "2223870");
               umlAttributes.add(umlAtt);
 
-      
-      setSessionObject(request,  UMLBrowserFormConstants.CLASS_ATTRIBUTES, umlAttributes,true);    
+
+      setSessionObject(request,  UMLBrowserFormConstants.CLASS_ATTRIBUTES, umlAttributes,true);
 
         PaginationBean pb = new PaginationBean();
 
         if (umlAttributes != null) {
           pb.setListSize(umlAttributes.size());
         }
-        
+
         UMLAttribute anAttribute = null;
         if(umlAttributes.size()>0)
         {
@@ -187,13 +187,13 @@ public class UMLSearchAction extends BaseDispatchAction
           comparator.setPrimary("attributeName");
           comparator.setOrder(comparator.ASCENDING);
           Collections.sort((List)umlAttributes,comparator);
-          setSessionObject(request,UMLBrowserFormConstants.ATTRIBUTE_SEARCH_RESULT_COMPARATOR,comparator);      
+          setSessionObject(request,UMLBrowserFormConstants.ATTRIBUTE_SEARCH_RESULT_COMPARATOR,comparator);
         }
-          
+
         setSessionObject(request, UMLBrowserFormConstants.ATTRIBUTE_SEARCH_RESULTS_PAGINATION, pb,true);
 
 
       return mapping.findForward("showAttributes");
     }
-    
+
 }

@@ -1,6 +1,6 @@
-package gov.nih.nci.ncicb.cadsr.cdebrowser.tree;
+package gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree;
 
-public class TreeIdGenerator 
+public class TreeIdGenerator
 {
   private long id = 0;
   public TreeIdGenerator()
@@ -9,7 +9,7 @@ public class TreeIdGenerator
   public TreeIdGenerator(long initialVal)
   {
     id = initialVal;
-  }  
+  }
   public String getNewId()
   {
     id++;

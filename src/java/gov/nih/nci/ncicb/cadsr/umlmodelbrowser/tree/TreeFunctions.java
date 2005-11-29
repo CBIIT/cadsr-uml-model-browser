@@ -1,6 +1,6 @@
-package gov.nih.nci.ncicb.cadsr.cdebrowser.tree;
+package gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree;
 
-public interface TreeFunctions 
+public interface TreeFunctions
 {
 
   public String getJsFunctionName();
@@ -10,5 +10,5 @@ public interface TreeFunctions
 
   public String getFormJsFunctionName() ;
 
-  public String isCTEPUser(); 
+  public String isCTEPUser();
 }

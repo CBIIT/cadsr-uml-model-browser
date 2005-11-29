@@ -2,7 +2,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="gov.nih.nci.ncicb.webtree.*" %>
 <%@ page import="java.io.*"%>
-<%@page import="gov.nih.nci.ncicb.cadsr.cdebrowser.tree.TreeConstants " %>
+<%@page import="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.TreeConstants " %>
 <%@page import="gov.nih.nci.ncicb.cadsr.util.TreeUtils " %>
 <%@page import="gov.nih.nci.ncicb.cadsr.CaDSRConstants"%>
 
