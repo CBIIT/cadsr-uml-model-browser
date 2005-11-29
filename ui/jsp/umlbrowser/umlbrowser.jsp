@@ -12,8 +12,8 @@
 
   
 <%
-
-
+   String ctepUser = (String)pageContext.getAttribute("accessValue");
+   String treeURL;
 /*
   String umlTreeURL;
     umlTreeURL = 
