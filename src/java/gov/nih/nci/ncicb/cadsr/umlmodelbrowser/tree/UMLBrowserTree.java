@@ -1,8 +1,7 @@
 package gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree;
 
 import gov.nih.nci.ncicb.cadsr.cdebrowser.tree.BaseTreeNode;
-import gov.nih.nci.ncicb.cadsr.cdebrowser.tree.CDEBrowserTreeCache;
-import gov.nih.nci.ncicb.cadsr.cdebrowser.tree.TreeConstants;
+import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.TreeConstants;
 import gov.nih.nci.ncicb.cadsr.resource.Context;
 import gov.nih.nci.ncicb.cadsr.resource.ContextHolder;
 import gov.nih.nci.ncicb.cadsr.util.CDEBrowserParams;
