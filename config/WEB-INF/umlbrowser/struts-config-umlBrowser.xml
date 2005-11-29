@@ -18,17 +18,17 @@
   </form-beans>  
   
   <action-mappings>
-    <action name="umlSearchForm" path="/umlSearchAction" parameter="method"
+    <action name="umlSearchForm" path="/umlbrowser/umlSearchAction" parameter="method"
       scope="request"
       type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.UMLSearchAction"
       validate="false"
       >
-      <forward name="umlbrowserHome" path="/umlbrowser.jsp"/>
-      <forward name="umlSearch" path="/umlSearch.jsp"/>
-      <forward name="showAttributes" path="/umlAttributes.jsp"/>
+      <forward name="umlbrowserHome" path="/umlbrowser/umlbrowser.jsp"/>
+      <forward name="umlSearch" path="/umlbrowser/umlSearch.jsp"/>
+      <forward name="showAttributes" path="/umlbrowser/umlAttributes.jsp"/>
     </action>
     
-    <action name="umlSearchForm" path="/umlSortSearchAction" parameter="method"
+    <action name="umlSearchForm" path="/umlbrowser/umlSortSearchAction" parameter="method"
       scope="session"
       type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.UMLSearchAction"
       validate="false">
@@ -37,7 +37,7 @@
     </action>      
 
   </action-mappings>  
-<!--  
+
     <plug-in className="gov.nih.nci.ncicb.cadsr.struts.common.ObjectPlugIn">
       <set-property 
         property="applicationKey" 
@@ -47,5 +47,5 @@
         value="gov.nih.nci.ncicb.cadsr.servicelocator.spring.ApplicationServiceLocatorImpl"/>      
     </plug-in>
 
-  -->
+ 
 </struts-config>
