@@ -22,7 +22,7 @@
 /*
   String umlTreeURL;
     umlTreeURL = 
-      "common/WebTreeLoader.jsp?treeClass=gov.nih.nci.ncicb.cadsr.umlbrowser.tree.UMLBrowserTree"+
+      "common/WebTreeLoader.jsp?treeClass=gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.UMLBrowserTree"+
       "&treeParams="+TreeConstants.TREE_TYPE_URL_PARAM +":" + 
       TreeConstants.CLASS_SEARCH_TREE + ";" +
       TreeConstants.FUNCTION_NAME_URL_PARAM + ":" +
@@ -35,7 +35,7 @@
  */
  
      treeURL = 
-       "common/WebTreeLoader.jsp?treeClass=gov.nih.nci.ncicb.cadsr.umlbrowser.tree.UMLBrowserTree"+
+       "common/WebTreeLoader.jsp?treeClass=gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.UMLBrowserTree"+
        "&treeParams="+TreeConstants.TREE_TYPE_URL_PARAM +":" + 
        TreeConstants.CLASS_SEARCH_TREE + ";" +
        TreeConstants.FUNCTION_NAME_URL_PARAM + ":" +

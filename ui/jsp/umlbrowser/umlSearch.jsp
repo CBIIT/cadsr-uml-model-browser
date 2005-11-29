@@ -2,12 +2,11 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
 <%@ taglib uri="/WEB-INF/cdebrowser.tld" prefix="cde"%>
-<%@page import="oracle.clex.process.jsp.GetInfoBean " %>
 <%@page import="gov.nih.nci.ncicb.cadsr.html.* " %>
 <%@page import="gov.nih.nci.ncicb.cadsr.util.* " %>
 <%@page import="gov.nih.nci.ncicb.cadsr.CaDSRConstants" %>
-<%@page import="gov.nih.nci.ncicb.cadsr.umlbrowser.struts.common.UMLBrowserFormConstants" %>
-<%@page import="gov.nih.nci.ncicb.cadsr.umlbrowser.struts.common.UMLBrowserNavigationConstants" %>
+<%@page import="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConstants" %>
+<%@page import="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserNavigationConstants" %>
 <%@page import="gov.nih.nci.ncicb.cadsr.CaDSRConstants" %>
 
 <HTML>

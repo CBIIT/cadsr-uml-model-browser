@@ -128,7 +128,7 @@ if(confirm(message)) location.href = url;
             </th>             
           </tr>        
           <logic:iterate id="umlClass" name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>" 
-          	type="gov.nih.nci.ncicb.cadsr.umlbrowser.struts.common.UmlClass"
+          	type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UmlClass"
                 offset="<%=Integer.toString(pageBean.getOffset())%>"
                 length="<%=Integer.toString(pageBean.getPageSize())%>">
             <tr class="OraTabledata">  

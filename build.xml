@@ -114,6 +114,7 @@
    <path id="classpath">
     <fileset dir="${java.lib.dir}">
       <include name="*.jar"/>
+      <include name="*.zip"/>
     </fileset>
   
    </path>
@@ -219,6 +220,11 @@
         </patternset>
       </fileset>
 
+      <fileset dir="${jsp.dir}/">
+              <patternset>
+                <include name="common/**/*.*"/>  
+              </patternset>
+      </fileset>
            
 
 
@@ -237,6 +243,7 @@
 
       <lib dir="${java.lib.dir}">
       	<include name="*.jar"/>       	
+      	<include name="*.zip"/>       	
       </lib>
        
     </war>
@@ -295,7 +302,8 @@
    <target  name="clean_jboss" depends="init" >       
 	<delete dir="${jboss.home}/server/default/tmp/deploy" failonerror="true"  verbose="true" />
 	<delete file="${jboss.home}/server/default/deploy/${ear.name}.ear" failonerror="true" verbose="true" />
-   </target>    
+        <delete dir="${jboss.home}/server/default/work/jboss.web" failonerror="true" verbose="true" />
+  </target>    
    
    <target  name="deploy_dev" depends="clean,clean_jboss,debug_setting,ear_umlmodelbrowser"> 
      <copy todir="${jboss.home}/server/default/deploy">      
