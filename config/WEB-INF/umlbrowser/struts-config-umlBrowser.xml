@@ -38,7 +38,9 @@
 
   </action-mappings>  
 
-
+  <message-resources parameter="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.ApplicationResources"/>
+  <plug-in className="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.SpringWebContextPlugIn">  
+  </plug-in> 
 
  
 </struts-config>
