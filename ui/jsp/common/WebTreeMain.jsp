@@ -17,7 +17,7 @@
 %>
 
 <HTML>
-<script language="JavaScript1.2" src="skins/<%=skin%>/JavaScript.js"></script>
+<script language="JavaScript1.2" src="../jsLib/JavaScript.js"></script>
 <HEAD>
 <TITLE>NCI Center for Bioinformatics</TITLE>
 <META http-equiv="Content-Type" content="text/html;">

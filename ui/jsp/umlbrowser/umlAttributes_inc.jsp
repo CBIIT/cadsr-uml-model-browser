@@ -144,7 +144,7 @@ function redirect1(detailReqType, linkParms )
             </th>             
           </tr>        
           <logic:iterate id="umlClass" name="<%=UMLBrowserFormConstants.CLASS_ATTRIBUTES%>" 
-          	type="gov.nih.nci.ncicb.cadsr.umlbrowser.struts.common.UMLAttribute"
+          	type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLAttribute"
                 offset="<%=Integer.toString(pageBean.getOffset())%>"
                 length="<%=Integer.toString(pageBean.getPageSize())%>">
             <tr class="OraTabledata">  
@@ -155,11 +155,14 @@ function redirect1(detailReqType, linkParms )
        		<bean:write name="umlClass" property="dataType"/><br>
           	</td>             
           	<td class="OraFieldText">
+          		<bean:write name="umlClass" property="definition"/><br>
+          	</td>               
+          	<td class="OraFieldText">
                 <a href="javascript:redirect1('dataElementDetails','&p_de_idseq=A7B68E0E-1ED3-38ED-E034-0003BA0B1A09')"><bean:write name="umlClass" property="deName"/></a>
           		<br>
           	</td>               
           	<td class="OraFieldText">
-          		<bean:write name="umlClass" property="definition"/><br>
+          		<bean:write name="umlClass" property="dePublicId"/><br>
           	</td>               
 
           	<td class="OraFieldText">

@@ -1,12 +1,11 @@
 package gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree;
 
-import gov.nih.nci.ncicb.cadsr.cdebrowser.tree.BaseTreeNode;
-import gov.nih.nci.ncicb.cadsr.cdebrowser.tree.CDEBrowserTreeCache;
-import gov.nih.nci.ncicb.cadsr.cdebrowser.tree.TreeConstants;
-import gov.nih.nci.ncicb.cadsr.cdebrowser.tree.TreeIdGenerator;
-import gov.nih.nci.ncicb.cadsr.resource.Context;
+import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.BaseTreeNode;
+import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.TreeConstants;
+import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.TreeIdGenerator;
+import gov.nih.nci.cadsr.domain.Context;
 import gov.nih.nci.ncicb.cadsr.servicelocator.ApplicationServiceLocator;
-import gov.nih.nci.ncicb.cadsr.util.CDEBrowserParams;
+import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.service.UMLBrowserTreeService;
 import gov.nih.nci.ncicb.cadsr.util.TimeUtils;
 
 import java.util.Hashtable;
@@ -29,16 +28,14 @@ public class UMLBrowserTreeCache
   {
   }
   //All crf by contextId - Protocols(List) -crf(Collection)
-  private Map allFormsWithProtocol = null;
-  private Map allFormsWithNoProtocol = null;
-  private Map allTemplatesByContext = null;
-  private List allTemplatesForCtep = null;
+  private Map allProjectByContext = null;
+  private Map allSubProjectByCsid = null;
+  private Map allPackagesByCSid = null;
+  private Map allPackagesByCsiId = null;
   private List allContextHolders = null;
   private TreeIdGenerator idGen = new TreeIdGenerator();
-  private DefaultMutableTreeNode publishNode = null;
   private Map allClassificationNodes = null;
   private static ApplicationServiceLocator appServiceLocator = null;
-  private Map allPublishingNode = null;
 
   public static UMLBrowserTreeCache getAnInstance() throws Exception
   {
@@ -46,56 +43,29 @@ public class UMLBrowserTreeCache
       UMLBrowserTreeCache cache = new UMLBrowserTreeCache();
       return cache;
   }
-  public List getProtocolNodes(String contextIdSeq)
-  {
-    return (List)allFormsWithProtocol.get(contextIdSeq);
-
-  }
-
-  public DefaultMutableTreeNode  getTemplateNodes(String contextIdSeq)
-  {
-    return (DefaultMutableTreeNode)allTemplatesByContext.get(contextIdSeq);
-  }
 
  public DefaultMutableTreeNode getClassificationNodes(String contextIdSeq)
   {
     return (DefaultMutableTreeNode)allClassificationNodes.get(contextIdSeq);
   }
 
-  public DefaultMutableTreeNode getProtocolFormNodeWithNoProtocol(String contextIdSeq)
-  {
-    return (DefaultMutableTreeNode)allFormsWithNoProtocol.get(contextIdSeq);
-  }
   public void init(BaseTreeNode baseTree,Hashtable treeParams) throws Exception
   {
-   log.info("Init start"+TimeUtils.getEasternTime());
+    log.info("Init start"+TimeUtils.getEasternTime());
     String contextExcludeListStr = (String)treeParams.get(TreeConstants.BR_CONTEXT_EXCLUDE_LIST_STR);
-    allContextHolders = appServiceLocator.findTreeService().getContextNodeHolders(baseTree,idGen,contextExcludeListStr);
+    UMLBrowserTreeService treeService = appServiceLocator.findTreeService();
+    allContextHolders = treeService.getContextNodeHolders(baseTree,idGen,contextExcludeListStr);
+    allProjectByContext = treeService.getProjectNodesByContextId(baseTree,idGen,contextExcludeListStr);
+    allSubProjectByCsid = treeService.getSubProjectNodesByCSId(baseTree,idGen,contextExcludeListStr);
+    allPackagesByCSid = (Map)treeService.getPackageNodes(baseTree,idGen,contextExcludeListStr).get(0);
+    allPackagesByCsiId = (Map)treeService.getPackageNodes(baseTree,idGen,contextExcludeListStr).get(1);
+    
     log.info("Init end"+TimeUtils.getEasternTime());
-  }
-
-  public void initCtepInfo(BaseTreeNode baseTree,Context ctepContext) throws Exception
-  {
-   log.info("InitCtep start"+TimeUtils.getEasternTime());
-//    setCtepTemplateCtepNodes(conn,baseTree,templateTypes, ctepContext);
-   allTemplatesForCtep = appServiceLocator.findTreeService().getAllTemplateNodesForCTEP(baseTree, idGen, ctepContext);
-   log.info("InitCtep end"+TimeUtils.getEasternTime());
   }
 
   private void clearCache()
   {
 
-  }
-
-
-  public List getAllTemplatesForCtep()
-  {
-    return allTemplatesForCtep;
-  }
-
-  public void setAllTemplatesForCtep(List allTemplatesForCtep)
-  {
-    this.allTemplatesForCtep = allTemplatesForCtep;
   }
 
 
@@ -108,11 +78,6 @@ public class UMLBrowserTreeCache
   public List getAllContextHolders()
   {
     return allContextHolders;
-  }
-
-  public DefaultMutableTreeNode getPublishNode( Context currContext) throws Exception
-  {
-    return (DefaultMutableTreeNode) allPublishingNode.get(currContext.getConteIdseq());
   }
 
   public void set_allContextHolders(List allContextHolders)
@@ -145,6 +110,19 @@ public class UMLBrowserTreeCache
   }
 
 
+   public Map getAllProjectByContext() {
+      return allProjectByContext;
+   }
 
+   public Map getAllSubProjectByCsid() {
+      return allSubProjectByCsid;
+   }
 
+   public Map getAllPackagesByCSid() {
+      return allPackagesByCSid;
+   }
+
+   public Map getAllPackagesByCsiId() {
+      return allPackagesByCsiId;
+   }
 }

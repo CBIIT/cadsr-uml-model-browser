@@ -1,10 +1,9 @@
 package gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree;
 
-import gov.nih.nci.ncicb.cadsr.cdebrowser.tree.BaseTreeNode;
+import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.BaseTreeNode;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.TreeConstants;
-import gov.nih.nci.ncicb.cadsr.resource.Context;
-import gov.nih.nci.ncicb.cadsr.resource.ContextHolder;
-import gov.nih.nci.ncicb.cadsr.util.CDEBrowserParams;
+import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.ContextHolder;
+import gov.nih.nci.cadsr.domain.Context;
 import gov.nih.nci.ncicb.cadsr.util.TimeUtils;
 import gov.nih.nci.ncicb.webtree.WebNode;
 import gov.nih.nci.ncicb.webtree.WebTree;
@@ -15,6 +14,8 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+
+import java.util.Map;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -60,10 +61,13 @@ public class UMLBrowserTree extends WebTree implements TreeConstants {
 
             log.info("Tree Start " + TimeUtils.getEasternTime());
 
-            CDEBrowserParams params = CDEBrowserParams.getInstance();
             baseNode = new BaseTreeNode(treeParams);
             UMLBrowserTreeCache cache = UMLBrowserTreeCache.getAnInstance();
             cache.init(baseNode, treeParams);
+           Map projectByContext = cache.getAllProjectByContext();
+           Map subprojectByCsId = cache.getAllSubProjectByCsid();
+           Map pkgByCsId = cache.getAllPackagesByCSid();
+           Map pkgByCsiId = cache.getAllPackagesByCsiId();
             WebNode contexts =
                 new WebNode(cache.getIdGen().getNewId(), "caDSR Contexts",
                                            "javascript:classSearchAction('')");
@@ -82,8 +86,56 @@ public class UMLBrowserTree extends WebTree implements TreeConstants {
                 Context currContext = currContextHolder.getContext();
                 DefaultMutableTreeNode contextNode =
                     currContextHolder.getNode();
+                    
+                if (projectByContext.get(currContext.getId()) != null) {
+                   List projects =(List) projectByContext.get(currContext.getId());
+                   WebNode projectTexts =
+                       new WebNode(cache.getIdGen().getNewId(), "Projects");
+                   DefaultMutableTreeNode projectTextNode =
+                       new DefaultMutableTreeNode(projectTexts);
+                   contextNode.add(projectTextNode);
+                   for (int i=0; i<projects.size(); i++) {
+                      DefaultMutableTreeNode projNode =(DefaultMutableTreeNode)projects.get(i);
+                      projectTextNode.add(projNode);
+                      String projCSId = ((WebNode) (projNode.getUserObject())).getInfo();
+                      List subProjs = (List) subprojectByCsId.get(projCSId);
+                      if (subProjs != null) {
+                         WebNode subprojectTexts =
+                             new WebNode(cache.getIdGen().getNewId(), "Sub Projects");
+                         DefaultMutableTreeNode subProjectTextNode =
+                             new DefaultMutableTreeNode(subprojectTexts);
+                         projNode.add(subProjectTextNode);
+                      
+                         for (int j=0; j<subProjs.size(); j++){
+                          DefaultMutableTreeNode subprojNode =(DefaultMutableTreeNode)subProjs.get(j);
+                         subProjectTextNode.add(subprojNode);
+                           String subProjCscsiId = ((WebNode) (subprojNode.getUserObject())).getInfo();
+                         
+                           //add packages that are linked to sub projects
+                           List pkgs = (List)pkgByCsiId.get(subProjCscsiId);
+                           if (pkgs != null) {
+                              for (int k=0; k<pkgs.size(); k++){
+                                 DefaultMutableTreeNode pkgNode =(DefaultMutableTreeNode)pkgs.get(k);
+                                 subprojNode.add(pkgNode);
+                              }
+                           } //end adding pkg to subProj
+                           
+                        }
+                      }
+                      
+                      //add packages that are linked directly under projects
+                      List pkgs = (List)pkgByCsId.get(projCSId);
+                      if (pkgs != null) {
+                         for (int j=0; j<pkgs.size(); j++){
+                            DefaultMutableTreeNode pkgNode =(DefaultMutableTreeNode)pkgs.get(j);
+                            projNode.add(pkgNode);
+                            
+                         }
+                      }
+                   }
+                }
 
-                if (currContext.getName().equalsIgnoreCase("caCORE")) {
+/*                if (currContext.getName().equalsIgnoreCase("caCORE")) {
                     WebNode projectTexts =
                         new WebNode(cache.getIdGen().getNewId(), "Projects");
                     DefaultMutableTreeNode projectTextNode =
@@ -281,7 +333,7 @@ public class UMLBrowserTree extends WebTree implements TreeConstants {
                     projectTextNode.add(new DefaultMutableTreeNode(projects));
 
                 }
-
+*/
                 tree.add(contextNode);
             }
 

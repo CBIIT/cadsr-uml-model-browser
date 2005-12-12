@@ -39,7 +39,7 @@
 <table  width=100% Cellpadding=0 Cellspacing=0 border=0>
 <tr>
 <td align=right valign=top width=49 height=21 bgcolor="#336699"><html:img page="/i/left_end_bottom.gif" height="21" width="49" /></td>
-<TD align=right valign=top bgcolor="#FFFFFF" height=21 width="100%"><html:img page="/i/bottom_middle.gif" height="6" width="100" /></TD>
+<TD align=left valign=top bgcolor="#FFFFFF" height=21 width=100%><html:img page="/i/bottom_middle.gif" height="6" width="100%" /></TD>
 <td align="LEFT" valign=top height=21 width=5  bgcolor="#FFFFFF"><html:img page="/i/right_end_bottom.gif" height="7" width="5" /></td>
 </TR>
 </TABLE>

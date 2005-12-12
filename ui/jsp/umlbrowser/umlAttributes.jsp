@@ -5,9 +5,8 @@
 
 <%@page import="gov.nih.nci.ncicb.cadsr.util.* " %>
 <%@page import="gov.nih.nci.ncicb.cadsr.CaDSRConstants" %>
-<%@page import="gov.nih.nci.ncicb.cadsr.umlbrowser.struts.common.UMLBrowserFormConstants" %>
-<%@page import="gov.nih.nci.ncicb.cadsr.umlbrowser.struts.common.UMLBrowserNavigationConstants" %>
-<%@page import="gov.nih.nci.ncicb.cadsr.CaDSRConstants" %>
+<%@page import="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConstants" %>
+<%@page import="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserNavigationConstants" %>
 
 <HTML>
 <%

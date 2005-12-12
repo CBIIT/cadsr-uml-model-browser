@@ -1,3 +1,4 @@
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
 <%@ page import="javax.swing.tree.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="gov.nih.nci.ncicb.webtree.*" %>
@@ -44,8 +45,8 @@
 %>
 <html>
 <head>
-  <link rel="stylesheet" type="text/css" href="skins/<%=skin%>/TreeBrowser.css"/>
-  <script language="JavaScript1.2" src="skins/<%=skin%>/JavaScript.js"></script>
+<LINK rel="stylesheet" TYPE="text/css" HREF="<html:rewrite page='/css/TreeBrowser.css' />">
+  <script language="JavaScript1.2" src="../jsLib/JavaScript.js"></script>
   <script language="JavaScript1.2">
   <!--
   function performAction(urlParams){
@@ -116,7 +117,7 @@
       //      "&skin=" + skin + "&treeDirective=" + 
       //      treeDirective;
 
-      String treeURL = "WebTreeLoader.jsp?treeClass=gov.nih.nci.ncicb.cadsr.cdebrowser.tree.CDEBrowserTree"+
+      String treeURL = "WebTreeLoader.jsp?treeClass=gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.UMLBrowserTree"+
             "&treeName=" + treeName +
             "&treeAction=refresh" + 
             "&treeParams="+ treeParams + 
@@ -172,17 +173,17 @@
 <%        }              
           else if (displayWebNode.hasChildren() && !displayNode.isLeaf())
           { %>
-  <td   nowrap width="40" align="right"><a href="WebTree.jsp?targetId=<%=java.net.URLEncoder.encode(myId)%>&treeParams=<%=treeParams%>&treeName=<%=treeName%>&treeAction=collapse&skin=<%=skin%>#<%=java.net.URLEncoder.encode(myId)%>"><img src="skins/<%=skin%>/images/folderOpen.gif" vspace="0" hspace="0" border="0"  alt="<%=webNodeInfo%>"/></a></div></td>      
+  <td   nowrap width="40" align="right"><a href="WebTree.jsp?targetId=<%=java.net.URLEncoder.encode(myId)%>&treeParams=<%=treeParams%>&treeName=<%=treeName%>&treeAction=collapse&skin=<%=skin%>#<%=java.net.URLEncoder.encode(myId)%>"><html:img page="/i/folderOpen.gif" vspace="0" hspace="0" border="0"  alt="<%=webNodeInfo%>"/></a></div></td>      
 <%        }
           else if (displayWebNode.hasChildren())           
           { 
             // no children currently displayed, but has children %>
-            <td   nowrap width="40" align="right"><a href="WebTree.jsp?targetId=<%=java.net.URLEncoder.encode(myId)%>&treeParams=<%=treeParams%>&treeName=<%=treeName%>&amp;treeAction=expand&skin=<%=skin%>#<%=java.net.URLEncoder.encode(myId)%>"><img src="skins/<%=skin%>/images/folderClosed.gif" vspace="0" hspace="0" border="0"  alt="<%=webNodeInfo%>"/></a></div></td>      
+            <td   nowrap width="40" align="right"><a href="WebTree.jsp?targetId=<%=java.net.URLEncoder.encode(myId)%>&treeParams=<%=treeParams%>&treeName=<%=treeName%>&amp;treeAction=expand&skin=<%=skin%>#<%=java.net.URLEncoder.encode(myId)%>"><html:img page="/i/folderClosed.gif" vspace="0" hspace="0" border="0"  alt="<%=webNodeInfo%>"/></a></div></td>      
 <%        }   
           else
           {
             // no children display, and has not children at all, this is a leaf %>
-            <td   nowrap width="40" align="right"><img src="skins/<%=skin%>/images/leaf.gif" vspace="0" hspace="0" border="0"  alt="<%=webNodeInfo%>"/></td>      
+            <td   nowrap width="40" align="right"><html:img page="/i/leaf.gif" vspace="0" hspace="0" border="0"  alt="<%=webNodeInfo%>"/></td>      
 <%        }   
  
           // render name with action (if defined)

@@ -1,6 +1,6 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
-<%@ page import="gov.nih.nci.ncicb.cadsr.umlbrowser.struts.common.UMLBrowserNavigationConstants"%>
-<%@ page import="gov.nih.nci.ncicb.cadsr.umlbrowser.struts.common.UMLBrowserFormConstants"%>
+<%@ page import="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserNavigationConstants"%>
+<%@ page import="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConstants"%>
 
 <%
 	String urlPrefix = request.getContextPath();

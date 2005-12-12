@@ -135,13 +135,13 @@
   
   <!-- =========== DEV CONFIG ======================= -->
     <target name="dev_config" depends="init">          
-     <!--copy todir="${classes.build.dir}/WEB-INF/classes">
+     <copy todir="${classes.build.dir}/WEB-INF/classes">
          <fileset dir="${config.home}/properties">
            <patternset>
              <include name="*.properties"/>
            </patternset>
          </fileset>
-       </copy-->
+       </copy>
          
         
        <property name="debug.config.home" value="${config.home}" /> 
@@ -194,7 +194,7 @@
            </patternset>
        </fileset>       
      </copy>
-     
+    
     <war warfile="${build.dir}/${war.name}.war" webxml="${web.descriptor.home}/web.xml">
        
       <fileset dir="${config.home}">
@@ -226,7 +226,11 @@
               </patternset>
       </fileset>
            
-
+      <fileset dir="${html.dir}/">
+        <patternset>
+          <include name="common/**/*.*"/>   
+        </patternset>         
+      </fileset>
 
       <fileset dir="${ui.dir}/">
         <patternset>
@@ -314,13 +318,6 @@
          </fileset> 
      </copy>
      <filter token="user.password" value="${dev.user.password}"/>
-     <copy todir="${jboss.home}/server/default/deploy" overwrite="Yes" filtering="true">    
-         <fileset dir="${config.home}/connections">
-           <patternset>
-             <include name="oracle-ds.xml"/>
-           </patternset>
-         </fileset>
-      </copy>       
    </target> 
    
    <target  name="deploy_dev_start" depends="deploy_dev,jboss_startdebug"> 
@@ -378,13 +375,6 @@
          </fileset> 
      </copy> 
      <filter token="user.password" value="${prod.user.password}"/>
-     <copy todir="${jboss.home}/server/default/deploy" overwrite="Yes" filtering="true">    
-         <fileset dir="${config.prod}/connections">
-           <patternset>
-             <include name="oracle-ds.xml"/>
-           </patternset>
-         </fileset>
-      </copy>       
    </target> 
    
       <target  name="deploy_prod_start" depends="deploy_prod,jboss_startdebug"> 

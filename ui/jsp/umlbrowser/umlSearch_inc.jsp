@@ -96,7 +96,7 @@ function gotoProjectsLOV() {
       <td width="50%"  valign="top" >
           <table width="100%" cellpadding="0" cellspacing="1" class="OraBGAccentVeryDark" border="0" %>
             <tr>            
-                <td width="30%" class="OraTableColumnHeaderNoBG" nowrap>Project Name</td>
+                <td width="30%" class="OraTableColumnHeaderNoBG" nowrap>UML Project Name</td>
                 <td class="OraTabledata" nowrap>
                   <html:text property="<%=UMLBrowserFormConstants.PROJECT_NAME%>" 
                          readonly="true" 
@@ -160,7 +160,7 @@ function gotoProjectsLOV() {
               <logic:present name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>">
                 <td   nowrap>
                 <html:link action='<%="/umlbrowser/umlSearchAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"="+UMLBrowserNavigationConstants.NEW_SEARCH_METHOD%>' target="_parent">
-                <html:img src='<%=urlPrefix+"i/newSearchButton.gif"%>' border="0" alt="New Search"/>
+                <html:img page="/i/newSearchButton.gif" border="0" alt="New Search"/>
                </html:link>
               </logic:present>
               
