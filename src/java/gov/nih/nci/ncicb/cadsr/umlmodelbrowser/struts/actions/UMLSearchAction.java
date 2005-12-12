@@ -143,30 +143,30 @@ public class UMLSearchAction extends BaseDispatchAction
       DynaActionForm dynaForm = (DynaActionForm) form;
       Collection umlAttributes = new ArrayList();
 
-      UMLAttribute umlAtt = new UMLAttribute("name", "java.lang.String", "2178533",  "Name",
-      "2222841", "Agent Name", "Agent Name java.lang.String", "2223871");
+      UMLAttribute umlAtt = new UMLAttribute("name", "java.lang.String", "caCore", 
+      "caBIO", "gov.nih.nci.cabio.domain",  "Agent Name", "Agent Name java.lang.String", "2223871");
       umlAttributes.add(umlAtt);
 
-        umlAtt = new UMLAttribute("id", "java.lang.Long", "2178534",  "Identifier",
-              "2222848", "Agent Identifier","Agent Identifier java.lang.Long", "2223865");
+        umlAtt = new UMLAttribute("id", "java.lang.Long", "caCore", 
+      "caBIO", "gov.nih.nci.cabio.domain",  "Agent Identifier","Agent Identifier java.lang.Long", "2223865");
               umlAttributes.add(umlAtt);
-        umlAtt = new UMLAttribute("comment", "java.lang.String", "2178533",  "Comment",
-              "2223274", "Agent Comment", "Agent Comment java.lang.String", "2223869");
+        umlAtt = new UMLAttribute("comment", "java.lang.String", "caCore", 
+      "caBIO", "gov.nih.nci.cabio.domain", "Agent Comment", "Agent Comment java.lang.String", "2223869");
               umlAttributes.add(umlAtt);
-        umlAtt = new UMLAttribute("NSCNumber", "java.lang.Long", "2178534",  "NSC Code",
-              "2223294", "Agent NSC Code","Agent NSC Code java.lang.Long", "2223866");
+        umlAtt = new UMLAttribute("NSCNumber", "java.lang.Long", "caCore", 
+      "caBIO", "gov.nih.nci.cabio.domain",  "Agent NSC Code","Agent NSC Code java.lang.Long", "2223866");
               umlAttributes.add(umlAtt);
 
 
-                umlAtt = new UMLAttribute("isCMAPAgent", "java.lang.Boolean", "2178538",  "CMAP Ontology ID",
-                      "2223295", "Agent CMAP Ontology ID","Agent CMAP Ontology ID java.lang.Boolean", "2223867");
+                umlAtt = new UMLAttribute("isCMAPAgent", "java.lang.Boolean", "caCore", 
+      "caBIO", "gov.nih.nci.cabio.domain",  "Agent CMAP Ontology ID","Agent CMAP Ontology ID java.lang.Boolean", "2223867");
                       umlAttributes.add(umlAtt);
-        umlAtt = new UMLAttribute("EVSId", "java.lang.String", "2178533",  "NCI Concept Code",
-              "2223296", "Agent NCI Concept Code","Agent NCI Concept Code java.lang.String", "2223868");
+        umlAtt = new UMLAttribute("EVSId", "java.lang.String", "caCore", 
+      "caBIO", "gov.nih.nci.cabio.domain",  "Agent NCI Concept Code","Agent NCI Concept Code java.lang.String", "2223868");
               umlAttributes.add(umlAtt);
 
-        umlAtt = new UMLAttribute("source", "java.lang.String", "2178533",  "Source",
-              "2223297", "Agent Source","Agent Source java.lang.String", "2223870");
+        umlAtt = new UMLAttribute("source", "java.lang.String", "caCore", 
+      "caBIO", "gov.nih.nci.cabio.domain",  "Agent Source","Agent Source java.lang.String", "2223870");
               umlAttributes.add(umlAtt);
 
 
