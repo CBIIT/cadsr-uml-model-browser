@@ -186,7 +186,7 @@ PROMPT UP_ASSOCIATIONS_METADATA_MVW
              ,source_high_multiplicity
              ,target_low_multiplicity
              ,target_high_multiplicity
-             ,decode(direction,'Bi-Directional','True','False') isbidirectional
+             ,decode(direction,'Bi-Directional',1,0) isbidirectional
    From  oc_recs_Ext ocr
        ,UP_CLASS_METADATA_MVW_TEMP t_cm
        ,UP_CLASS_METADATA_MVW_TEMP s_cm
@@ -347,7 +347,7 @@ create materialized view UP_SEMANTIC_METADATA_MVW
              ,con.preferred_name concept_code
              ,con.long_name concept_name
              ,con.preferred_definition concept_Definition
-             ,cc.primary_flag_ind primary_Concept
+             ,decode(cc.primary_flag_ind,'Yes',1,0) primary_Concept
              ,cc.display_order
              ,cl.component_level 
              ,cs.cs_idseq cs_idseq
@@ -377,7 +377,7 @@ create materialized view UP_SEMANTIC_METADATA_MVW
              ,con.preferred_name concept_code
              ,con.long_name concept_name
              ,con.preferred_definition concept_Definition
-             ,cc.primary_flag_ind primary_Concept
+             ,decode(cc.primary_flag_ind,'Yes',1,0)
              ,cc.display_order
              ,cl.component_level
              ,null cs_idseq
@@ -407,7 +407,7 @@ create materialized view UP_SEMANTIC_METADATA_MVW
              ,con.preferred_name concept_code
              ,con.long_name concept_name
              ,con.preferred_definition concept_Definition
-             ,cc.primary_flag_ind primary_Concept
+             ,decode(cc.primary_flag_ind,'Yes',1,0)
              ,cc.display_order
              ,cl.component_level
              ,null cs_idseq
@@ -437,7 +437,7 @@ create materialized view UP_SEMANTIC_METADATA_MVW
              ,con.preferred_name concept_code
              ,con.long_name concept_name
              ,con.preferred_definition concept_Definition
-             ,cc.primary_flag_ind primary_Concept
+             ,decode(cc.primary_flag_ind,'Yes',1,0)
              ,cc.display_order
              ,cl.component_level 
              ,null cs_idseq
@@ -467,7 +467,7 @@ create materialized view UP_SEMANTIC_METADATA_MVW
              ,con.preferred_name concept_code
              ,con.long_name concept_name
              ,con.preferred_definition concept_Definition
-             ,cc.primary_flag_ind primary_Concept
+             ,decode(cc.primary_flag_ind,'Yes',1,0)
              ,cc.display_order
              ,cl.component_level 
              ,null cs_idseq
@@ -492,4 +492,7 @@ create materialized view UP_SEMANTIC_METADATA_MVW
     and cc.con_idseq = con.con_idseq
     and cc.cl_idseq = cl.cl_idseq(+);
 
+PROMPT UP_SEMANTIC_METADATA_MVW
 
+
+       
