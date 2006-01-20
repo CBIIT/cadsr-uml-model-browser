@@ -27,7 +27,7 @@ drop materialized view UP_ATTRIBUTE_METADATA_MVW;
 drop materialized view UP_ATTRIBUTE_METADATA_MVW_TEMP;
 drop materialized view UP_ASSOCIATIONS_METADATA_MVW;
 drop materialized view UP_GEN_METADATA_MVW;
-drop materialized view UP_SEMANTIC_METADATA_MVW; 
+drop materialized view UP_SEMANTIC_METADATA_MVW;  
 drop materialized view UP_TYPE_ENUMERATION_MVW;
 drop materialized view UP_ATTRIBUTE_TYPE_METADATA_MVW;
 drop materialized view UP_PACKAGES_MVW_TEMP;
