@@ -25,19 +25,7 @@ import org.apache.struts.action.ActionMessages;
 import org.apache.struts.actions.DispatchAction;
 import javax.servlet.ServletContext;
 
-import gov.nih.nci.cadsr.service.UmlDomainModelQueryService;
 
-import gov.nih.nci.cadsr.service.impl.AdminComponentQueryService;
-
-import gov.nih.nci.cadsr.service.impl.ConceptQueryService;
-
-import gov.nih.nci.cadsr.service.impl.DataElementConceptQueryService;
-
-import gov.nih.nci.cadsr.service.impl.DataElementQueryService;
-
-import gov.nih.nci.cadsr.service.impl.ObjectClassQueryService;
-
-import gov.nih.nci.cadsr.service.impl.PropertyQueryService;
 import org.apache.struts.action.ActionServlet;
 
 import org.springframework.web.context.WebApplicationContext;
@@ -52,13 +40,6 @@ abstract public class BaseDispatchAction extends DispatchAction implements CaDSR
 
  private WebApplicationContext webAppContext;
 
-  private UmlDomainModelQueryService umlDomainModelQueryService;
-  private AdminComponentQueryService adminComponentQueryService;
-  private ConceptQueryService conceptQueryService;
-  private DataElementConceptQueryService dataElementConceptQueryService;
-  private DataElementQueryService dataElementQueryService;
-  private ObjectClassQueryService objectClassQueryService;
-  private PropertyQueryService propertyQueryService;
 
 
 
@@ -69,13 +50,6 @@ abstract public class BaseDispatchAction extends DispatchAction implements CaDSR
 		WebApplicationContext wac =
 			WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
 
-    umlDomainModelQueryService = (UmlDomainModelQueryService)wac.getBean("umlDomainModelQueryService");
-    adminComponentQueryService = (AdminComponentQueryService)wac.getBean("adminComponentQueryService");
-    conceptQueryService = (ConceptQueryService)wac.getBean("conceptQueryService");
-    dataElementConceptQueryService = (DataElementConceptQueryService)wac.getBean("dataElementConceptQueryService");
-    dataElementQueryService = (DataElementQueryService)wac.getBean("dataElementQueryService");
-    objectClassQueryService = (ObjectClassQueryService)wac.getBean("objectClassQueryService");
-    propertyQueryService = (PropertyQueryService)wac.getBean("propertyQueryService");
 
 	}
   /**
@@ -272,38 +246,5 @@ abstract public class BaseDispatchAction extends DispatchAction implements CaDSR
 
   }
 
-    public UmlDomainModelQueryService getUmlDomainModelQueryService()
-    {
-        return umlDomainModelQueryService;
-    }
 
-    public AdminComponentQueryService getAdminComponentQueryService()
-    {
-        return adminComponentQueryService;
-    }
-
-    public ConceptQueryService getConceptQueryService()
-    {
-        return conceptQueryService;
-    }
-
-    public DataElementConceptQueryService getDataElementConceptQueryService()
-    {
-        return dataElementConceptQueryService;
-    }
-
-    public DataElementQueryService getDataElementQueryService()
-    {
-        return dataElementQueryService;
-    }
-
-    public ObjectClassQueryService getObjectClassQueryService()
-    {
-        return objectClassQueryService;
-    }
-
-    public PropertyQueryService getPropertyQueryService()
-    {
-        return propertyQueryService;
-    }
 }

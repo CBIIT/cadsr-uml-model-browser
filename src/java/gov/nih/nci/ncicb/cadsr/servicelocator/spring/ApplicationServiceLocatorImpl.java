@@ -1,6 +1,6 @@
 package gov.nih.nci.ncicb.cadsr.servicelocator.spring;
 
-import gov.nih.nci.cadsr.service.UmlDomainModelQueryService;
+
 import gov.nih.nci.ncicb.cadsr.service.UMLBrowserQueryService;
 import gov.nih.nci.ncicb.cadsr.servicelocator.ApplicationServiceLocator;
 import gov.nih.nci.ncicb.cadsr.servicelocator.ServiceLocatorException;
@@ -18,7 +18,7 @@ public class ApplicationServiceLocatorImpl implements ApplicationServiceLocator 
 
    private ApplicationService cabioAppService = null;
 
-   private UmlDomainModelQueryService serviceLayerQueryService = null;
+
 
 
    public ApplicationServiceLocatorImpl() {
@@ -38,10 +38,9 @@ public class ApplicationServiceLocatorImpl implements ApplicationServiceLocator 
       return treeService;
    }
 
-   public ApplicationService findCaBioSerivce() throws ServiceLocatorException {
+   public ApplicationService findCaCoreAPIService() throws ServiceLocatorException {
       if (cabioAppService == null)
-        cabioAppService = //ApplicationServiceProvider.getApplicationService();
-      ApplicationService.getRemoteInstance("http://cbiodev104.nci.nih.gov:49080/cacore31/http/remoteService");
+        cabioAppService = ApplicationService.getRemoteInstance("http://cbiodev104.nci.nih.gov:49080/cacore31/http/remoteService");
       return cabioAppService;
    }
 
@@ -59,6 +58,7 @@ public class ApplicationServiceLocatorImpl implements ApplicationServiceLocator 
       return queryService;
    }
 
+/**
    public UmlDomainModelQueryService findServiceLayerQueryService() throws ServiceLocatorException {
       if (serviceLayerQueryService == null) {
          try {
@@ -73,5 +73,5 @@ public class ApplicationServiceLocatorImpl implements ApplicationServiceLocator 
       return serviceLayerQueryService;
 
    }
-
+**/
 }

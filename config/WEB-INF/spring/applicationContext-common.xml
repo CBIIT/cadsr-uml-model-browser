@@ -15,8 +15,7 @@
   <bean id="umlBrowserQueryService" class="gov.nih.nci.ncicb.cadsr.service.UMLBrowserQueryService">
      <property name="serviceLocator"><ref local="appServiceLocator"/></property>
   </bean>
-  <bean id="umlServiceLayerQueryService" class="gov.nih.nci.cadsr.service.impl.UmlDomainModelQueryServiceImpl">
-  </bean>
+
 
 
 </beans>

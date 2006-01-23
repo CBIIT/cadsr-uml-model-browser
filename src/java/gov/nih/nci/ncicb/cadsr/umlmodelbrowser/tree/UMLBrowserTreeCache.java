@@ -55,10 +55,10 @@ public class UMLBrowserTreeCache
     String contextExcludeListStr = (String)treeParams.get(TreeConstants.BR_CONTEXT_EXCLUDE_LIST_STR);
     UMLBrowserTreeService treeService = appServiceLocator.findTreeService();
     allContextHolders = treeService.getContextNodeHolders(baseTree,idGen,contextExcludeListStr);
-    allProjectByContext = treeService.getProjectNodesByContextId(baseTree,idGen,contextExcludeListStr);
-    allSubProjectByCsid = treeService.getSubProjectNodesByCSId(baseTree,idGen,contextExcludeListStr);
-    allPackagesByCSid = (Map)treeService.getPackageNodes(baseTree,idGen,contextExcludeListStr).get(0);
-    allPackagesByCsiId = (Map)treeService.getPackageNodes(baseTree,idGen,contextExcludeListStr).get(1);
+    //allProjectByContext = treeService.getProjectNodesByContextId(baseTree,idGen,contextExcludeListStr);
+    //allSubProjectByCsid = treeService.getSubProjectNodesByCSId(baseTree,idGen,contextExcludeListStr);
+    //allPackagesByCSid = (Map)treeService.getPackageNodes(baseTree,idGen,contextExcludeListStr).get(0);
+    //allPackagesByCsiId = (Map)treeService.getPackageNodes(baseTree,idGen,contextExcludeListStr).get(1);
     
     log.info("Init end"+TimeUtils.getEasternTime());
   }

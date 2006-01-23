@@ -17,8 +17,8 @@ public interface UMLBrowserTreeService
    * Returns all Context nodes as webnodes
    */
   public List getContextNodeHolders(TreeFunctions treeFunctions,TreeIdGenerator idGen,String excludeList) throws Exception;
-  public Map getProjectNodesByContextId(TreeFunctions treeFunctions,TreeIdGenerator idGen,String excludeList) throws Exception;
-  public Map getSubProjectNodesByCSId(TreeFunctions treeFunctions,TreeIdGenerator idGen,String excludeList) throws Exception;
-  public List getPackageNodes(TreeFunctions treeFunctions,TreeIdGenerator idGen,String excludeList) throws Exception;
+  //public Map getProjectNodesByContextId(TreeFunctions treeFunctions,TreeIdGenerator idGen,String excludeList) throws Exception;
+  //public Map getSubProjectNodesByCSId(TreeFunctions treeFunctions,TreeIdGenerator idGen,String excludeList) throws Exception;
+  //public List getPackageNodes(TreeFunctions treeFunctions,TreeIdGenerator idGen,String excludeList) throws Exception;
 
 }

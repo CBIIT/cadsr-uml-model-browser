@@ -10,7 +10,7 @@
 
         <context-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/spring/applicationContext-service.xml /WEB-INF/spring/applicationContext-common.xml</param-value>
+            <param-value>/WEB-INF/spring/applicationContext-common.xml</param-value>
             <description> Spring application context xml files</description>
          </context-param>	
 	
