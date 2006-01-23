@@ -12,8 +12,11 @@
   <bean id="treeService" class="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.service.impl.UMLBrowserTreeServiceImpl">
      <property name="serviceLocator"><ref local="appServiceLocator"/></property>
   </bean>
-  <bean id="umlBrowserQueryService" class="gov.nih.nci.ncicb.cadsr.service.UMLBrowserQueryService">
+  <bean id="umlBrowserQueryService" class="gov.nih.nci.ncicb.cadsr.service.impl.UMLBrowserQueryServiceImpl">
      <property name="serviceLocator"><ref local="appServiceLocator"/></property>
+  </bean>
+  <bean id="structsAction" class="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.BaseDispatchAction">
+    <property name="appServiceLocator"><ref local="appServiceLocator"/></property>
   </bean>
 
 
