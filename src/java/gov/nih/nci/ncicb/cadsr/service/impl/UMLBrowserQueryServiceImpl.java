@@ -1,4 +1,4 @@
-package gov.nih.nci.ncicb.cadsr.service;
+package gov.nih.nci.ncicb.cadsr.service.impl;
 
 import gov.nih.nci.cadsr.domain.Context;
 import gov.nih.nci.cadsr.domain.impl.ContextImpl;
@@ -11,9 +11,9 @@ import java.util.List;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 
-public class UMLBrowserQueryService
+public class UMLBrowserQueryServiceImpl
 {
-   public UMLBrowserQueryService() {
+   public UMLBrowserQueryServiceImpl() {
    }
    private ApplicationService service = null;
    private ApplicationServiceLocator serviceLocator = null;
@@ -22,7 +22,7 @@ public class UMLBrowserQueryService
   /**
    * Retrieves all contexts
    *
-   * @param 
+   * @param
    *
    * @return List of Context objects
    *
@@ -48,7 +48,7 @@ public class UMLBrowserQueryService
       List subprojects = getServiceLayerQuerySvc().findAllSubProjects();
       return subprojects;
    }
-   
+
    public List<UmlPackageMetaData> getAllPackages() throws Exception {
       List packages = getServiceLayerQuerySvc().findAllPackages();
       return packages;
@@ -61,7 +61,7 @@ public class UMLBrowserQueryService
    public ApplicationServiceLocator getServiceLocator() {
       return serviceLocator;
    }
-   
+
    protected ApplicationService getCaCoreAPIService() {
       if (service == null)
          service = serviceLocator.findCaCoreAPIService();
