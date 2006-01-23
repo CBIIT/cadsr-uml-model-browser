@@ -184,6 +184,11 @@
              <include name="gov/nih/nci/ncicb/cadsr/umlmodelbrowser/struts/common/*.properties"/>
            </patternset>
          </fileset>      
+      <fileset dir="${config.home}/WEB-INF/spring">
+        <patternset>
+          <include name="remoteService.xml"/>
+        </patternset>
+      </fileset>
       </copy> 
       
       <!-- copy application classes -->
