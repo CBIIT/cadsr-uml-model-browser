@@ -64,6 +64,9 @@
     <extension>txt</extension>
     <mime-type>text/plain</mime-type>
   </mime-mapping>
+  <welcome-file-list>
+    <welcome-file>umlbrowser/umlbrowser.jsp</welcome-file>
+  </welcome-file-list>
 
 
   <taglib>
