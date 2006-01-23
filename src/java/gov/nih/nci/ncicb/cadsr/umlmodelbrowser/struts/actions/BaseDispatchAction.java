@@ -4,6 +4,10 @@ import gov.nih.nci.ncicb.cadsr.CaDSRConstants;
 import gov.nih.nci.ncicb.cadsr.CommonNavigationConstants;
 import gov.nih.nci.ncicb.cadsr.exception.FatalException;
 
+import gov.nih.nci.ncicb.cadsr.servicelocator.ApplicationServiceLocator;
+
+import gov.nih.nci.ncicb.cadsr.servicelocator.ServiceLocatorException;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -34,14 +38,12 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 /**
  * Base DispatchAction for all  DispatchActions
  */
-abstract public class BaseDispatchAction extends DispatchAction implements CaDSRConstants,CommonNavigationConstants
+public class BaseDispatchAction extends DispatchAction implements CaDSRConstants,CommonNavigationConstants
     {
   protected static Log log = LogFactory.getLog(BaseDispatchAction.class.getName());
 
- private WebApplicationContext webAppContext;
-
-
-
+  private WebApplicationContext webAppContext;
+  private ApplicationServiceLocator appServiceLocator = null;
 
 
   public void setServlet(ActionServlet actionServlet) {
@@ -246,5 +248,22 @@ abstract public class BaseDispatchAction extends DispatchAction implements CaDSR
 
   }
 
+   /**
+    *
+    * @return ApplicationServiceLocator
+    *
+    * @throws ServiceStartupException
+    */
+   protected ApplicationServiceLocator getApplicationServiceLocator()
+     throws ServiceLocatorException {
+      return appServiceLocator;
+   }
 
+   public void setAppServiceLocator(ApplicationServiceLocator appServiceLocator) {
+      this.appServiceLocator = appServiceLocator;
+   }
+
+   public ApplicationServiceLocator getAppServiceLocator() {
+      return appServiceLocator;
+   }
 }

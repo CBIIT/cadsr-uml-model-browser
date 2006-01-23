@@ -32,4 +32,6 @@ public interface UMLBrowserQueryService {
    public void setServiceLocator(ApplicationServiceLocator serviceLocator);
 
    public ApplicationServiceLocator getServiceLocator();
+   
+   public List findUmlClass();
 }
