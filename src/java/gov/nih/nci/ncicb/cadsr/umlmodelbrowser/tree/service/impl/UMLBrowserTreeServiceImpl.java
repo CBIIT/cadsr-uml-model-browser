@@ -2,9 +2,7 @@ package gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.service.impl;
 
 import gov.nih.nci.cadsr.domain.ClassSchemeClassSchemeItem;
 import gov.nih.nci.cadsr.domain.Context;
-import gov.nih.nci.cadsr.uml.UmlPackageMetaData;
-import gov.nih.nci.cadsr.uml.UmlProjectMetaData;
-import gov.nih.nci.cadsr.uml.UmlSubProjectMetaData;
+
 import gov.nih.nci.ncicb.cadsr.service.UMLBrowserQueryService;
 import gov.nih.nci.ncicb.cadsr.servicelocator.ApplicationServiceLocator;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.ContextHolder;
@@ -80,6 +78,7 @@ public class UMLBrowserTreeServiceImpl
      return contextNode;
    }
 
+/**
    public Map getProjectNodesByContextId(TreeFunctions treeFunctions,TreeIdGenerator idGen,String excludeList) throws Exception{
       Map projectNodeMap = new HashMap();
       UMLBrowserQueryService queryService = serviceLocator.findQuerySerivce();
@@ -97,6 +96,9 @@ public class UMLBrowserTreeServiceImpl
       }
       return projectNodeMap;
    }
+   **/
+
+   /**
    public Map getSubProjectNodesByCSId(TreeFunctions treeFunctions,TreeIdGenerator idGen,String excludeList) throws Exception{
       Map subprojectNodeMap = new HashMap();
       UMLBrowserQueryService queryService = serviceLocator.findQuerySerivce();
@@ -117,7 +119,8 @@ public class UMLBrowserTreeServiceImpl
       }
       return subprojectNodeMap;
    }
-   
+   **/
+   /**
    public List getPackageNodes(TreeFunctions treeFunctions,TreeIdGenerator idGen,String excludeList) throws Exception{
       Map pkgNodeByCsidMap = new HashMap();
       Map pkgNodeByCsiIdMap = new HashMap();
@@ -155,7 +158,7 @@ public class UMLBrowserTreeServiceImpl
       results.add(pkgNodeByCsiIdMap);
       return results;
    }
-
+**/
    public void setServiceLocator(ApplicationServiceLocator serviceLocator) {
       this.serviceLocator = serviceLocator;
    }
@@ -164,6 +167,7 @@ public class UMLBrowserTreeServiceImpl
       return serviceLocator;
    }
    
+   /**
    private DefaultMutableTreeNode getSubProjectNode(String nodeId, 
    UmlSubProjectMetaData subproj, TreeFunctions treeFunctions) throws Exception {
      return new DefaultMutableTreeNode(
@@ -175,7 +179,8 @@ public class UMLBrowserTreeServiceImpl
                               + treeFunctions.getExtraURLParameters() + "')",
                            subproj.getCSI().getId()));
    }
-
+**/
+/**
    private DefaultMutableTreeNode getProjectNode(String nodeId, 
    UmlProjectMetaData proj, TreeFunctions treeFunctions) throws Exception {
      return new DefaultMutableTreeNode(
@@ -198,5 +203,5 @@ public class UMLBrowserTreeServiceImpl
                               + treeFunctions.getExtraURLParameters() + "')",
                            pkg.getCSI().getId()));
    }
-   
+   **/
 }
