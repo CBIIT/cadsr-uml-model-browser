@@ -121,7 +121,7 @@
             "&treeName=" + treeName +
             "&treeAction=refresh" + 
             "&treeParams="+ treeParams + 
-            "&skin=CDEBrowser1";
+            "&skin=umlbrowser";
       %>
 
       <td ><a href="<%= treeURL %>">Refresh tree</a></td>

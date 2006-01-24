@@ -5,6 +5,8 @@ import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.TreeConstants;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.TreeIdGenerator;
 import gov.nih.nci.cadsr.domain.Context;
 import gov.nih.nci.ncicb.cadsr.servicelocator.ApplicationServiceLocator;
+import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.ContextHolder;
+import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.PackageHolder;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.service.UMLBrowserTreeService;
 import gov.nih.nci.ncicb.cadsr.util.TimeUtils;
 
@@ -28,13 +30,12 @@ public class UMLBrowserTreeCache
   {
   }
   //All crf by contextId - Protocols(List) -crf(Collection)
-  private Map allProjectByContext = null;
-  private Map allSubProjectByCsid = null;
-  private Map allPackagesByCSid = null;
-  private Map allPackagesByCsiId = null;
-  private List allContextHolders = null;
+  private Map<String,List<DefaultMutableTreeNode>> allProjectByContextId = null;
+  private Map<String,List<DefaultMutableTreeNode>> allSubProjectByProjectId = null;
+  private PackageHolder packageHolder = null;
+  private Map<String,List<DefaultMutableTreeNode>> allClassesByPackageId = null;
+  private List<ContextHolder> allContextHolders = null;
   private TreeIdGenerator idGen = new TreeIdGenerator();
-  private Map allClassificationNodes = null;
   private static ApplicationServiceLocator appServiceLocator = null;
 
   public static UMLBrowserTreeCache getAnInstance() throws Exception
@@ -44,21 +45,17 @@ public class UMLBrowserTreeCache
       return cache;
   }
 
- public DefaultMutableTreeNode getClassificationNodes(String contextIdSeq)
-  {
-    return (DefaultMutableTreeNode)allClassificationNodes.get(contextIdSeq);
-  }
 
   public void init(BaseTreeNode baseTree,Hashtable treeParams) throws Exception
   {
     log.info("Init start"+TimeUtils.getEasternTime());
-    String contextExcludeListStr = (String)treeParams.get(TreeConstants.BR_CONTEXT_EXCLUDE_LIST_STR);
+
     UMLBrowserTreeService treeService = appServiceLocator.findTreeService();
-    allContextHolders = treeService.getContextNodeHolders(baseTree,idGen,contextExcludeListStr);
-    //allProjectByContext = treeService.getProjectNodesByContextId(baseTree,idGen,contextExcludeListStr);
-    //allSubProjectByCsid = treeService.getSubProjectNodesByCSId(baseTree,idGen,contextExcludeListStr);
-    //allPackagesByCSid = (Map)treeService.getPackageNodes(baseTree,idGen,contextExcludeListStr).get(0);
-    //allPackagesByCsiId = (Map)treeService.getPackageNodes(baseTree,idGen,contextExcludeListStr).get(1);
+    allContextHolders = treeService.getContextNodeHolders(baseTree,idGen);
+    allProjectByContextId = treeService.getProjectNodesByContextId(baseTree,idGen);
+    allSubProjectByProjectId = treeService.getSubProjectNodesByProjectId(baseTree,idGen);
+    packageHolder = treeService.getPackageNodeHolder(baseTree,idGen);
+    allClassesByPackageId = (Map)treeService.getClassNodesByPackageId(baseTree,idGen);
     
     log.info("Init end"+TimeUtils.getEasternTime());
   }
@@ -109,20 +106,48 @@ public class UMLBrowserTreeCache
     return idGen;
   }
 
+    public void setAllProjectByContextId(Map<String, List<DefaultMutableTreeNode>> allProjectByContextId)
+    {
+        this.allProjectByContextId = allProjectByContextId;
+    }
 
-   public Map getAllProjectByContext() {
-      return allProjectByContext;
-   }
+    public Map<String, List<DefaultMutableTreeNode>> getAllProjectByContextId()
+    {
+        return allProjectByContextId;
+    }
 
-   public Map getAllSubProjectByCsid() {
-      return allSubProjectByCsid;
-   }
+    public void setAllSubProjectByProjectId(Map<String, List<DefaultMutableTreeNode>> allSubProjectByProjectId)
+    {
+        this.allSubProjectByProjectId = allSubProjectByProjectId;
+    }
 
-   public Map getAllPackagesByCSid() {
-      return allPackagesByCSid;
-   }
+    public Map<String, List<DefaultMutableTreeNode>> getAllSubProjectByProjectId()
+    {
+        return allSubProjectByProjectId;
+    }
 
-   public Map getAllPackagesByCsiId() {
-      return allPackagesByCsiId;
-   }
+    public void setPackageHolder(PackageHolder packageHolder)
+    {
+        this.packageHolder = packageHolder;
+    }
+
+    public PackageHolder getPackageHolder()
+    {
+        return packageHolder;
+    }
+
+    public void setAllClassesByPackageId(Map<String, List<DefaultMutableTreeNode>> allClassesByPackageId)
+    {
+        this.allClassesByPackageId = allClassesByPackageId;
+    }
+
+    public Map<String, List<DefaultMutableTreeNode>> getAllClassesByPackageId()
+    {
+        return allClassesByPackageId;
+    }
+
+    public void setIdGen(TreeIdGenerator idGen)
+    {
+        this.idGen = idGen;
+    }
 }

@@ -3,10 +3,14 @@ package gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.service.impl;
 import gov.nih.nci.cadsr.domain.ClassSchemeClassSchemeItem;
 import gov.nih.nci.cadsr.domain.Context;
 
+import gov.nih.nci.cadsr.umlproject.domain.Project;
+import gov.nih.nci.cadsr.umlproject.domain.SubProject;
+import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
+import gov.nih.nci.cadsr.umlproject.domain.UMLPackageMetadata;
 import gov.nih.nci.ncicb.cadsr.service.UMLBrowserQueryService;
 import gov.nih.nci.ncicb.cadsr.servicelocator.ApplicationServiceLocator;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.ContextHolder;
-import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.ContextHolderTransferObject;
+import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.PackageHolder;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.TreeFunctions;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.TreeIdGenerator;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.service.UMLBrowserTreeService;
@@ -34,9 +38,8 @@ public class UMLBrowserTreeServiceImpl
   /**
    * @returns a Context holder that contains a contect object and context we node
    */
-  public List getContextNodeHolders(TreeFunctions treeFunctions, TreeIdGenerator idGen,
-                                    String excludeList) throws Exception {
- List holders = new ArrayList();
+  public List<ContextHolder> getContextNodeHolders(TreeFunctions treeFunctions, TreeIdGenerator idGen) throws Exception {
+ List<ContextHolder> holders = new ArrayList<ContextHolder>();
  UMLBrowserQueryService queryService = serviceLocator.findQuerySerivce();
 
     List contexts = queryService.getAllContexts();
@@ -45,7 +48,7 @@ public class UMLBrowserTreeServiceImpl
     while (it.hasNext()) {
       Context context = (Context)it.next();
 
-      ContextHolder holder = new ContextHolderTransferObject();
+      ContextHolder holder = new ContextHolder();
       holder.setContext(context);
       holder.setNode(getContextNode(idGen.getNewId(), context, treeFunctions));
       holders.add(holder);
@@ -78,87 +81,108 @@ public class UMLBrowserTreeServiceImpl
      return contextNode;
    }
 
-/**
-   public Map getProjectNodesByContextId(TreeFunctions treeFunctions,TreeIdGenerator idGen,String excludeList) throws Exception{
-      Map projectNodeMap = new HashMap();
+
+   public Map<String,List<DefaultMutableTreeNode>> getProjectNodesByContextId(TreeFunctions treeFunctions,TreeIdGenerator idGen) throws Exception{
+      Map<String,List<DefaultMutableTreeNode>> projectNodeMap = new HashMap<String,List<DefaultMutableTreeNode>>();
       UMLBrowserQueryService queryService = serviceLocator.findQuerySerivce();
       List projects = queryService.getAllProjects();   
-      Iterator<UmlProjectMetaData> iter = projects.iterator();
+      Iterator<Project> iter = projects.iterator();
       
       while (iter.hasNext()) {
-         UmlProjectMetaData proj = iter.next();
+         Project proj = iter.next();
          String contextId = proj.getClassificationScheme().getContext().getId();
          if (projectNodeMap.get(contextId) == null) {
-            projectNodeMap.put(contextId, new ArrayList() );
+            projectNodeMap.put(contextId, new ArrayList<DefaultMutableTreeNode>() );
          }
-         ((List)projectNodeMap.get(contextId)).add(getProjectNode(idGen.getNewId(), proj, treeFunctions));
+          List<DefaultMutableTreeNode> list = projectNodeMap.get(contextId);
+          list.add(getProjectNode(idGen.getNewId(), proj, treeFunctions));
    
       }
       return projectNodeMap;
    }
-   **/
+   
 
-   /**
-   public Map getSubProjectNodesByCSId(TreeFunctions treeFunctions,TreeIdGenerator idGen,String excludeList) throws Exception{
-      Map subprojectNodeMap = new HashMap();
+
+   public Map<String,List<DefaultMutableTreeNode>> getSubProjectNodesByProjectId(TreeFunctions treeFunctions,TreeIdGenerator idGen) throws Exception{
+      
+      Map<String,List<DefaultMutableTreeNode>> subprojectNodeMap = new HashMap<String,List<DefaultMutableTreeNode>>();
       UMLBrowserQueryService queryService = serviceLocator.findQuerySerivce();
       List subprojects = queryService.getAllSubProjects();
-      Iterator<UmlSubProjectMetaData> iter = subprojects.iterator();
-      String csId = "";      
+      Iterator<SubProject> iter = subprojects.iterator();
       while (iter.hasNext()) {
-         UmlSubProjectMetaData subproj = iter.next();
-         Iterator cscsiIter = subproj.getCSI().getClassSchemeClassSchemeItemCollection().iterator();
-         if (cscsiIter.hasNext()) {
-            csId = ((ClassSchemeClassSchemeItem) cscsiIter.next()).getClassificationScheme().getId();
+         SubProject subproj = iter.next();
+         Project project = subproj.getProject();
+
+         if (subprojectNodeMap.get(project.getId()) == null) {
+            subprojectNodeMap.put(project.getId(), new ArrayList<DefaultMutableTreeNode>() );
          }
-         if (subprojectNodeMap.get(csId) == null) {
-            subprojectNodeMap.put(csId, new ArrayList() );
-         }
-         ((List)subprojectNodeMap.get(csId)).add(getSubProjectNode(idGen.getNewId(), subproj, treeFunctions));
+          List<DefaultMutableTreeNode> list = subprojectNodeMap.get(project.getId());         
+          list.add(getSubProjectNode(idGen.getNewId(), subproj, treeFunctions));
    
       }
       return subprojectNodeMap;
    }
-   **/
-   /**
-   public List getPackageNodes(TreeFunctions treeFunctions,TreeIdGenerator idGen,String excludeList) throws Exception{
-      Map pkgNodeByCsidMap = new HashMap();
-      Map pkgNodeByCsiIdMap = new HashMap();
+
+   
+   public PackageHolder getPackageNodeHolder(TreeFunctions treeFunctions,TreeIdGenerator idGen) throws Exception{
+     
+      Map<String,List<DefaultMutableTreeNode>> packageByWithSubProjectsMap = new HashMap<String,List<DefaultMutableTreeNode>>();      
+      Map<String,List<DefaultMutableTreeNode>> packageByWithNoSubProjectsMap = new HashMap<String,List<DefaultMutableTreeNode>>();
+       
       UMLBrowserQueryService queryService = serviceLocator.findQuerySerivce();
       List packages = queryService.getAllPackages();
-      Iterator<UmlPackageMetaData> iter = packages.iterator();
-      String csiId = "";   
-      String csId = "";
+      
+      Iterator<UMLPackageMetadata> iter = packages.iterator();
+
       ClassSchemeClassSchemeItem cscsi = null;
       while (iter.hasNext()) {
-         UmlPackageMetaData pkg = iter.next();
-         Iterator cscsiIter = pkg.getCSI().getClassSchemeClassSchemeItemCollection().iterator();
-         if (cscsiIter.hasNext()) {
-            cscsi = (ClassSchemeClassSchemeItem) cscsiIter.next();
-         
-            if (cscsi.getParentClassSchemeClassSchemeItem() != null) {
-               csiId = cscsi.getParentClassSchemeClassSchemeItem().getClassificationSchemeItem().getId();
-               
-               if (pkgNodeByCsiIdMap.get(csiId) == null) 
-                  pkgNodeByCsiIdMap.put(csiId, new ArrayList() );
-         
-               ((List)pkgNodeByCsiIdMap.get(csiId)).add(getPackageNode(idGen.getNewId(), pkg, treeFunctions));
-            } else {
-               csId = cscsi.getClassificationScheme().getId();
-               }
-               if (pkgNodeByCsidMap.get(csId) == null) {
-               pkgNodeByCsidMap.put(csId, new ArrayList() );
-               }
-               ((List)pkgNodeByCsidMap.get(csId)).add(getPackageNode(idGen.getNewId(), pkg, treeFunctions));
-              
-            }
+         UMLPackageMetadata pkg = iter.next();
+         if(pkg.getSubProject()!=null)
+         {
+             SubProject sub = pkg.getSubProject();
+             if (packageByWithSubProjectsMap.get(sub.getId()) == null) {
+                packageByWithSubProjectsMap.put(sub.getId(), new ArrayList<DefaultMutableTreeNode>() );
+             }
+              List<DefaultMutableTreeNode> list = packageByWithSubProjectsMap.get(sub.getId());         
+              list.add(getPackageNode(idGen.getNewId(), pkg, treeFunctions));             
+         }
+         else
+         {
+             Project project = pkg.getProject();
+             if (packageByWithNoSubProjectsMap.get(project.getId()) == null) {
+                packageByWithNoSubProjectsMap.put(project.getId(), new ArrayList<DefaultMutableTreeNode>() );
+             }
+              List<DefaultMutableTreeNode> list = packageByWithNoSubProjectsMap.get(project.getId());         
+              list.add(getPackageNode(idGen.getNewId(), pkg, treeFunctions));              
+         }
+
       }
-      ArrayList results = new ArrayList();
-      results.add(pkgNodeByCsidMap);
-      results.add(pkgNodeByCsiIdMap);
-      return results;
+      PackageHolder holder = new PackageHolder();
+       holder.setPackagesWithNoSubProjectsMap(packageByWithNoSubProjectsMap);
+       holder.setPackagesWithSubProjectsMap(packageByWithSubProjectsMap);
+      return holder;
    }
-**/
+
+    public Map<String,List<DefaultMutableTreeNode>> getClassNodesByPackageId(TreeFunctions treeFunctions,TreeIdGenerator idGen) throws Exception{
+       
+       Map<String,List<DefaultMutableTreeNode>> classNodeMap = new HashMap<String,List<DefaultMutableTreeNode>>();
+       UMLBrowserQueryService queryService = serviceLocator.findQuerySerivce();
+       List<UMLClassMetadata> classes = queryService.getAllClasses();
+       Iterator<UMLClassMetadata> iter = classes.iterator();
+       while (iter.hasNext()) {
+          UMLClassMetadata aClass = iter.next();
+          UMLPackageMetadata pkg = aClass.getUMLPackageMetadata();
+
+          if (classNodeMap.get(pkg.getId()) == null) {
+             classNodeMap.put(pkg.getId(), new ArrayList<DefaultMutableTreeNode>() );
+          }
+           List<DefaultMutableTreeNode> list = classNodeMap.get(pkg.getId());         
+           list.add(getClassNode(idGen.getNewId(), aClass, treeFunctions));
+    
+       }
+       return classNodeMap;
+    }
+    
    public void setServiceLocator(ApplicationServiceLocator serviceLocator) {
       this.serviceLocator = serviceLocator;
    }
@@ -167,41 +191,55 @@ public class UMLBrowserTreeServiceImpl
       return serviceLocator;
    }
    
-   /**
+
    private DefaultMutableTreeNode getSubProjectNode(String nodeId, 
-   UmlSubProjectMetaData subproj, TreeFunctions treeFunctions) throws Exception {
+   SubProject subproj, TreeFunctions treeFunctions) throws Exception {
      return new DefaultMutableTreeNode(
                new WebNode(nodeId,
                            subproj.getName(),
                            "javascript:" + treeFunctions.getJsFunctionName() 
                            + "('P_PARAM_TYPE=SUBPROJECT&P_IDSEQ="
-                              + subproj.getCSI().getId()
+                              + subproj.getId()
                               + treeFunctions.getExtraURLParameters() + "')",
-                           subproj.getCSI().getId()));
+                           subproj.getId()));
    }
-**/
-/**
+
+
    private DefaultMutableTreeNode getProjectNode(String nodeId, 
-   UmlProjectMetaData proj, TreeFunctions treeFunctions) throws Exception {
+   Project proj, TreeFunctions treeFunctions) throws Exception {
      return new DefaultMutableTreeNode(
                new WebNode(nodeId,
-                           proj.getName(),
+                           proj.getShortName(),
                            "javascript:" + treeFunctions.getJsFunctionName() 
                            + "('P_PARAM_TYPE=PROJECT&P_IDSEQ="
                               + proj.getClassificationScheme().getId()
                               + treeFunctions.getExtraURLParameters() + "')",
                            proj.getClassificationScheme().getId()));
    }
+   
+
    private DefaultMutableTreeNode getPackageNode(String nodeId, 
-   UmlPackageMetaData pkg, TreeFunctions treeFunctions) throws Exception {
+   UMLPackageMetadata pkg, TreeFunctions treeFunctions) throws Exception {
      return new DefaultMutableTreeNode(
                new WebNode(nodeId,
                            pkg.getName(),
                            "javascript:" + treeFunctions.getJsFunctionName() 
                            + "('P_PARAM_TYPE=PACKAGE&P_IDSEQ="
-                              + pkg.getCSI().getId()
+                              + pkg.getId()
                               + treeFunctions.getExtraURLParameters() + "')",
-                           pkg.getCSI().getId()));
+                           pkg.getId()));
    }
-   **/
+   
+    private DefaultMutableTreeNode getClassNode(String nodeId, 
+    UMLClassMetadata aClass, TreeFunctions treeFunctions) throws Exception {
+      return new DefaultMutableTreeNode(
+                new WebNode(nodeId,
+                            aClass.getName(),
+                            "javascript:" + treeFunctions.getJsFunctionName() 
+                            + "('P_PARAM_TYPE=PACKAGE&P_IDSEQ="
+                               + aClass.getId()
+                               + treeFunctions.getExtraURLParameters() + "')",
+                            aClass.getId()));
+    }   
+
 }

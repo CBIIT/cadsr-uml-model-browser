@@ -4,16 +4,33 @@ import gov.nih.nci.cadsr.domain.Context;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-public interface ContextHolder
+public class ContextHolder
 {
 
-  public void setContext(Context context);
+    private Context context;
+    private DefaultMutableTreeNode node; 
+    
+
+    public void setContext(Context context)
+    {
+      this.context = context;
+    }
 
 
-  public Context getContext();
+    public Context getContext()
+    {
+      return context;
+    }
 
-  public void setNode(DefaultMutableTreeNode node);
+
+    public void setNode(DefaultMutableTreeNode node)
+    {
+      this.node = node;
+    }
 
 
-  public DefaultMutableTreeNode getNode();
+    public DefaultMutableTreeNode getNode()
+    {
+      return node;
+    }
 }
