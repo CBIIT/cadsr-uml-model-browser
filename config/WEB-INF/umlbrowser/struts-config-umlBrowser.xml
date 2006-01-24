@@ -14,6 +14,8 @@
       <form-property name="packageIdseq" type="java.lang.String"/>
       <form-property name="className" type="java.lang.String"/>
       <form-property name="attributeName" type="java.lang.String"/>
+      <form-property name="sortField" type="java.lang.String"/>
+      <form-property name="sortOrder" type="java.lang.Integer"/>
       </form-bean>
   </form-beans>  
   
@@ -32,7 +34,7 @@
       scope="session"
       type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.UMLSearchAction"
       validate="false">
-      <forward name="success" path="/umlSearch.jsp"
+      <forward name="success" path="/umlbrowser/umlSearch.jsp"
       redirect="false"/>  
     </action>      
 
@@ -42,5 +44,13 @@
   <plug-in className="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.SpringWebContextPlugIn">  
   </plug-in> 
 
- 
+  <plug-in className="gov.nih.nci.ncicb.cadsr.struts.common.ObjectPlugIn">
+    <set-property 
+      property="applicationKey" 
+      value="ApplicationServiceLocatorClassName"/>
+    <set-property 
+      property="className" 
+      value="gov.nih.nci.ncicb.cadsr.servicelocator.spring.ApplicationServiceLocatorImpl"/>      
+  </plug-in>
+  
 </struts-config>

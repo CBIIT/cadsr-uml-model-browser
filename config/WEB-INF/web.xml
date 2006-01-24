@@ -47,6 +47,10 @@
       <param-name>config</param-name>
       <param-value>/WEB-INF/umlbrowser/struts-config-umlBrowser.xml</param-value>
     </init-param>
+    <init-param>
+      <param-name>ApplicationServiceLocatorClassName</param-name>
+      <param-value>gov.nih.nci.ncicb.cadsr.servicelocator.spring.ApplicationServiceLocatorImpl</param-value>
+    </init-param>    
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>

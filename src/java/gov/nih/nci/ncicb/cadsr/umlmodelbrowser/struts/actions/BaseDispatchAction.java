@@ -264,6 +264,17 @@ public class BaseDispatchAction extends DispatchAction implements CaDSRConstants
    }
 
    public ApplicationServiceLocator getAppServiceLocator() {
+      if(appServiceLocator==null)
+      appServiceLocator =
+        (ApplicationServiceLocator) getApplicationObject(
+          ApplicationServiceLocator.APPLICATION_SERVICE_LOCATOR_CLASS_KEY);
+      if(appServiceLocator==null)
+        throw new ServiceLocatorException("Could no find ApplicationServiceLocator with key ="+ ApplicationServiceLocator.APPLICATION_SERVICE_LOCATOR_CLASS_KEY);
       return appServiceLocator;
    }
+   
+   protected Object getApplicationObject(String attrName) {
+     return servlet.getServletContext().getAttribute(attrName);
+   }
+   
 }
