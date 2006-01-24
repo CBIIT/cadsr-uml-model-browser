@@ -3,10 +3,21 @@ package gov.nih.nci.ncicb.cadsr.service.impl;
 import gov.nih.nci.cadsr.domain.Context;
 import gov.nih.nci.cadsr.domain.impl.ContextImpl;
 
+
+import gov.nih.nci.cadsr.umlproject.domain.Project;
+import gov.nih.nci.cadsr.umlproject.domain.SubProject;
+import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
+import gov.nih.nci.cadsr.umlproject.domain.UMLPackageMetadata;
+import gov.nih.nci.cadsr.umlproject.domain.impl.ProjectImpl;
+import gov.nih.nci.cadsr.umlproject.domain.impl.SubProjectImpl;
+import gov.nih.nci.cadsr.umlproject.domain.impl.UMLClassMetadataImpl;
+import gov.nih.nci.cadsr.umlproject.domain.impl.UMLPackageMetadataImpl;
+
 import gov.nih.nci.cadsr.umlproject.domain.SemanticMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.impl.UMLClassMetadataImpl;
 import gov.nih.nci.ncicb.cadsr.service.UMLBrowserQueryService;
+
 import gov.nih.nci.ncicb.cadsr.servicelocator.ApplicationServiceLocator;
 import gov.nih.nci.system.applicationservice.ApplicationService;
 
@@ -42,23 +53,46 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
     return results;
   }
 
-/**
-  public List<UmlProjectMetaData> getAllProjects() throws Exception {
-     List projects = getServiceLayerQuerySvc().findAllProjects();
-     return projects;
-  }
- **/
- /**
-   public List<UmlSubProjectMetaData> getAllSubProjects() throws Exception {
-      List subprojects = getServiceLayerQuerySvc().findAllSubProjects();
-      return subprojects;
-   }
 
-   public List<UmlPackageMetaData> getAllPackages() throws Exception {
-      List packages = getServiceLayerQuerySvc().findAllPackages();
-      return packages;
-   }
-**/
+  public List<Project> getAllProjects() throws Exception {
+      ApplicationService caCoreService = getCaCoreAPIService();
+      DetachedCriteria projectCriteria =
+        DetachedCriteria.forClass(Project.class);
+      projectCriteria.addOrder(Order.asc("shortName"));
+     List<Project> results = caCoreService.query(projectCriteria, ProjectImpl.class.getName());;
+    return results;
+  }
+  
+    public List<SubProject> getAllSubProjects() throws Exception {
+        ApplicationService caCoreService = getCaCoreAPIService();
+        DetachedCriteria subProjectCriteria =
+          DetachedCriteria.forClass(SubProject.class);
+        subProjectCriteria.addOrder(Order.asc("name"));
+       List<SubProject> results = caCoreService.query(subProjectCriteria, SubProjectImpl.class.getName());;
+      return results;
+    }
+    
+    public List<UMLPackageMetadata> getAllPackages() throws Exception {
+        ApplicationService caCoreService = getCaCoreAPIService();
+        DetachedCriteria subPackageCriteria =
+          DetachedCriteria.forClass(UMLPackageMetadata.class);
+        subPackageCriteria.addOrder(Order.asc("name"));
+       List<UMLPackageMetadata> results = caCoreService.query(subPackageCriteria, UMLPackageMetadataImpl.class.getName());;
+      return results;
+    }
+    
+    public List<UMLClassMetadata> getAllClasses() throws Exception {
+        ApplicationService caCoreService = getCaCoreAPIService();
+        DetachedCriteria umlClassMetadataCriteria =
+          DetachedCriteria.forClass(UMLClassMetadata.class);
+          umlClassMetadataCriteria.addOrder(Order.asc("name"));
+       List<UMLClassMetadata> results = caCoreService.query(umlClassMetadataCriteria, UMLClassMetadataImpl.class.getName());;
+      return results;
+    }    
+    
+    
+ 
+
    public void setServiceLocator(ApplicationServiceLocator serviceLocator) {
       this.serviceLocator = serviceLocator;
    }
@@ -72,6 +106,7 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
          service = serviceLocator.findCaCoreAPIService();
       return service;
    }
+
 
 public List findUmlClass(){
    List resultList =null;
@@ -106,11 +141,5 @@ public List findUmlClass(){
    }
   return resultList;
 }
-/**
-   public UmlDomainModelQueryService getServiceLayerQuerySvc() {
-      if (serviceLayerQuerySvc == null)
-      serviceLayerQuerySvc = serviceLocator.findServiceLayerQueryService();
-      return serviceLayerQuerySvc;
-   }
-**/
+
 }

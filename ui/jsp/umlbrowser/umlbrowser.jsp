@@ -25,7 +25,7 @@
       TreeConstants.CTEP_USER_FLAG + ":" +
       ctepUser +
       "&treeName=umlClassTree" +
-      "&skin=CDEBrowser1";
+      "&skin=umlbrowser";
  
  */
  
@@ -38,7 +38,7 @@
        TreeConstants.CTEP_USER_FLAG + ":" +
        ctepUser +
        "&treeName=umlClassTree" +
-       "&skin=CDEBrowser1";
+       "&skin=umlbrowser";
 
 %>
 <HTML>

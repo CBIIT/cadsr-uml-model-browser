@@ -4,6 +4,8 @@ import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.BaseTreeNode;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.TreeConstants;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.ContextHolder;
 import gov.nih.nci.cadsr.domain.Context;
+import gov.nih.nci.cadsr.umlproject.domain.Project;
+import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.PackageHolder;
 import gov.nih.nci.ncicb.cadsr.util.TimeUtils;
 import gov.nih.nci.ncicb.webtree.WebNode;
 import gov.nih.nci.ncicb.webtree.WebTree;
@@ -64,276 +66,53 @@ public class UMLBrowserTree extends WebTree implements TreeConstants {
             baseNode = new BaseTreeNode(treeParams);
             UMLBrowserTreeCache cache = UMLBrowserTreeCache.getAnInstance();
             cache.init(baseNode, treeParams);
-           Map projectByContext = cache.getAllProjectByContext();
-           Map subprojectByCsId = cache.getAllSubProjectByCsid();
-           Map pkgByCsId = cache.getAllPackagesByCSid();
-           Map pkgByCsiId = cache.getAllPackagesByCsiId();
+            
             WebNode contexts =
                 new WebNode(cache.getIdGen().getNewId(), "caDSR Contexts",
                                            "javascript:classSearchAction('')");
             tree = new DefaultMutableTreeNode(contexts);
-            List allContexts = cache.getAllContextHolders();
+            List<ContextHolder> allContexts = cache.getAllContextHolders();
 
             if (allContexts == null)
                 return tree;
 
-            ListIterator contextIt = allContexts.listIterator();
+            Map<String,List<DefaultMutableTreeNode>> allProjectsByContextId = cache.getAllProjectByContextId();
+            Map<String,List<DefaultMutableTreeNode>> subProjectsByProjectId = cache.getAllSubProjectByProjectId();
+            PackageHolder packageHolder = cache.getPackageHolder();
+            Map<String,List<DefaultMutableTreeNode>> packagesWithNoSubProject = packageHolder.getPackagesWithNoSubProjectsMap();
+            Map<String,List<DefaultMutableTreeNode>> packagesWithSubProject = packageHolder.getPackagesWithSubProjectsMap();    
+            Map<String,List<DefaultMutableTreeNode>> allClassesByPackageId = cache.getAllClassesByPackageId();
 
-            while (contextIt.hasNext()) {
-                ContextHolder currContextHolder =
-                    (ContextHolder)contextIt.next();
+            for (ContextHolder currContextHolder:allContexts) {
 
                 Context currContext = currContextHolder.getContext();
                 DefaultMutableTreeNode contextNode =
                     currContextHolder.getNode();
-                    
-                if (projectByContext.get(currContext.getId()) != null) {
-                   List projects =(List) projectByContext.get(currContext.getId());
+
+                if (allProjectsByContextId.get(currContext.getId()) != null) {
+                   List<DefaultMutableTreeNode> projects = allProjectsByContextId.get(currContext.getId());
                    WebNode projectTexts =
                        new WebNode(cache.getIdGen().getNewId(), "Projects");
                    DefaultMutableTreeNode projectTextNode =
                        new DefaultMutableTreeNode(projectTexts);
                    contextNode.add(projectTextNode);
                    for (int i=0; i<projects.size(); i++) {
-                      DefaultMutableTreeNode projNode =(DefaultMutableTreeNode)projects.get(i);
+                      DefaultMutableTreeNode projNode =projects.get(i);
+                      if(projNode!=null)
+                      {
                       projectTextNode.add(projNode);
-                      String projCSId = ((WebNode) (projNode.getUserObject())).getInfo();
-                      List subProjs = (List) subprojectByCsId.get(projCSId);
-                      if (subProjs != null) {
-                         WebNode subprojectTexts =
-                             new WebNode(cache.getIdGen().getNewId(), "Sub Projects");
-                         DefaultMutableTreeNode subProjectTextNode =
-                             new DefaultMutableTreeNode(subprojectTexts);
-                         projNode.add(subProjectTextNode);
-                      
-                         for (int j=0; j<subProjs.size(); j++){
-                          DefaultMutableTreeNode subprojNode =(DefaultMutableTreeNode)subProjs.get(j);
-                         subProjectTextNode.add(subprojNode);
-                           String subProjCscsiId = ((WebNode) (subprojNode.getUserObject())).getInfo();
-                         
-                           //add packages that are linked to sub projects
-                           List pkgs = (List)pkgByCsiId.get(subProjCscsiId);
-                           if (pkgs != null) {
-                              for (int k=0; k<pkgs.size(); k++){
-                                 DefaultMutableTreeNode pkgNode =(DefaultMutableTreeNode)pkgs.get(k);
-                                 subprojNode.add(pkgNode);
-                              }
-                           } //end adding pkg to subProj
-                           
-                        }
-                      }
-                      
-                      //add packages that are linked directly under projects
-                      List pkgs = (List)pkgByCsId.get(projCSId);
-                      if (pkgs != null) {
-                         for (int j=0; j<pkgs.size(); j++){
-                            DefaultMutableTreeNode pkgNode =(DefaultMutableTreeNode)pkgs.get(j);
-                            projNode.add(pkgNode);
-                            
-                         }
+                      String projectId = ((WebNode) (projNode.getUserObject())).getInfo();
+                      List<DefaultMutableTreeNode> subProjectNodes = subProjectsByProjectId.get(projectId);
+                      if(subProjectNodes!=null)
+                        addSubProjectNodes(projNode,subProjectNodes,packagesWithSubProject,allClassesByPackageId);
+                      List<DefaultMutableTreeNode> packages = packagesWithNoSubProject.get(projectId);
+                      if(packages!=null)
+                        addPackageNodes(projNode,packages,allClassesByPackageId);
                       }
                    }
                 }
 
-/*                if (currContext.getName().equalsIgnoreCase("caCORE")) {
-                    WebNode projectTexts =
-                        new WebNode(cache.getIdGen().getNewId(), "Projects");
-                    DefaultMutableTreeNode projectTextNode =
-                        new DefaultMutableTreeNode(projectTexts);
-                    contextNode.add(projectTextNode);
-                    WebNode projects =
-                        new WebNode(cache.getIdGen().getNewId(), "caCORE",
-                                                   "javascript:classSearchAction('')");
-                    DefaultMutableTreeNode projectNode =
-                        new DefaultMutableTreeNode(projects);
-                    WebNode subprojectTexts =
-                        new WebNode(cache.getIdGen().getNewId(), "Sub Projects");
-                    DefaultMutableTreeNode subProjectTextNode =
-                        new DefaultMutableTreeNode(subprojectTexts);
-                    projectNode.add(subProjectTextNode);
-                    WebNode subProjects =
-                        new WebNode(cache.getIdGen().getNewId(),
-                                                      "Enterprise Vocabulary Services (EVS)",
-                                                      "javascript:classSearchAction('')");
-                    DefaultMutableTreeNode subProjNode =
-                        new DefaultMutableTreeNode(subProjects);
-                    subProjectTextNode.add(subProjNode);
-                    WebNode packageTexts =
-                        new WebNode(cache.getIdGen().getNewId(), "Packages");
-                    DefaultMutableTreeNode packageTextNode =
-                        new DefaultMutableTreeNode(packageTexts);
-                    subProjNode.add(packageTextNode);
 
-                    WebNode packages =
-                        new WebNode(cache.getIdGen().getNewId(), "gov.nih.nci.evs.domain",
-                                                   "javascript:classSearchAction('')");
-                    DefaultMutableTreeNode packageNode =
-                        new DefaultMutableTreeNode(packages);
-                    packageTextNode.add(packageNode);
-
-                    //add classes under package
-                    ArrayList<String> classInPkg = new ArrayList<String>();
-                    classInPkg.add("AttributeSetDescriptor");
-                    classInPkg.add("Definition");
-                    classInPkg.add("DescLogicConcept");
-                    classInPkg.add("EditActionDate");
-                    classInPkg.add("MetaThesaurusConcept");
-                    classInPkg.add("Property");
-                    classInPkg.add("Role");
-                    classInPkg.add("SemanticType");
-                    classInPkg.add("Source");
-                    classInPkg.add("TreeNode");
-                    this.addChildNode(packageNode, cache, classInPkg);
-
-                    subProjects =
-                        new WebNode(cache.getIdGen().getNewId(), "Cancer Bioinformatics Infrastructure Objects (caBIO)",
-                                              "javascript:classSearchAction('')");
-                    subProjNode = new DefaultMutableTreeNode(subProjects);
-                    subProjectTextNode.add(subProjNode);
-                    packageTexts =
-                        new WebNode(cache.getIdGen().getNewId(), "Packages");
-                    packageTextNode = new DefaultMutableTreeNode(packageTexts);
-                    subProjNode.add(packageTextNode);
-                    packages =
-                        new WebNode(cache.getIdGen().getNewId(), "gov.nih.nci.cabio.domain",
-                                           "javascript:classSearchAction('')");
-                    packageNode = new DefaultMutableTreeNode(packages);
-
-                    //add classes under package
-                    classInPkg = new ArrayList<String>();
-                    classInPkg.add("Agent");
-                    classInPkg.add("Anomaly");
-                    classInPkg.add("Chromosome");
-                    classInPkg.add("ClinicalTrialProtocol");
-                    classInPkg.add("Clone");
-                    classInPkg.add("CloneRelativeLocation");
-                    classInPkg.add("Cytoband");
-                    classInPkg.add("CytogeneticLocation");
-                    classInPkg.add("DiseaseOntology");
-                    classInPkg.add("DiseaseOntologyRelationship");
-                    classInPkg.add("Gene");
-                    classInPkg.add("GeneAlias");
-                    classInPkg.add("GeneOntology");
-                    classInPkg.add("GeneOntologyRelationship");
-                    classInPkg.add("GeneRelativeLocation");
-                    classInPkg.add("GenericArray");
-                    classInPkg.add("GenericReporter");
-                    classInPkg.add("Histopathology");
-                    classInPkg.add("HomologousAssociation");
-                    classInPkg.add("Library");
-                    classInPkg.add("Location");
-                    classInPkg.add("MicroArray");
-                    classInPkg.add("NucleicAcidSequence");
-                    classInPkg.add("OrganOntology");
-                    classInPkg.add("OrganOntologyRelationship");
-                    classInPkg.add("Organism");
-                    classInPkg.add("Pathway");
-                    classInPkg.add("PhysicalLocation");
-                    classInPkg.add("PopulationFrequency");
-                    classInPkg.add("Protein");
-                    classInPkg.add("ProteinAlias");
-                    classInPkg.add("ProteinSequence");
-                    classInPkg.add("Protocol");
-                    classInPkg.add("ProtocolAssociation");
-                    classInPkg.add("SNP");
-                    classInPkg.add("Target");
-                    classInPkg.add("Taxon");
-                    classInPkg.add("Tissue");
-                    classInPkg.add("Vocabulary");
-                    this.addChildNode(packageNode, cache, classInPkg);
-                    packageTextNode.add(packageNode);
-
-                    subProjects =
-                        new WebNode(cache.getIdGen().getNewId(), "Common Security Module (CSM)",
-                                              "javascript:classSearchAction('')");
-                    subProjNode = new DefaultMutableTreeNode(subProjects);
-
-                    subProjectTextNode.add(subProjNode);
-
-                    subProjects =
-                        new WebNode(cache.getIdGen().getNewId(), "Common Module",
-                                              "javascript:classSearchAction('')");
-                    subProjNode = new DefaultMutableTreeNode(subProjects);
-                    subProjectTextNode.add(subProjNode);
-
-                    subProjects =
-                        new WebNode(cache.getIdGen().getNewId(), "Cancer Data Standards Repository (caDSR)",
-                                              "javascript:classSearchAction('')");
-                    subProjNode = new DefaultMutableTreeNode(subProjects);
-
-                    subProjectTextNode.add(subProjNode);
-
-                    projectTextNode.add(projectNode);
-                    projects =
-                        new WebNode(cache.getIdGen().getNewId(), "Mage-OM",
-                                           "javascript:classSearchAction('')");
-                    projectNode = new DefaultMutableTreeNode(projects);
-                   subprojectTexts =
-                        new WebNode(cache.getIdGen().getNewId(), "Sub Projects");
-                    subProjectTextNode =
-                        new DefaultMutableTreeNode(subprojectTexts);
-                    projectNode.add(subProjectTextNode);
-                    subProjects =
-                        new WebNode(cache.getIdGen().getNewId(), "Base Package", "javascript:classSearchAction('')");
-                    subProjNode = new DefaultMutableTreeNode(subProjects);
-                    subProjectTextNode.add(subProjNode);
-
-                    subProjects =
-                        new WebNode(cache.getIdGen().getNewId(), "Array Design", "javascript:classSearchAction('')");
-                    subProjNode = new DefaultMutableTreeNode(subProjects);
-                    subProjectTextNode.add(subProjNode);
-
-                    subProjects =
-                        new WebNode(cache.getIdGen().getNewId(), "Array", "javascript:classSearchAction('')");
-                    subProjNode = new DefaultMutableTreeNode(subProjects);
-
-                    subProjectTextNode.add(subProjNode);
-
-                    subProjects =
-                        new WebNode(cache.getIdGen().getNewId(), "Bio Material", "javascript:classSearchAction('')");
-                    subProjNode = new DefaultMutableTreeNode(subProjects);
-                    subProjectTextNode.add(subProjNode);
-
-                    subProjects =
-                        new WebNode(cache.getIdGen().getNewId(), "Higher Level Analysis", "javascript:classSearchAction('')");
-                    subProjNode = new DefaultMutableTreeNode(subProjects);
-
-                    subProjectTextNode.add(subProjNode);
-                    projectTextNode.add(projectNode);
-
-                }
-                if (currContext.getName().equalsIgnoreCase("caBig")) {
-                   WebNode projectTexts =  new WebNode(cache.getIdGen().getNewId(), "Projects");
-                    DefaultMutableTreeNode projectTextNode =
-                    new DefaultMutableTreeNode(projectTexts);
-                    contextNode.add(projectTextNode);
-                    WebNode projects =
-                        new WebNode(cache.getIdGen().getNewId(), "Ardais","javascript:classSearchAction('')");
-                    DefaultMutableTreeNode projectNode =
-                        new DefaultMutableTreeNode(projects);
-                    projectTextNode.add(projectNode);
-                    WebNode subprojectTexts =
-                        new WebNode(cache.getIdGen().getNewId(), "Sub Projects");
-                    DefaultMutableTreeNode subProjectTextNode =
-                        new DefaultMutableTreeNode(subprojectTexts);
-                    projectNode.add(subProjectTextNode);
-                    WebNode subProjects =
-                        new WebNode(cache.getIdGen().getNewId(),
-                                                      "UML CDE Pilot", "javascript:classSearchAction('')");
-                    DefaultMutableTreeNode subProjNode =
-                        new DefaultMutableTreeNode(subProjects);
-
-                    subProjectTextNode.add(subProjNode);
-                    projects =
-                        new WebNode(cache.getIdGen().getNewId(), "Genomic Identifier", "javascript:classSearchAction('')");
-                    projectTextNode.add(new DefaultMutableTreeNode(projects));
-                    projects = new WebNode(cache.getIdGen().getNewId(), "PIR", "javascript:classSearchAction('')");
-                    projects =
-                        new WebNode(cache.getIdGen().getNewId(), "RProteomics", "javascript:classSearchAction('')");
-                    projectTextNode.add(new DefaultMutableTreeNode(projects));
-
-                }
-*/
                 tree.add(contextNode);
             }
 
@@ -347,6 +126,53 @@ public class UMLBrowserTree extends WebTree implements TreeConstants {
         return tree;
     }
 
+    private void addSubProjectNodes(DefaultMutableTreeNode parentNode,
+                                List<DefaultMutableTreeNode> allSubProjects,
+                                Map<String,List<DefaultMutableTreeNode>> packagesWithSubProject,
+                                Map<String,List<DefaultMutableTreeNode>> allClassesByPackageId                          
+                                ){
+                                
+        for(DefaultMutableTreeNode node:allSubProjects)
+        {
+            parentNode.add(node);
+            String subProjectId = ((WebNode) (node.getUserObject())).getInfo();
+            if(packagesWithSubProject.get(subProjectId)!=null)
+            {
+              List<DefaultMutableTreeNode> packages = packagesWithSubProject.get(subProjectId);
+              if(packages!=null)
+                addPackageNodes(node,packages,allClassesByPackageId);           
+            }
+        }
+                                
+    }
+    private void addPackageNodes(DefaultMutableTreeNode parentNode,
+                                List<DefaultMutableTreeNode> packages,
+                                Map<String,List<DefaultMutableTreeNode>> allClassesByPackageId
+                                )
+    {
+        for(DefaultMutableTreeNode node:packages)
+        {
+            parentNode.add(node);
+            String packageId = ((WebNode) (node.getUserObject())).getInfo();
+            if(allClassesByPackageId.get(packageId)!=null)
+            {            
+                List<DefaultMutableTreeNode> classes = allClassesByPackageId.get(packageId);
+                if(classes!=null)
+                    addClassNodes(node,classes);
+            }
+        }                          
+     }
+     
+    private void addClassNodes(DefaultMutableTreeNode parentNode,
+                                List<DefaultMutableTreeNode> classNodes
+                                )
+    {
+        for(DefaultMutableTreeNode node:classNodes)
+        {
+            parentNode.add(node);
+        }                          
+     }
+     
     private void addChildNode(DefaultMutableTreeNode parentNode,
                               UMLBrowserTreeCache cache,
                               Collection<String> childNodeLabels) {
