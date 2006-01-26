@@ -1,5 +1,3 @@
-
-
  <script LANGUAGE="Javascript">
 <!---
 function actionConfirm(message, url){
@@ -24,7 +22,7 @@ if(confirm(message)) location.href = url;
                           sortableColumnHeaderBeanId="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR%>" 
                           separator=">>" 
                           showDefault="Y"
-                          labelMapping="className, Class Name, projectName Project Name,subProjectName, Sub Project Name, packageName, Package Name, ocName, OC Name, ocVersion, OC Version, ocPublicId, OC Public ID "
+                          labelMapping="name, Class Name, project.longName Project Name, UMLPackageMetadata.subProject.name, Sub Project Name, UMLPackageMetadata.name, Package Name, objectClass.longName, OC Name, objectClass.version, OC Version, objectClass.publicID, OC Public ID "
                           defaultText=" (Default) "
                           ascendingText=" [Ascending]"
                           descendingText=" [Descending]"                          
@@ -55,8 +53,8 @@ if(confirm(message)) location.href = url;
 		   	   	columnHeader="Class Name" 
             orderParamId="sortOrder" 
 		   	   	sortFieldId="sortField"
-		   	   	sortFieldValue = "className"
-		   	   	target="_parent"
+		   	   	sortFieldValue = "name"
+		   	   	target="_self"
             />   
             </th>             
             <th class="OraTableColumnHeader" nowrap>
@@ -66,8 +64,8 @@ if(confirm(message)) location.href = url;
 		   	   	columnHeader="Project Name" 
             orderParamId="sortOrder" 
 		   	   	sortFieldId="sortField"
-		   	   	sortFieldValue = "projectName"
-		   	   	target="_parent"
+		   	   	sortFieldValue = "project.longName"
+		   	   	target="_self"
             />   
             </th>             
             <th class="OraTableColumnHeader" nowrap>
@@ -77,8 +75,8 @@ if(confirm(message)) location.href = url;
 		   	   	columnHeader="Sub Project Name" 
             orderParamId="sortOrder" 
 		   	   	sortFieldId="sortField"
-		   	   	sortFieldValue = "subProjectName"
-		   	   	target="_parent"
+		   	   	sortFieldValue = "UMLPackageMetadata.subProject.name"
+		   	   	target="_self"
             />   
             </th>             
             <th class="OraTableColumnHeader" nowrap>
@@ -88,8 +86,8 @@ if(confirm(message)) location.href = url;
 		   	   	columnHeader="Package Name" 
                                 orderParamId="sortOrder" 
 		   	   	sortFieldId="sortField"
-		   	   	sortFieldValue = "packageName"
-		   	   	target="_parent"
+		   	   	sortFieldValue = "UMLPackageMetadata.name"
+		   	   	target="_self"
             />   
             </th>    
             <!--
@@ -100,8 +98,8 @@ if(confirm(message)) location.href = url;
 		   	   	columnHeader="OC Name" 
                                 orderParamId="sortOrder" 
 		   	   	sortFieldId="sortField"
-		   	   	sortFieldValue = "ocName"
-		   	   	target="_parent"
+		   	   	sortFieldValue = "objectClass.longName"
+		   	   	target="_self"
             />  
             </th>      -->        
             <th class="OraTableColumnHeader" nowrap>
@@ -111,8 +109,8 @@ if(confirm(message)) location.href = url;
 		   	   	columnHeader="OC Public ID" 
                                 orderParamId="sortOrder" 
 		   	   	sortFieldId="sortField"
-		   	   	sortFieldValue = "ocPublicId"
-		   	   	target="_parent"
+		   	   	sortFieldValue = "objectClass.publicID"
+		   	   	target="_self"
             />   
             </th>             
             <th class="OraTableColumnHeader" nowrap>
@@ -122,43 +120,45 @@ if(confirm(message)) location.href = url;
 		   	   	columnHeader="OC Version" 
                                 orderParamId="sortOrder" 
 		   	   	sortFieldId="sortField"
-		   	   	sortFieldValue = "ocVersion"
-		   	   	target="_parent"
+		   	   	sortFieldValue = "objectClass.version"
+		   	   	target="_self"
             />   
             </th>             
           </tr>        
           <logic:iterate id="umlClass" name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>" 
-          	type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UmlClass"
+          	type="gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata"
                 offset="<%=Integer.toString(pageBean.getOffset())%>"
                 length="<%=Integer.toString(pageBean.getPageSize())%>">
             <tr class="OraTabledata">  
           	<td class="OraFieldText">
-                <a href='<%=attributeurl%>'><bean:write name="umlClass" property="className"/></a>
+                <a href='<%=attributeurl%>'><bean:write name="umlClass" property="name"/></a>
 
           		<br>
           	</td>
           	<td class="OraFieldText">
-       		<bean:write name="umlClass" property="projectName"/><br>
+       		<bean:write name="umlClass" property="project.longName"/><br>
           	</td>             
           	<td class="OraFieldText">
-          		<bean:write name="umlClass" property="subProjectName"/><br>
+          	 <logic:present name="umlClass" property="UMLPackageMetadata.subProject">
+          		<bean:write name="umlClass" property="UMLPackageMetadata.subProject.name" ignore="true"/><br>
+          	</logic:present>
           	</td>          
           	<td class="OraFieldText">
-          		<bean:write name="umlClass" property="packageName"/><br>
+          		<bean:write name="umlClass" property="UMLPackageMetadata.name"/><br>
           	</td>   
           	<!--
           	<td class="OraFieldText">
                      <a href="javascript:newBrowserWin('/CDEBrowser/ocbrowser/ocDetailsAction.do?method=getObjectClass&resetCrumbs=true&objectClassIdseq=F37D0428-F46E-6787-E034-0003BA3F9857','OCDetails',800,600)">
-                     <bean:write name="umlClass" property="ocName"/></a>
+                     <bean:write name="umlClass" property="objectClass.longName"/></a>
                 <br>
           	</td>   -->            
           	<td class="OraFieldText">
           	                     <a href="javascript:newBrowserWin('/CDEBrowser/ocbrowser/ocDetailsAction.do?method=getObjectClass&resetCrumbs=true&objectClassIdseq=F37D0428-F46E-6787-E034-0003BA3F9857','OCDetails',800,600)">
-		                     <bean:write name="umlClass" property="ocPublicId"/></a>
+		                     <bean:write name="umlClass" property="objectClass.publicID"/></a>
           		<br>
           	</td>               
           	<td class="OraFieldText">
-          		<bean:write name="umlClass" property="ocVersion"/><br>
+          		<bean:write name="umlClass" property="objectClass.version"/><br>
           	</td>               
             </tr>
           </logic:iterate>
@@ -175,7 +175,7 @@ if(confirm(message)) location.href = url;
        
         </logic:notEmpty>
         <logic:empty name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>">
-	       <table width="100%" align="center" cellpadding="1" cellspacing="1" border="0" class="OraBGAccentVeryDark">
+        <table width="100%" align="center" cellpadding="1" cellspacing="1" border="0" class="OraBGAccentVeryDark">
   	      <tr class="OraTableColumnHeader">
           	<th class="OraTableColumnHeader" nowrap>Class Name</th>
           	<th class="OraTableColumnHeader" nowrap>Project</th>
