@@ -8,14 +8,11 @@ import gov.nih.nci.cadsr.umlproject.domain.Project;
 import gov.nih.nci.cadsr.umlproject.domain.SubProject;
 import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLPackageMetadata;
-import gov.nih.nci.cadsr.umlproject.domain.impl.ProjectImpl;
-import gov.nih.nci.cadsr.umlproject.domain.impl.SubProjectImpl;
-import gov.nih.nci.cadsr.umlproject.domain.impl.UMLClassMetadataImpl;
-import gov.nih.nci.cadsr.umlproject.domain.impl.UMLPackageMetadataImpl;
+
 
 import gov.nih.nci.cadsr.umlproject.domain.SemanticMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
-import gov.nih.nci.cadsr.umlproject.domain.impl.UMLClassMetadataImpl;
+
 import gov.nih.nci.ncicb.cadsr.service.UMLBrowserQueryService;
 
 import gov.nih.nci.ncicb.cadsr.servicelocator.ApplicationServiceLocator;
@@ -59,7 +56,7 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
       DetachedCriteria projectCriteria =
         DetachedCriteria.forClass(Project.class);
       projectCriteria.addOrder(Order.asc("shortName"));
-     List<Project> results = caCoreService.query(projectCriteria, ProjectImpl.class.getName());;
+     List<Project> results = caCoreService.query(projectCriteria, Project.class.getName());;
     return results;
   }
   
@@ -68,7 +65,7 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
         DetachedCriteria subProjectCriteria =
           DetachedCriteria.forClass(SubProject.class);
         subProjectCriteria.addOrder(Order.asc("name"));
-       List<SubProject> results = caCoreService.query(subProjectCriteria, SubProjectImpl.class.getName());;
+       List<SubProject> results = caCoreService.query(subProjectCriteria, SubProject.class.getName());;
       return results;
     }
     
@@ -77,7 +74,7 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
         DetachedCriteria subPackageCriteria =
           DetachedCriteria.forClass(UMLPackageMetadata.class);
         subPackageCriteria.addOrder(Order.asc("name"));
-       List<UMLPackageMetadata> results = caCoreService.query(subPackageCriteria, UMLPackageMetadataImpl.class.getName());;
+       List<UMLPackageMetadata> results = caCoreService.query(subPackageCriteria, UMLPackageMetadata.class.getName());;
       return results;
     }
     
@@ -86,7 +83,7 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
         DetachedCriteria umlClassMetadataCriteria =
           DetachedCriteria.forClass(UMLClassMetadata.class);
           umlClassMetadataCriteria.addOrder(Order.asc("name"));
-       List<UMLClassMetadata> results = caCoreService.query(umlClassMetadataCriteria, UMLClassMetadataImpl.class.getName());;
+       List<UMLClassMetadata> results = caCoreService.query(umlClassMetadataCriteria, UMLClassMetadata.class.getName());;
       return results;
     }    
     
