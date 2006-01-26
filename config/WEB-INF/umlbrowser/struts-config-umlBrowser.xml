@@ -37,6 +37,11 @@
       <forward name="success" path="/umlbrowser/umlSearch.jsp"
       redirect="false"/>  
     </action>      
+    <action path="/umlbrowser/pageAction" parameter="method" scope="session"
+      type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.PaginationAction"
+      validate="false">
+      <forward name="success" path="/umlbrowser/umlSearch.jsp"/>
+    </action>
 
   </action-mappings>  
 
