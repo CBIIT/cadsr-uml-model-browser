@@ -107,14 +107,12 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
       return service;
    }
 
-
-public List findUmlClass(){
+public List findUmlClass(UMLClassMetadata umlClass){
    List resultList =null;
-   UMLClassMetadata umlClass = new UMLClassMetadataImpl();
-   umlClass.setName("DomainObject");
    
    try {
        resultList = getCaCoreAPIService().search(UMLClassMetadata.class, umlClass);
+       /**
        System.out.println("result count: " + resultList.size());
        for (Iterator resultsIterator = resultList.iterator();
                resultsIterator.hasNext();) {
@@ -122,6 +120,7 @@ public List findUmlClass(){
            System.out.println("returnClass Name:" + returnedClass.getName());
           System.out.println("returnClass id:" + returnedClass.getId());
           System.out.println("project name:" + returnedClass.getProject().getLongName());
+          System.out.println("project name:" + returnedClass.getObjectClass().getLongName());
           System.out.println("Project id:" + returnedClass.getProject().getId());
           System.out.println("Package name:" + returnedClass.getUMLPackageMetadata().getName());
           System.out.println("size of metadata: " + returnedClass.getSemanticMetadataCollection().size());
@@ -130,12 +129,8 @@ public List findUmlClass(){
                   SemanticMetadata metaData = (SemanticMetadata) mdIterator.next();
                   System.out.println("concept Name: " + metaData.getConceptName());
           }
-          
-          
-          
-           
          
-       }
+       }*/
    } catch (Exception e) {
        e.printStackTrace();
    }
