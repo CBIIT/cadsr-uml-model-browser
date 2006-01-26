@@ -1,13 +1,17 @@
 package gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions;
 
+import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
+import gov.nih.nci.cadsr.umlproject.domain.impl.UMLClassMetadataImpl;
 import gov.nih.nci.ncicb.cadsr.jsp.bean.PaginationBean;
 
+import gov.nih.nci.ncicb.cadsr.service.UMLBrowserQueryService;
+import gov.nih.nci.ncicb.cadsr.servicelocator.ApplicationServiceLocator;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLAttribute;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConstants;
 
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UmlClass;
 
-import gov.nih.nci.ncicb.cadsr.util.StringPropertyComparator;
+import gov.nih.nci.ncicb.cadsr.util.BeanPropertyComparator;
 
 import java.io.IOException;
 
@@ -78,7 +82,7 @@ public class UMLSearchAction extends BaseDispatchAction
       ActionForm form,
       HttpServletRequest request,
       HttpServletResponse response) throws IOException, ServletException {
-        removeSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS);
+      removeSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS);
       return mapping.findForward("umlSearch");
     }
 
@@ -91,36 +95,28 @@ public class UMLSearchAction extends BaseDispatchAction
 
       DynaActionForm dynaForm = (DynaActionForm) form;
       String resetCrumbs = (String) dynaForm.get(UMLBrowserFormConstants.RESET_CRUMBS);
-      Collection umlClasses = new ArrayList();
-      UmlClass umlCls = new UmlClass("Agent","gov.nih.nci.cabio.domain", "Cancer Bioinformatics Infrastructure Objects (caBIO)",
-      "caCore", "Agent", "1", "2223333");
-      umlClasses.add(umlCls);
-      umlCls = new UmlClass("Anomaly","gov.nih.nci.cabio.domain", "Enterprise Vocabulary Services (EVS)",
-              "caCore", "Molecular Genetic Abnormality", "1", "2223332");
-      umlClasses.add(umlCls);
-        umlCls = new UmlClass("Clone","gov.nih.nci.cabio.domain", "Cancer Bioinformatics Infrastructure Objects (caBIO)",
-                "caCore", "IMAGE Clone Object", "1", "2223315");
-        umlClasses.add(umlCls);
-
-      umlCls = new UmlClass("Tissue","gov.nih.nci.evs.domain", "Enterprise Vocabulary Services",
-              "caCore", "Tissue", "1", "2192778");
-      umlClasses.add(umlCls);
+      Collection<UMLClassMetadata> umlClasses = new ArrayList();
+      UMLBrowserQueryService queryService = getAppServiceLocator().findQuerySerivce();
+      UMLClassMetadata umlClass = new UMLClassMetadataImpl();
+      umlClass.setName( (String) dynaForm.get("className"));
+       
+      umlClasses = queryService.findUmlClass(umlClass);  
 
       setSessionObject(request,  UMLBrowserFormConstants.CLASS_SEARCH_RESULTS, umlClasses,true);
-        setSessionObject(request,  UMLBrowserFormConstants.CLASS_ATTRIBUTE_VIEW, true, true);
+      setSessionObject(request,  UMLBrowserFormConstants.CLASS_ATTRIBUTE_VIEW, true, true);
 
-        PaginationBean pb = new PaginationBean();
+      PaginationBean pb = new PaginationBean();
 
         if (umlClasses != null) {
           pb.setListSize(umlClasses.size());
         }
-        UmlClass aClass = null;
+        UMLClassMetadata aClass = null;
         if(umlClasses.size()>0)
         {
           Object[] classArr = umlClasses.toArray();
-          aClass=(UmlClass)classArr[0];
-          StringPropertyComparator comparator = new StringPropertyComparator(aClass.getClass());
-          comparator.setPrimary("className");
+          aClass=(UMLClassMetadata)classArr[0];
+          BeanPropertyComparator comparator = new BeanPropertyComparator(aClass.getClass());
+          comparator.setPrimary("name");
           comparator.setOrder(comparator.ASCENDING);
           Collections.sort((List)umlClasses,comparator);
           setSessionObject(request,UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR,comparator);
@@ -183,7 +179,7 @@ public class UMLSearchAction extends BaseDispatchAction
         {
           Object[] attArr = umlAttributes.toArray();
           anAttribute=(UMLAttribute)attArr[0];
-          StringPropertyComparator comparator = new StringPropertyComparator(anAttribute.getClass());
+          BeanPropertyComparator comparator = new BeanPropertyComparator(anAttribute.getClass());
           comparator.setPrimary("attributeName");
           comparator.setOrder(comparator.ASCENDING);
           Collections.sort((List)umlAttributes,comparator);
@@ -195,5 +191,40 @@ public class UMLSearchAction extends BaseDispatchAction
 
       return mapping.findForward("showAttributes");
     }
-
+   /**
+   * Sorts search results by fieldName
+   * @param mapping The ActionMapping used to select this instance.
+   * @param form The optional ActionForm bean for this request.
+   * @param request The HTTP Request we are processing.
+   * @param response The HTTP Response we are processing.
+   *
+   * @return
+   *
+   * @throws IOException
+   * @throws ServletException
+   */
+   public ActionForward sortResult(
+   ActionMapping mapping,
+   ActionForm form,
+   HttpServletRequest request,
+   HttpServletResponse response) throws IOException, ServletException {
+   //Set the lookup values in the session
+   DynaActionForm searchForm = (DynaActionForm) form;
+   String sortField = (String) searchForm.get("sortField");
+   Integer sortOrder = (Integer) searchForm.get("sortOrder");
+   List umlClasses = (List)getSessionObject(request,UMLBrowserFormConstants.CLASS_SEARCH_RESULTS);
+   BeanPropertyComparator comparator = (BeanPropertyComparator)getSessionObject(request,UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR);
+   comparator.setRelativePrimary(sortField);
+   comparator.setOrder(sortOrder.intValue());
+   //Initialize and add the PagenationBean to the Session
+   PaginationBean pb = new PaginationBean();
+   if (umlClasses != null) {
+     pb.setListSize(umlClasses.size());
+   }
+   Collections.sort(umlClasses,comparator);
+   setSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS_PAGINATION, pb,true);
+   setSessionObject(request, ANCHOR, "results",true);  
+   return mapping.findForward(SUCCESS);
+   }
+   
 }
