@@ -1,7 +1,6 @@
 package gov.nih.nci.ncicb.cadsr.service;
 
 import gov.nih.nci.cadsr.domain.Context;
-
 import gov.nih.nci.cadsr.umlproject.domain.Project;
 import gov.nih.nci.cadsr.umlproject.domain.SubProject;
 import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
@@ -9,6 +8,7 @@ import gov.nih.nci.cadsr.umlproject.domain.UMLPackageMetadata;
 import gov.nih.nci.ncicb.cadsr.servicelocator.ApplicationServiceLocator;
 
 import java.util.List;
+
 
 public interface UMLBrowserQueryService {
    /**
@@ -44,5 +44,5 @@ public interface UMLBrowserQueryService {
 
    public ApplicationServiceLocator getServiceLocator();
    
-   public List findUmlClass();
+   public List findUmlClass(UMLClassMetadata umlClass);
 }
