@@ -1,23 +1,16 @@
 package gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions;
 
 import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
-import gov.nih.nci.cadsr.umlproject.domain.impl.UMLClassMetadataImpl;
 import gov.nih.nci.ncicb.cadsr.jsp.bean.PaginationBean;
-
 import gov.nih.nci.ncicb.cadsr.service.UMLBrowserQueryService;
-import gov.nih.nci.ncicb.cadsr.servicelocator.ApplicationServiceLocator;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLAttribute;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConstants;
-
-import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UmlClass;
-
 import gov.nih.nci.ncicb.cadsr.util.BeanPropertyComparator;
 
 import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -97,7 +90,7 @@ public class UMLSearchAction extends BaseDispatchAction
       String resetCrumbs = (String) dynaForm.get(UMLBrowserFormConstants.RESET_CRUMBS);
       Collection<UMLClassMetadata> umlClasses = new ArrayList();
       UMLBrowserQueryService queryService = getAppServiceLocator().findQuerySerivce();
-      UMLClassMetadata umlClass = new UMLClassMetadataImpl();
+      UMLClassMetadata umlClass = new UMLClassMetadata();
       umlClass.setName( (String) dynaForm.get("className"));
        
       umlClasses = queryService.findUmlClass(umlClass);  

@@ -1,24 +1,16 @@
 package gov.nih.nci.ncicb.cadsr.service.impl;
 
 import gov.nih.nci.cadsr.domain.Context;
-import gov.nih.nci.cadsr.domain.impl.ContextImpl;
-
-
 import gov.nih.nci.cadsr.umlproject.domain.Project;
 import gov.nih.nci.cadsr.umlproject.domain.SubProject;
 import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLPackageMetadata;
-
-
-import gov.nih.nci.cadsr.umlproject.domain.SemanticMetadata;
-import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
 
 import gov.nih.nci.ncicb.cadsr.service.UMLBrowserQueryService;
 
 import gov.nih.nci.ncicb.cadsr.servicelocator.ApplicationServiceLocator;
 import gov.nih.nci.system.applicationservice.ApplicationService;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
@@ -43,10 +35,10 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
    */
   public List<Context> getAllContexts() throws Exception {
      DetachedCriteria contextCriteria =
-       DetachedCriteria.forClass(ContextImpl.class);
+       DetachedCriteria.forClass(Context.class);
      contextCriteria.addOrder(Order.asc("name"));
       ApplicationService caCoreService = getCaCoreAPIService();
-     List results = caCoreService.query(contextCriteria, ContextImpl.class.getName());
+     List results = caCoreService.query(contextCriteria, Context.class.getName());
     return results;
   }
 
