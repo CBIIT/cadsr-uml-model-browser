@@ -37,10 +37,26 @@
       <forward name="success" path="/umlbrowser/umlSearch.jsp"
       redirect="false"/>  
     </action>      
+    
+    <action name="umlSearchForm" path="/umlbrowser/sortAttributesAction" parameter="method"
+      scope="session"
+      type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.UMLSearchAction"
+      validate="false">
+      <forward name="success" path="/umlbrowser/umlAttributes.jsp"
+      redirect="false"/>  
+    </action>      
+   
+    
     <action path="/umlbrowser/pageAction" parameter="method" scope="session"
       type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.PaginationAction"
       validate="false">
       <forward name="success" path="/umlbrowser/umlSearch.jsp"/>
+    </action>
+
+    <action path="/umlbrowser/AttributePageAction" parameter="method" scope="session"
+      type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.AttributePaginationAction"
+      validate="false">
+      <forward name="success" path="/umlbrowser/umlAttributes.jsp"/>
     </action>
 
   </action-mappings>  
