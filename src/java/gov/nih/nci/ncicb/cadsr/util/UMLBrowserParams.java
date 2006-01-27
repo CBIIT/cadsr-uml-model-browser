@@ -38,6 +38,7 @@ public class UMLBrowserParams
     String sentinelToolUrl="";
     String adminToolUrl="";
     String cadsrURL="";
+    String cdebrowserURL="";
 
     Map evsUrlMap = new HashMap();
 
@@ -76,7 +77,7 @@ public class UMLBrowserParams
 
     public static UMLBrowserParams getDebugInstance(){
       if (instance == null ) {
-          ResourceBundle b = ResourceBundle.getBundle("cdebrowser", java.util.Locale.getDefault());
+          ResourceBundle b = ResourceBundle.getBundle("umlbrowser", java.util.Locale.getDefault());
           Properties properties = new Properties();
 
             for (Enumeration e = b.getKeys() ; e.hasMoreElements() ;) {
@@ -295,9 +296,11 @@ public class UMLBrowserParams
             index++;
             sentinelToolUrl = properties.getProperty("SENTINEL_TOOL_URL");
             index++;
-            log.info("Loaded Properties"+properties);
             cadsrURL = properties.getProperty("CADSR_URL");
+            index++;
+            cdebrowserURL = properties.getProperty("CDEBROWSER_URL");
             
+           log.info("Loaded Properties"+properties);
 
         }
         catch (java.util.MissingResourceException mre)
@@ -317,4 +320,8 @@ public class UMLBrowserParams
     public String getCadsrURL() {
         return cadsrURL;
     }
+
+   public String getCdebrowserURL() {
+      return cdebrowserURL;
+   }
 }
