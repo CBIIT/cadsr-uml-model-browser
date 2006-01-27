@@ -12,7 +12,7 @@ public interface UMLBrowserFormConstants
    public static final String ATTRIBUT_NAME ="attributeName";
    public static final String CLASS_SEARCH_RESULTS = "classSearchResults";
     public static final String CLASS_ATTRIBUTES = "classAttributes";
-    public static final String CLASS_ATTRIBUTE_VIEW = "classAttributesView";
+    public static final String CLASS_VIEW = "classView";
    public static final String CLASS_SEARCH_RESULTS_PAGINATION ="classSearchResultsPagination";
    public static final String CLASS_SEARCH_RESULT_COMPARATOR="classSearchResultComparator";
     public static final String ATTRIBUTE_SEARCH_RESULTS_PAGINATION ="attributeSearchResultsPagination";
