@@ -3,6 +3,7 @@ package gov.nih.nci.ncicb.cadsr.service;
 import gov.nih.nci.cadsr.domain.Context;
 import gov.nih.nci.cadsr.umlproject.domain.Project;
 import gov.nih.nci.cadsr.umlproject.domain.SubProject;
+import gov.nih.nci.cadsr.umlproject.domain.UMLAttributeMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLPackageMetadata;
 import gov.nih.nci.ncicb.cadsr.servicelocator.ApplicationServiceLocator;
@@ -45,4 +46,7 @@ public interface UMLBrowserQueryService {
    public ApplicationServiceLocator getServiceLocator();
    
    public List findUmlClass(UMLClassMetadata umlClass);
+   
+   public List findUmlAttributes(UMLAttributeMetadata umlAttribute);
+   
 }

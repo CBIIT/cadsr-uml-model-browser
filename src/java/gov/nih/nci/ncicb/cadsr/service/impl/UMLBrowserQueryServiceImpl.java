@@ -3,6 +3,7 @@ package gov.nih.nci.ncicb.cadsr.service.impl;
 import gov.nih.nci.cadsr.domain.Context;
 import gov.nih.nci.cadsr.umlproject.domain.Project;
 import gov.nih.nci.cadsr.umlproject.domain.SubProject;
+import gov.nih.nci.cadsr.umlproject.domain.UMLAttributeMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLPackageMetadata;
 
@@ -125,5 +126,16 @@ public List findUmlClass(UMLClassMetadata umlClass){
    }
   return resultList;
 }
+
+   public List findUmlAttributes(UMLAttributeMetadata umlAttribute){
+      List resultList =null;
+      
+      try {
+          resultList = getCaCoreAPIService().search(UMLAttributeMetadata.class, umlAttribute);
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
+     return resultList;
+   }
 
 }
