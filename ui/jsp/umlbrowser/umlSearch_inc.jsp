@@ -55,7 +55,8 @@ function gotoProjectsLOV() {
          <a href="">
            Advanced search</a>
     </td>
-    <logic:present name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>"> 
+    <logic:equal name="<%=UMLBrowserFormConstants.CLASS_VIEW%>" value="true"> 
+     <logic:present name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>" >
      <bean:size id="listSize" name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>" />
      <logic:notEmpty name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>">
          <a class="link" href="#results"><%=listSize%>  Matches</a>
@@ -63,11 +64,20 @@ function gotoProjectsLOV() {
      <logic:empty name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>">
       No Matches 
      </logic:empty>
-    </logic:present>
+     </logic:present>
+    </logic:equal>
      
-    <logic:notPresent name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>"> 
-      &nbsp;
-    </logic:notPresent>
+    <logic:notEqual name="<%=UMLBrowserFormConstants.CLASS_VIEW%>" value="true">
+     <logic:present name="<%=UMLBrowserFormConstants.CLASS_ATTRIBUTES%>" >
+     <bean:size id="listSize" name="<%=UMLBrowserFormConstants.CLASS_ATTRIBUTES%>" />
+     <logic:notEmpty name="<%=UMLBrowserFormConstants.CLASS_ATTRIBUTES%>">
+         <a class="link" href="#results"><%=listSize%>  Matches</a>
+     </logic:notEmpty>
+     <logic:empty name="<%=UMLBrowserFormConstants.CLASS_ATTRIBUTES%>">
+      No Matches 
+     </logic:empty>
+     </logic:present>
+    </logic:notEqual>
    </b></td>
      
          

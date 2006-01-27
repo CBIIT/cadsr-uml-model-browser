@@ -8,6 +8,7 @@ if(confirm(message)) location.href = url;
 <%@ include file="showMessages.jsp" %>
 <%
     String attributeurl = request.getContextPath()+"/umlbrowser/umlSearchAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"="+UMLBrowserNavigationConstants.SHOW_ATTRIBUTE_SEARCH_METHOD;
+    String ocbrowserurl = UMLBrowserParams.getInstance().getCdebrowserURL() +"ocbrowser/ocDetailsAction.do?method=getObjectClass&resetCrumbs=true&objectClassIdseq=";
 %>   
    <logic:notEmpty name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>">
        <jsp:include page="mltitab_inc.jsp" flush="true">
@@ -125,14 +126,14 @@ if(confirm(message)) location.href = url;
             />   
             </th>             
           </tr>        
-          <logic:iterate id="umlClass" name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>" 
+          <logic:iterate indexId="selectedUmlClassInx" id="umlClass" name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>" 
           	type="gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata"
                 offset="<%=Integer.toString(pageBean.getOffset())%>"
                 length="<%=Integer.toString(pageBean.getPageSize())%>">
             <tr class="OraTabledata">  
           	<td class="OraFieldText">
-                <a href='<%=attributeurl%>'><bean:write name="umlClass" property="name"/></a>
-
+                <a href='<%=attributeurl%>&selectedClassIndex=<%=selectedUmlClassInx%>'>
+                <bean:write name="umlClass" property="name"/></a>
           		<br>
           	</td>
           	<td class="OraFieldText">
@@ -148,14 +149,14 @@ if(confirm(message)) location.href = url;
           	</td>   
           	<!--
           	<td class="OraFieldText">
-                     <a href="javascript:newBrowserWin('/CDEBrowser/ocbrowser/ocDetailsAction.do?method=getObjectClass&resetCrumbs=true&objectClassIdseq=F37D0428-F46E-6787-E034-0003BA3F9857','OCDetails',800,600)">
+                     <a href="javascript:newBrowserWin('<%=ocbrowserurl%>='<%=umlClass.getObjectClass().getId()%>','OCDetails',800,600)">
                      <bean:write name="umlClass" property="objectClass.longName"/></a>
                 <br>
           	</td>   -->            
           	<td class="OraFieldText">
-          	                     <a href="javascript:newBrowserWin('/CDEBrowser/ocbrowser/ocDetailsAction.do?method=getObjectClass&resetCrumbs=true&objectClassIdseq=F37D0428-F46E-6787-E034-0003BA3F9857','OCDetails',800,600)">
-		                     <bean:write name="umlClass" property="objectClass.publicID"/></a>
-          		<br>
+          <html:link href='<%=ocbrowserurl+umlClass.getObjectClass().getId()%>' target="ocBrowser">
+    		                     <bean:write name="umlClass" property="objectClass.publicID"/></a>
+          		<br></html:link>
           	</td>               
           	<td class="OraFieldText">
           		<bean:write name="umlClass" property="objectClass.version"/><br>
