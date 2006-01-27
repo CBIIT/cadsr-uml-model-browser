@@ -139,6 +139,7 @@ public class BeanPropertyComparator implements Comparator,SortableColumnHeader
   }
   
   private int compareTo(Object o1, Object o2){
+  
    if (o1 instanceof String)
        return ((String) o1).compareToIgnoreCase((String)o2);
    else if (o1 instanceof Float && o2 instanceof Float) {
@@ -150,6 +151,11 @@ public class BeanPropertyComparator implements Comparator,SortableColumnHeader
   
   
   private int compareTo(Object o1, Object o2, int order){
+      if (o1 == null && o2 == null) return 0;
+      
+      if (o1 == null) return 1;
+      if (o2 == null) return -1;
+      
       if(order==this.ASCENDING)
          return this.compareTo(o1, o2);
       else
@@ -174,7 +180,8 @@ public class BeanPropertyComparator implements Comparator,SortableColumnHeader
         throw new RuntimeException("Comparator Excception "+e);
       }
       catch (java.lang.NoSuchMethodException e) {
-         throw new RuntimeException("Comparator Excception "+e);
+         //this could happen for nested properties
+         returnValue = "";
          
       }
      return returnValue;
