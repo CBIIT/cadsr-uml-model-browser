@@ -5,6 +5,9 @@
 <beans>
 
   <bean id="appServiceLocator" class="gov.nih.nci.ncicb.cadsr.servicelocator.spring.ApplicationServiceLocatorImpl">
+    <property name="caCoreAPIUrl">
+      <value>http://cbiodev104.nci.nih.gov:49080/cacore31/http/remoteService</value>
+    </property>  
   </bean>
   <bean id="treeCache" class="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.UMLBrowserTreeCache">
     <property name="appServiceLocator"><ref local="appServiceLocator"/></property>

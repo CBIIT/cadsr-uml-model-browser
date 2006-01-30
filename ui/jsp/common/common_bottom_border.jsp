@@ -19,7 +19,7 @@
 </FONT>
 </td>
 <td width="30%" align="right">
- <FONT color="white" size=-2 face=arial>Version @cdebrowser.version@&nbsp;&nbsp;Build @cdebrowser.build@
+ <FONT color="white" size=-2 face=arial>Version @umlmodelbrowser.version@&nbsp;&nbsp;Build @umlmodelbrowser.build@
  </FONT>
 </TD>
 
