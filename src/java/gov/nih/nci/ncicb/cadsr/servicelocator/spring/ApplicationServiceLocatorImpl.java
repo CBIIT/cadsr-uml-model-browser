@@ -17,7 +17,8 @@ public class ApplicationServiceLocatorImpl implements ApplicationServiceLocator 
    private UMLBrowserQueryService queryService = null;
 
    private ApplicationService cabioAppService = null;
-
+   
+   private String caCoreAPIUrl = null;
 
 
 
@@ -58,7 +59,7 @@ public class ApplicationServiceLocatorImpl implements ApplicationServiceLocator 
       return queryService;
    }
 
-/**
+    /**
    public UmlDomainModelQueryService findServiceLayerQueryService() throws ServiceLocatorException {
       if (serviceLayerQueryService == null) {
          try {
@@ -74,4 +75,14 @@ public class ApplicationServiceLocatorImpl implements ApplicationServiceLocator 
 
    }
 **/
+
+    public void setCaCoreAPIUrl(String caCoreAPIUrl)
+    {
+        this.caCoreAPIUrl = caCoreAPIUrl;
+    }
+
+    public String getCaCoreAPIUrl()
+    {
+        return caCoreAPIUrl;
+    }
 }

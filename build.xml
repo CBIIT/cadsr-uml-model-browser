@@ -24,7 +24,7 @@
    <property name="jboss.start.debug.script.name" value="rundebug.bat" />
    <property name="jboss.stop.script.name" value="shutdown.bat" />
    
-   <property name="umlmodelbrowser.version" value="3.0.1.1" />
+   <property name="umlmodelbrowser.version" value="3.1" />
    <property name="umlmodelbrowser.build" value="1" />
    
    <!-- used for open source build for file suffix-->
@@ -143,7 +143,16 @@
          </fileset>
        </copy>
          
-        
+     <filter token="umlmodelbrowser.version" value="${umlmodelbrowser.version}"/>
+     <filter token="umlmodelbrowser.build" value="${umlmodelbrowser.build}" />
+     <copy todir="${classes.build.dir}/jsp/common" filtering="true">
+              <fileset dir="${jsp.dir}/common">
+                <patternset>
+                  <include name="common_bottom_border.jsp"/>
+                </patternset>
+              </fileset>
+     </copy> 
+     
        <property name="debug.config.home" value="${config.home}" /> 
         
    </target>
@@ -184,11 +193,6 @@
              <include name="gov/nih/nci/ncicb/cadsr/umlmodelbrowser/struts/common/*.properties"/>
            </patternset>
          </fileset>      
-      <fileset dir="${config.home}/WEB-INF/spring">
-        <patternset>
-          <include name="remoteService.xml"/>
-        </patternset>
-      </fileset>
       </copy> 
       
       <!-- copy application classes -->
@@ -217,19 +221,23 @@
           <include name="WEB-INF/classes/**/*.*"/>
         </patternset>
       </fileset>        
- 
-      <fileset dir="${jsp.dir}/">
-        <patternset>
-          <include name="*.jsp"/>
-          <include name="umlbrowser/*.*"/>  
-        </patternset>
-      </fileset>
+
 
       <fileset dir="${jsp.dir}/">
               <patternset>
                 <include name="common/**/*.*"/>  
+                <include name="*.jsp"/>
+                <include name="umlbrowser/*.*"/>  
+                <exclude name="common_bottom_border.jsp"/>                
               </patternset>
       </fileset>
+
+      <fileset dir="${classes.build.dir}/jsp/">
+              <patternset>
+                <include name="common/**/*.*"/>                 
+              </patternset>
+      </fileset>
+      
            
       <fileset dir="${html.dir}/">
         <patternset>
