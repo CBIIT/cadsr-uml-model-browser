@@ -9,12 +9,16 @@ function submitForm(methodName) {
 /* HSK */
 
 function clearProject() {
-  document.forms[0].projectName.value = "";
   document.forms[0].projectIdseq.value = "";
+  document.forms[0].subProjectIdseq.value = "";
+  document.forms[0].packageIdseq.value = "";
+  document.forms[0].className.value = "";
+  document.forms[0].attributeName.value = "";
+  
 }
 function clearForm() {
-  clearProject();
   document.forms[0].reset();
+  clearProject();
 }
 -->
 </SCRIPT>
@@ -39,6 +43,14 @@ function gotoProjectsLOV() {
 ;
      newWin(dest, 'ProjectsLOV', 700, 600);
 }
+
+function resetSubProjPackage() {
+    alert("hey" +  document.forms[0].subProjectIdseq);
+
+    
+}
+
+
 -->
 </SCRIPT>
 
@@ -108,47 +120,38 @@ function gotoProjectsLOV() {
             <tr>            
                 <td width="30%" class="OraTableColumnHeaderNoBG" nowrap>UML Project Name</td>
                 <td class="OraTabledata" nowrap>
-                  <html:text property="<%=UMLBrowserFormConstants.PROJECT_NAME%>" 
-                         readonly="true" 
-                         size="19"
-                         styleClass="LOVField"
-                        />
-                  &nbsp;<a href="javascript:gotoProjectsLOV()"><img src="<%=urlPrefix%>i/search_light.gif" border="0" alt="Search for Projects"></a>&nbsp;
-                  <a href="javascript:clearProject()"><i>Clear</i></a>
-                  <html:hidden  property="<%=UMLBrowserFormConstants.PROJECT_IDSEQ%>"/>
+                <html:select styleClass = "Dropdown" property="<%=UMLBrowserFormConstants.PROJECT_IDSEQ%>"
+                onchange="submitForm('resetSubProjPkgOptions')">
+                   <html:option key="cadsr.umlbrowser.form.blank" value="<%=UMLBrowserFormConstants.SEARCH_ALL%>" /> 
+                   <html:options collection="<%=UMLBrowserFormConstants.ALL_PROJECTS%>" 
+                     property="id" labelProperty="shortName" />
+                 </html:select>
                 </td>
              </tr>
             <tr>            
               <td width="30%" class="OraTableColumnHeaderNoBG" nowrap>Sub Project Name</td>
               <td width="70%" class="OraTabledata" nowrap>
-                <html:text property="<%=UMLBrowserFormConstants.SUB_PROJECT_NAME%>" 
-                       readonly="true" 
-                       size="19"
-                       styleClass="LOVField"                      
-                       />
-                &nbsp;<a href="javascript:gotoProjectsLOV()"><img src="<%=urlPrefix%>i/search_light.gif" border="0" alt="Search for Sub Projects"></a>&nbsp;
-                <a href="javascript:clearProject()"><i>Clear</i></a>
-                <html:hidden  property="<%=UMLBrowserFormConstants.SUB_PROJECT_IDSEQ%>"/>
+                <html:select styleClass = "Dropdown" property="<%=UMLBrowserFormConstants.SUB_PROJECT_IDSEQ%>" 
+                onchange="submitForm('resetPkgOptions')">
+                   <html:option key="cadsr.umlbrowser.form.blank" value="<%=UMLBrowserFormConstants.SEARCH_ALL%>" /> 
+                   <html:options collection="<%=UMLBrowserFormConstants.SUBPROJECT_OPTIONS%>" 
+                     property="id" labelProperty="name" />
+                 </html:select>
+
                 </td>
              </tr>  
             <tr>            
               <td width="30%" class="OraTableColumnHeaderNoBG" nowrap>Package Name</td>
              <td width="70%" class="OraTabledata" nowrap>
-                <html:text property="<%=UMLBrowserFormConstants.PACKAGE_NAME%>" 
-                       readonly="true" 
-                       size="19"
-                       styleClass="LOVField"                      
-                       />
-                &nbsp;<a href="javascript:gotoProjectsLOV()"><img src="<%=urlPrefix%>i/search_light.gif" border="0" alt="Search for Sub Projects"></a>&nbsp;
-                <a href="javascript:clearProject()"><i>Clear</i></a>
-                <html:hidden  property="<%=UMLBrowserFormConstants.PACKAGE_IDSEQ%>"/>
+                <html:select styleClass = "Dropdown" property="<%=UMLBrowserFormConstants.PACKAGE_IDSEQ%>">
+                   <html:option key="cadsr.umlbrowser.form.blank" value="<%=UMLBrowserFormConstants.SEARCH_ALL%>" /> 
+                   <html:options collection="<%=UMLBrowserFormConstants.PACKAGE_OPTIONS%>" 
+                     property="id" labelProperty="name" />
+                 </html:select>
+
               </td>  
              </tr>             
            </table>      
-        </td>            
-
-    </tr>    
- </table>
  
     
 
@@ -161,25 +164,18 @@ function gotoProjectsLOV() {
             <a href="javascript:submitForm('<%=UMLBrowserNavigationConstants.CLASS_SEARCH_METHOD%>')"><img src=<%=urlPrefix%>i/class_search.gif border=0></a>
           </td>       
         <td nowrap>
-            <a href="javascript:submitForm('<%=UMLBrowserNavigationConstants.SHOW_ATTRIBUTE_SEARCH_METHOD%>')"><img src=<%=urlPrefix%>i/attribute_search.gif border=0></a>
+            <a href="javascript:submitForm('<%=UMLBrowserNavigationConstants.ATTRIBUTE_SEARCH_METHOD%>')"><img src=<%=urlPrefix%>i/attribute_search.gif border=0></a>
           </td>       
              <td  >
                <a href="javascript:clearForm()"><img src=<%=urlPrefix%>i/reset.gif border=0></a>
               </td>
               
-              <logic:present name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>">
-                <td   nowrap>
-                <html:link action='<%="/umlbrowser/umlSearchAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"="+UMLBrowserNavigationConstants.NEW_SEARCH_METHOD%>' target="_parent">
-                <html:img page="/i/newSearchButton.gif" border="0" alt="New Search"/>
-               </html:link>
-              </logic:present>
               
-          </td>         
            </tr>
       </table>       
     </td>
  </TR>
- <table>
+ </table>
  <table align="center">
 
   </table>
