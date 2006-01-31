@@ -8,6 +8,8 @@ import gov.nih.nci.ncicb.cadsr.servicelocator.ApplicationServiceLocator;
 
 import gov.nih.nci.ncicb.cadsr.servicelocator.ServiceLocatorException;
 
+import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConstants;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -276,5 +278,52 @@ public class BaseDispatchAction extends DispatchAction implements CaDSRConstants
    protected Object getApplicationObject(String attrName) {
      return servlet.getServletContext().getAttribute(attrName);
    }
+   
+   /**
+    * Initializes the lookupvalues(projects, subprojects, package into session)
+    *
+    * @return ActionForward
+    *
+    * @throws Exception
+    */
+   protected void setInitLookupValues(HttpServletRequest req) {
+      
+     Object obj = getSessionObject(req, UMLBrowserFormConstants.ALL_PROJECTS);
+
+     if (obj == null) {
+       try {
+       obj = getAppServiceLocator().findQuerySerivce().getAllProjects();
+       } catch (Exception e) {
+         log.error("Exception occurred while retrieving all projects", e);
+          
+       }
+       setSessionObject(req, UMLBrowserFormConstants.ALL_PROJECTS, obj);
+     }
+     
+      obj = getSessionObject(req, UMLBrowserFormConstants.ALL_SUBPROJECTS);
+
+           if (obj == null) {
+             try {
+             obj = getAppServiceLocator().findQuerySerivce().getAllSubProjects();
+             } catch (Exception e) {
+               log.error("Exception occurred while retrieving all projects", e);
+                
+             }
+             setSessionObject(req, UMLBrowserFormConstants.ALL_SUBPROJECTS, obj);
+           }     
+           
+      obj = getSessionObject(req, UMLBrowserFormConstants.ALL_PACKAGES);
+
+           if (obj == null) {
+             try {
+             obj = getAppServiceLocator().findQuerySerivce().getAllPackages();
+             } catch (Exception e) {
+               log.error("Exception occurred while retrieving all projects", e);
+                
+             }
+             setSessionObject(req, UMLBrowserFormConstants.ALL_PACKAGES, obj);
+           }     
+           
+   }   
    
 }

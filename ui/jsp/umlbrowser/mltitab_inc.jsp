@@ -6,8 +6,8 @@
 	String urlPrefix = request.getContextPath();
 	String label = pageContext.getRequest().getParameter("label");
 	String[] allLabels = {"Classes","Attributes"};
-  String umlclassurl = urlPrefix+"/umlbrowser/umlSearchAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"="+UMLBrowserNavigationConstants.CLASS_SEARCH_METHOD;
-  String umlattributeurl = urlPrefix+"/umlbrowser/umlSearchAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"="+UMLBrowserNavigationConstants.SHOW_ATTRIBUTE_SEARCH_METHOD;
+  String umlclassurl = "javascript:submitForm('classSearch')";
+  String umlattributeurl = "javascript:submitForm('attributeSearch')";
   String[] urls = {umlclassurl,umlattributeurl};
 %>
 
