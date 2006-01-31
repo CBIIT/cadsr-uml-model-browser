@@ -1,7 +1,10 @@
 package gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions;
 
+import gov.nih.nci.cadsr.umlproject.domain.Project;
+import gov.nih.nci.cadsr.umlproject.domain.SubProject;
 import gov.nih.nci.cadsr.umlproject.domain.UMLAttributeMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
+import gov.nih.nci.cadsr.umlproject.domain.UMLPackageMetadata;
 import gov.nih.nci.ncicb.cadsr.jsp.bean.PaginationBean;
 import gov.nih.nci.ncicb.cadsr.service.UMLBrowserQueryService;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConstants;
@@ -12,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -76,6 +80,12 @@ public class UMLSearchAction extends BaseDispatchAction
       HttpServletRequest request,
       HttpServletResponse response) throws IOException, ServletException {
       removeSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS);
+       //Set the lookup values in the session
+       setInitLookupValues(request);
+       setSessionObject(request,  UMLBrowserFormConstants.SUBPROJECT_OPTIONS, 
+          getSessionObject(request, UMLBrowserFormConstants.ALL_SUBPROJECTS ),true);
+       setSessionObject(request,  UMLBrowserFormConstants.PACKAGE_OPTIONS, 
+          getSessionObject(request, UMLBrowserFormConstants.ALL_PACKAGES ),true);
       return mapping.findForward("umlSearch");
     }
 
@@ -88,35 +98,10 @@ public class UMLSearchAction extends BaseDispatchAction
 
       DynaActionForm dynaForm = (DynaActionForm) form;
       String resetCrumbs = (String) dynaForm.get(UMLBrowserFormConstants.RESET_CRUMBS);
-      Collection<UMLClassMetadata> umlClasses = new ArrayList();
-      UMLBrowserQueryService queryService = getAppServiceLocator().findQuerySerivce();
-      UMLClassMetadata umlClass = new UMLClassMetadata();
-      umlClass.setName( (String) dynaForm.get("className"));
-       
-      umlClasses = queryService.findUmlClass(umlClass);  
 
-      setSessionObject(request,  UMLBrowserFormConstants.CLASS_SEARCH_RESULTS, umlClasses,true);
-      setSessionObject(request,  UMLBrowserFormConstants.CLASS_VIEW, true, true);
-
-      PaginationBean pb = new PaginationBean();
-
-        if (umlClasses != null) {
-          pb.setListSize(umlClasses.size());
-        }
-        UMLClassMetadata aClass = null;
-        if(umlClasses.size()>0)
-        {
-          Object[] classArr = umlClasses.toArray();
-          aClass=(UMLClassMetadata)classArr[0];
-          BeanPropertyComparator comparator = new BeanPropertyComparator(aClass.getClass());
-          comparator.setPrimary("name");
-          comparator.setOrder(comparator.ASCENDING);
-          Collections.sort((List)umlClasses,comparator);
-          setSessionObject(request,UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR,comparator);
-        }
-
-        setSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS_PAGINATION, pb,true);
-
+      UMLClassMetadata umlClass = this.populateClassFromForm(dynaForm);
+     
+      this.findClassesLike(umlClass, request);
 
       return mapping.findForward("umlSearch");
     }
@@ -129,12 +114,17 @@ public class UMLSearchAction extends BaseDispatchAction
 
 //      removeSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS);
 
+
       DynaActionForm dynaForm = (DynaActionForm) form;
       Collection<UMLAttributeMetadata> umlAttributes= new ArrayList();
       UMLBrowserQueryService queryService = getAppServiceLocator().findQuerySerivce();
       UMLAttributeMetadata umlAtt = new UMLAttributeMetadata();
-      umlAtt.setName( (String) dynaForm.get("attributeName"));
-
+      String attName = ((String) dynaForm.get("attributeName")).trim();
+      if (attName !=null && attName.length()>0)
+         umlAtt.setName(attName );
+      UMLClassMetadata umlClass = this.populateClassFromForm(dynaForm);
+      if (umlClass != null)
+         umlAtt.setUMLClassMetadata(umlClass);
       umlAttributes = queryService.findUmlAttributes(umlAtt);  
 
       setSessionObject(request,  UMLBrowserFormConstants.CLASS_VIEW, false, true);
@@ -276,4 +266,170 @@ public class UMLSearchAction extends BaseDispatchAction
    return mapping.findForward(SUCCESS);
    }
    
+   private void findClassesLike (UMLClassMetadata  umlClass, HttpServletRequest request ){
+      Collection<UMLClassMetadata> umlClasses = new ArrayList();
+      UMLBrowserQueryService queryService = getAppServiceLocator().findQuerySerivce();
+      umlClasses = queryService.findUmlClass(umlClass);  
+
+      setSessionObject(request,  UMLBrowserFormConstants.CLASS_SEARCH_RESULTS, umlClasses,true);
+      setSessionObject(request,  UMLBrowserFormConstants.CLASS_VIEW, true, true);
+
+      PaginationBean pb = new PaginationBean();
+
+        if (umlClasses != null) {
+          pb.setListSize(umlClasses.size());
+        
+        UMLClassMetadata aClass = null;
+        if(umlClasses.size()>0)
+        {
+          Object[] classArr = umlClasses.toArray();
+          aClass=(UMLClassMetadata)classArr[0];
+          BeanPropertyComparator comparator = new BeanPropertyComparator(aClass.getClass());
+          comparator.setPrimary("name");
+          comparator.setOrder(comparator.ASCENDING);
+          Collections.sort((List)umlClasses,comparator);
+          setSessionObject(request,UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR,comparator);
+        }
+        }
+        setSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS_PAGINATION, pb,true);
+      
+   }
+   
+   private UMLClassMetadata populateClassFromForm(DynaActionForm dynaForm) {
+      UMLClassMetadata umlClass = null;
+      String className = ((String) dynaForm.get("className")).trim();
+      if (className != null && className.length() >0) {
+         umlClass = new UMLClassMetadata();
+         umlClass.setName(className);
+      }
+       String projectId = ((String) dynaForm.get(UMLBrowserFormConstants.PROJECT_IDSEQ)).trim();
+       if (projectId != null && projectId.length() >0) {
+         if (umlClass == null) 
+            umlClass = new UMLClassMetadata();
+            
+         Project project = new Project();
+         project.setId(projectId);
+         umlClass.setProject(project);
+       }
+       UMLPackageMetadata packageMetadata = null;
+       
+       String subprojectId = ((String) dynaForm.get(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ)).trim();
+       if (projectId != null && subprojectId.length() >0) {
+          if (umlClass == null) 
+             umlClass = new UMLClassMetadata();
+         SubProject subproject = new SubProject();
+         subproject.setId(subprojectId);
+         packageMetadata = new UMLPackageMetadata();
+         packageMetadata.setSubProject(subproject);
+       }
+       
+       String packageId = ((String) dynaForm.get(UMLBrowserFormConstants.PACKAGE_IDSEQ)).trim();
+       if (packageId != null && packageId.length() >0) {
+         if (umlClass == null) 
+             umlClass = new UMLClassMetadata();
+             
+         if (packageMetadata == null)
+            packageMetadata = new UMLPackageMetadata();
+         packageMetadata.setId(packageId);
+       }
+       
+       if (packageMetadata != null)
+          umlClass.setUMLPackageMetadata(packageMetadata);
+      return umlClass;
+   }
+   
+   
+   public ActionForward resetSubProjPkgOptions(
+     ActionMapping mapping,
+     ActionForm form,
+     HttpServletRequest request,
+     HttpServletResponse response) throws IOException, ServletException {
+     
+     DynaActionForm dynaForm = (DynaActionForm) form;
+     
+     String projectId = ((String) dynaForm.get(UMLBrowserFormConstants.PROJECT_IDSEQ)).trim();
+     
+     if (projectId == null || projectId.length() == 0) {
+        setSessionObject(request,  UMLBrowserFormConstants.SUBPROJECT_OPTIONS, 
+           getSessionObject(request, UMLBrowserFormConstants.ALL_SUBPROJECTS ),true);
+        setSessionObject(request,  UMLBrowserFormConstants.PACKAGE_OPTIONS, 
+           getSessionObject(request, UMLBrowserFormConstants.ALL_PACKAGES ),true);
+        
+     } else {
+        Project project = setPackageOptionsForProjectId(request, projectId);
+        
+        if (project != null ){
+           setSessionObject(request,  UMLBrowserFormConstants.SUBPROJECT_OPTIONS, 
+              project.getSubProjectCollection(), true);
+        }
+         
+     }
+     
+     String showClass=(String) getSessionObject(request,  UMLBrowserFormConstants.CLASS_VIEW);
+     if (showClass == null ||  showClass.equalsIgnoreCase("true"))
+        return mapping.findForward("umlSearch");
+     
+     return mapping.findForward("showAttributes");
+        
+     }
+     
+   public ActionForward resetPkgOptions(
+     ActionMapping mapping,
+     ActionForm form,
+     HttpServletRequest request,
+     HttpServletResponse response) throws IOException, ServletException {
+     
+     DynaActionForm dynaForm = (DynaActionForm) form;
+     String projectId = ((String) dynaForm.get(UMLBrowserFormConstants.PROJECT_IDSEQ)).trim();
+     String subprojId = ((String) dynaForm.get(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ)).trim();
+     
+     if (subprojId == null || subprojId.length() == 0) {
+     // if subProject is ALL, set package options by project
+        setPackageOptionsForProjectId(request, projectId);        
+     } else {
+        SubProject subproject = null; 
+        Collection<SubProject> allSubProjects = (Collection) getSessionObject(request, UMLBrowserFormConstants.ALL_SUBPROJECTS);
+        for (Iterator subprojIter =allSubProjects.iterator(); subprojIter.hasNext(); ) {
+            subproject = (SubProject) subprojIter.next();
+            if (subproject.getId().equalsIgnoreCase(subprojId))
+               break;
+        }
+        
+        if (subproject != null ){
+           setSessionObject(request,  UMLBrowserFormConstants.PACKAGE_OPTIONS, 
+              subproject.getUMLPackageMetadataCollection(), true);
+           
+        }
+         
+     }
+     
+     String showClass=(String) getSessionObject(request,  UMLBrowserFormConstants.CLASS_VIEW);
+     if (showClass == null ||  showClass.equalsIgnoreCase("true"))
+        return mapping.findForward("umlSearch");
+     
+     return mapping.findForward("showAttributes");
+        
+     }
+     
+     private Project setPackageOptionsForProjectId (HttpServletRequest request, String projectId){
+        Project project = null; 
+        Collection<Project> allProjects = (Collection) getSessionObject(request, UMLBrowserFormConstants.ALL_PROJECTS);
+        for (Iterator projIter =allProjects.iterator(); projIter.hasNext(); ) {
+            project = (Project) projIter.next();
+            if (project.getId().equalsIgnoreCase(projectId))
+               break;
+        }
+        
+        if (project != null ){
+          
+           UMLBrowserQueryService queryService = getAppServiceLocator().findQuerySerivce();
+           setSessionObject(request,  UMLBrowserFormConstants.PACKAGE_OPTIONS, 
+              queryService.getAllPackageForProject(project),true);
+        }
+        
+        return project;
+        
+     }
+     
+     
 }
