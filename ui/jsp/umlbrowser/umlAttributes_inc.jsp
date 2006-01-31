@@ -14,6 +14,9 @@ function redirect1(detailReqType, linkParms )
 
 // --->
 </SCRIPT>
+<%
+    String cdeDetailUrl = UMLBrowserParams.getInstance().getCdebrowserURL() +"search?dataElementDetails=9&PageId=DataElementsGroup&queryDE=yes&p_de_idseq";
+%>   
 <%@ include file="showMessages.jsp" %>
        <jsp:include page="mltitab_inc.jsp" flush="true">
          <jsp:param name="label" value="Attributes"/>
@@ -152,13 +155,16 @@ function redirect1(detailReqType, linkParms )
           		<bean:write name="umlAttribute" property="name"/><br>
           	</td>
           	<td class="OraFieldText">
-dataType
+          		<bean:write name="umlAttribute" property="attributeTypeMetadata.valueDomainLongName"/><br>
+
           	</td>             
           	<td class="OraFieldText">
           		<bean:write name="umlAttribute" property="description"/><br>
           	</td>               
           	<td class="OraFieldText">
-                <a href="javascript:redirect1('dataElementDetails','&p_de_idseq=A7B68E0E-1ED3-38ED-E034-0003BA0B1A09')"><bean:write name="umlAttribute" property="dataElement.longName"/></a>
+                <html:link href='<%=cdeDetailUrl+umlAttribute.getDataElement().getId()%>' target="CDEDetails">
+                <bean:write name="umlAttribute" property="dataElement.longName"/>
+                </html:link>
           		<br>
           	</td>               
           	<td class="OraFieldText">
