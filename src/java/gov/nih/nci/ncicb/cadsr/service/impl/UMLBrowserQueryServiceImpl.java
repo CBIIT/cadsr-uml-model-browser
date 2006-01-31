@@ -97,6 +97,18 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
       return service;
    }
 
+   public List<UMLPackageMetadata> getAllPackageForProject(Project project){
+      List resultList =null;
+      UMLPackageMetadata umlPkg = new UMLPackageMetadata();
+      umlPkg.setProject(project);
+      try {
+         resultList = getCaCoreAPIService().search(UMLPackageMetadata.class, umlPkg);
+      }     catch (Exception e) {
+       e.printStackTrace();
+   }
+  return resultList;
+
+   }
 public List findUmlClass(UMLClassMetadata umlClass){
    List resultList =null;
    
