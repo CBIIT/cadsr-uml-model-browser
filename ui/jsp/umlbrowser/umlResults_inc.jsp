@@ -23,7 +23,7 @@ if(confirm(message)) location.href = url;
                           sortableColumnHeaderBeanId="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR%>" 
                           separator=">>" 
                           showDefault="Y"
-                          labelMapping="name, Class Name, project.longName Project Name, UMLPackageMetadata.subProject.name, Sub Project Name, UMLPackageMetadata.name, Package Name, objectClass.longName, OC Name, objectClass.version, OC Version, objectClass.publicID, OC Public ID "
+                          labelMapping="name, Class Name, project.longName Project Name, project.version Project Version, UMLPackageMetadata.subProject.name, Sub Project Name, UMLPackageMetadata.name, Package Name, objectClass.longName, OC Name, objectClass.version, OC Version, objectClass.publicID, OC Public ID "
                           defaultText=" (Default) "
                           ascendingText=" [Ascending]"
                           descendingText=" [Descending]"                          
@@ -66,6 +66,17 @@ if(confirm(message)) location.href = url;
             orderParamId="sortOrder" 
 		   	   	sortFieldId="sortField"
 		   	   	sortFieldValue = "project.longName"
+		   	   	target="_self"
+            />   
+            </th>             
+            <th class="OraTableColumnHeader" nowrap>
+		        <cde:sortableColumnHeader
+            sortableColumnHeaderBeanId="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR%>" 
+		       	actionUrl='<%="/umlbrowser/umlSortSearchAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"=sortResult"%>' 
+		   	   	columnHeader="Project Version" 
+            orderParamId="sortOrder" 
+		   	   	sortFieldId="sortField"
+		   	   	sortFieldValue = "project.version"
 		   	   	target="_self"
             />   
             </th>             
@@ -140,6 +151,9 @@ if(confirm(message)) location.href = url;
        		<bean:write name="umlClass" property="project.longName"/><br>
           	</td>             
           	<td class="OraFieldText">
+       		<bean:write name="umlClass" property="project.version"/><br>
+          	</td>             
+          	<td class="OraFieldText">
           	 <logic:present name="umlClass" property="UMLPackageMetadata.subProject">
           		<bean:write name="umlClass" property="UMLPackageMetadata.subProject.name" ignore="true"/><br>
           	</logic:present>
@@ -180,6 +194,7 @@ if(confirm(message)) location.href = url;
   	      <tr class="OraTableColumnHeader">
           	<th class="OraTableColumnHeader" nowrap>Class Name</th>
           	<th class="OraTableColumnHeader" nowrap>Project</th>
+          	<th class="OraTableColumnHeader" nowrap>Project Version</th>
             <th class="OraTableColumnHeader" nowrap>Sub Project</th>
           	<th class="OraTableColumnHeader" nowrap>Package</th>
           	<th class="OraTableColumnHeader" nowrap>Object Class Name</th>
