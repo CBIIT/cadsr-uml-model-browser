@@ -6,10 +6,23 @@
 <%@page import="gov.nih.nci.ncicb.cadsr.CaDSRConstants" %>
 <%@page import="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConstants" %>
 <%@page import="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserNavigationConstants" %>
+<%@page import="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.TreeConstants" %>
 
 <HTML>
 <%
   String urlPrefix = "../";
+  String pageContextInfo = "";
+  String paramIdseq = request.getParameter("P_PARAM_TYPE");
+  
+  if (paramIdseq == null) paramIdseq = "";
+  String paramType = (String)request.getParameter("P_IDSEQ");
+  if (paramType == null) paramType = "";
+  
+  if (!paramIdseq.equals("") && !paramType.equals("")){
+    pageContextInfo = request.getParameter(TreeConstants.TREE_BREADCRUMBS);
+  }
+
+%>
 
 %>
 <HEAD>
