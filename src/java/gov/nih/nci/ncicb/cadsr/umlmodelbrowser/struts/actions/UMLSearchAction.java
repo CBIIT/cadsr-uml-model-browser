@@ -356,8 +356,11 @@ public class UMLSearchAction extends BaseDispatchAction
         }
          
      }
-     
-     String showClass=(String) getSessionObject(request,  UMLBrowserFormConstants.CLASS_VIEW);
+        
+     Object classView = getSessionObject(request,  UMLBrowserFormConstants.CLASS_VIEW);
+     String showClass = null;
+     if (classView != null)
+        showClass=classView.toString();
      if (showClass == null ||  showClass.equalsIgnoreCase("true"))
         return mapping.findForward("umlSearch");
      
