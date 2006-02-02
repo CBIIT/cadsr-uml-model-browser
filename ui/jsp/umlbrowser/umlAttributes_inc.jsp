@@ -1,19 +1,5 @@
 
 
- <script LANGUAGE="Javascript">
-<!---
-function actionConfirm(message, url){
-if(confirm(message)) location.href = url;
-}
-function redirect1(detailReqType, linkParms )
-{
-  var urlString="<%=request.getContextPath()%>/search?dataElementDetails=9" + linkParms + "<%= pageUrl %>"+"&queryDE=yes";
-  newBrowserWin(urlString,'deDetails',800,600)
-  
-}
-
-// --->
-</SCRIPT>
 <%
     String cdeDetailUrl = UMLBrowserParams.getInstance().getCdebrowserURL() +"search?dataElementDetails=9&PageId=DataElementsGroup&queryDE=yes&p_de_idseq=";
 %>   
