@@ -66,10 +66,10 @@ public class UMLBrowserTree extends WebTree implements TreeConstants {
             baseNode = new BaseTreeNode(treeParams);
             UMLBrowserTreeCache cache = UMLBrowserTreeCache.getAnInstance();
             cache.init(baseNode, treeParams);
-            
+
             WebNode contexts =
                 new WebNode(cache.getIdGen().getNewId(), "caDSR Contexts",
-                                           "javascript:classSearchAction('')");
+                                           "javascript:classSearchAction('P_PARAM_TYPE=Context')");
             tree = new DefaultMutableTreeNode(contexts);
             List<ContextHolder> allContexts = cache.getAllContextHolders();
 
@@ -80,7 +80,7 @@ public class UMLBrowserTree extends WebTree implements TreeConstants {
             Map<String,List<DefaultMutableTreeNode>> subProjectsByProjectId = cache.getAllSubProjectByProjectId();
             PackageHolder packageHolder = cache.getPackageHolder();
             Map<String,List<DefaultMutableTreeNode>> packagesWithNoSubProject = packageHolder.getPackagesWithNoSubProjectsMap();
-            Map<String,List<DefaultMutableTreeNode>> packagesWithSubProject = packageHolder.getPackagesWithSubProjectsMap();    
+            Map<String,List<DefaultMutableTreeNode>> packagesWithSubProject = packageHolder.getPackagesWithSubProjectsMap();
             Map<String,List<DefaultMutableTreeNode>> allClassesByPackageId = cache.getAllClassesByPackageId();
 
             for (ContextHolder currContextHolder:allContexts) {
@@ -129,9 +129,9 @@ public class UMLBrowserTree extends WebTree implements TreeConstants {
     private void addSubProjectNodes(DefaultMutableTreeNode parentNode,
                                 List<DefaultMutableTreeNode> allSubProjects,
                                 Map<String,List<DefaultMutableTreeNode>> packagesWithSubProject,
-                                Map<String,List<DefaultMutableTreeNode>> allClassesByPackageId                          
+                                Map<String,List<DefaultMutableTreeNode>> allClassesByPackageId
                                 ){
-                                
+
         for(DefaultMutableTreeNode node:allSubProjects)
         {
             parentNode.add(node);
@@ -140,10 +140,10 @@ public class UMLBrowserTree extends WebTree implements TreeConstants {
             {
               List<DefaultMutableTreeNode> packages = packagesWithSubProject.get(subProjectId);
               if(packages!=null)
-                addPackageNodes(node,packages,allClassesByPackageId);           
+                addPackageNodes(node,packages,allClassesByPackageId);
             }
         }
-                                
+
     }
     private void addPackageNodes(DefaultMutableTreeNode parentNode,
                                 List<DefaultMutableTreeNode> packages,
@@ -155,14 +155,14 @@ public class UMLBrowserTree extends WebTree implements TreeConstants {
             parentNode.add(node);
             String packageId = ((WebNode) (node.getUserObject())).getInfo();
             if(allClassesByPackageId.get(packageId)!=null)
-            {            
+            {
                 List<DefaultMutableTreeNode> classes = allClassesByPackageId.get(packageId);
                 if(classes!=null)
                     addClassNodes(node,classes);
             }
-        }                          
+        }
      }
-     
+
     private void addClassNodes(DefaultMutableTreeNode parentNode,
                                 List<DefaultMutableTreeNode> classNodes
                                 )
@@ -170,9 +170,9 @@ public class UMLBrowserTree extends WebTree implements TreeConstants {
         for(DefaultMutableTreeNode node:classNodes)
         {
             parentNode.add(node);
-        }                          
+        }
      }
-     
+
     private void addChildNode(DefaultMutableTreeNode parentNode,
                               UMLBrowserTreeCache cache,
                               Collection<String> childNodeLabels) {

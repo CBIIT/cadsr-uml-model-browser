@@ -49,5 +49,6 @@ public interface UMLBrowserQueryService {
    
    public List findUmlAttributes(UMLAttributeMetadata umlAttribute);
    public List<UMLPackageMetadata> getAllPackageForProject(Project project);
+   public List<UMLClassMetadata> getClassesForContext(String contextId);
    
 }

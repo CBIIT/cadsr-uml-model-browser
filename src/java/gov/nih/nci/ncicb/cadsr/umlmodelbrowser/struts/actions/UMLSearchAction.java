@@ -1,5 +1,7 @@
 package gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions;
 
+import gov.nih.nci.cadsr.domain.Context;
+import gov.nih.nci.cadsr.domain.ObjectClass;
 import gov.nih.nci.cadsr.umlproject.domain.Project;
 import gov.nih.nci.cadsr.umlproject.domain.SubProject;
 import gov.nih.nci.cadsr.umlproject.domain.UMLAttributeMetadata;
@@ -271,6 +273,10 @@ public class UMLSearchAction extends BaseDispatchAction
       UMLBrowserQueryService queryService = getAppServiceLocator().findQuerySerivce();
       umlClasses = queryService.findUmlClass(umlClass);  
 
+      setupSessionForClassResults(umlClasses, request);
+   }
+   
+   private void setupSessionForClassResults(Collection umlClasses, HttpServletRequest request){
       setSessionObject(request,  UMLBrowserFormConstants.CLASS_SEARCH_RESULTS, umlClasses,true);
       setSessionObject(request,  UMLBrowserFormConstants.CLASS_VIEW, true, true);
 
@@ -431,5 +437,23 @@ public class UMLSearchAction extends BaseDispatchAction
         
      }
      
+   public ActionForward treeClassSearch(
+     ActionMapping mapping,
+     ActionForm form,
+     HttpServletRequest request,
+     HttpServletResponse response) throws IOException, ServletException {
      
+     String searchType = request.getParameter("P_PARAM_TYPE");
+     String searchId = request.getParameter("P_IDSEQ");
+     UMLBrowserQueryService queryService = getAppServiceLocator().findQuerySerivce();
+     Collection umlClasses = null;
+     
+     if (searchType.equalsIgnoreCase("Context")  ) {
+        umlClasses = queryService.getClassesForContext(searchId);
+     }
+     
+     setupSessionForClassResults(umlClasses, request);
+     return mapping.findForward("umlSearch");
+   }
+   
 }
