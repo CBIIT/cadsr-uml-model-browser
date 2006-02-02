@@ -34,7 +34,7 @@
     <TABLE valign="top" align ="left" width="100%" Cellpadding=0 Cellspacing=0 border=0 >
           <tr>
            <td  valign="bottom" align="center" width="15%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
-               <a href="<%=params.getCdebrowserURL()%>" target="_blank" >CDEBrowser&nbsp;</a> </span></td>          
+               <a href="<%=params.getCdebrowserToolURL()%>" target="_blank" >CDEBrowser&nbsp;</a> </span></td>          
            <td  valign="bottom" align="center" width="15%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
                <a href="<%=params.getAdminToolUrl()%>" target="_blank" >Admin Tool&nbsp;</a> </span></td>
 
