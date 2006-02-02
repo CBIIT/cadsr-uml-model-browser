@@ -33,8 +33,7 @@ public class UMLBrowserTree extends WebTree implements TreeConstants {
 
     private String functionName;
 
-    private String extraURLParameters =
-        "&PageId=DataElementsGroup&NOT_FIRST_DISPLAY=1&performQuery=yes";
+    private String extraURLParameters ="";
 
     private String contextExcludeListStr = null;
 

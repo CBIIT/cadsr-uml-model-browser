@@ -5,6 +5,7 @@ import gov.nih.nci.cadsr.domain.ObjectClass;
 import gov.nih.nci.cadsr.umlproject.domain.Project;
 import gov.nih.nci.cadsr.umlproject.domain.SemanticMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.SubProject;
+import gov.nih.nci.cadsr.umlproject.domain.UMLAssociationMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLAttributeMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLPackageMetadata;
@@ -432,10 +433,49 @@ public class UMLSearchAction extends BaseDispatchAction
      String searchId = request.getParameter("P_IDSEQ");
      UMLBrowserQueryService queryService = getAppServiceLocator().findQuerySerivce();
      Collection umlClasses = null;
+
+      if (searchType.equalsIgnoreCase("Class")  ) {
+         UMLClassMetadata umlClass = new UMLClassMetadata();
+         umlClass.setId(searchId);
+         UMLAttributeMetadata umlAttribute = new UMLAttributeMetadata();
+         umlAttribute.setUMLClassMetadata(umlClass);
+         Collection umlAttributes = queryService.findUmlAttributes(umlAttribute);
+         setupSessionForAttributeResults(umlAttributes, request);
+         return mapping.findForward("showAttributes");
+         
+      }
+
+     
      
      if (searchType.equalsIgnoreCase("Context")  ) {
         umlClasses = queryService.getClassesForContext(searchId);
      }
+     
+     if (searchType.equalsIgnoreCase("Project")  ) {
+        UMLClassMetadata umlClass = new UMLClassMetadata();
+        Project project = new Project();
+        project.setId(searchId);
+        umlClass.setProject(project);
+        umlClasses = queryService.findUmlClass(umlClass);
+     }
+     
+      if (searchType.equalsIgnoreCase("SubProject")  ) {
+         UMLClassMetadata umlClass = new UMLClassMetadata();
+         SubProject subproject = new SubProject();
+         subproject.setId(searchId);
+         UMLPackageMetadata packageMetadata= new UMLPackageMetadata();
+         packageMetadata.setSubProject(subproject);
+         umlClass.setUMLPackageMetadata(packageMetadata);
+         umlClasses = queryService.findUmlClass(umlClass);
+      }
+     
+      if (searchType.equalsIgnoreCase("Package")  ) {
+         UMLClassMetadata umlClass = new UMLClassMetadata();
+         UMLPackageMetadata packageMetadata= new UMLPackageMetadata();
+         packageMetadata.setId(searchId);
+         umlClass.setUMLPackageMetadata(packageMetadata);
+         umlClasses = queryService.findUmlClass(umlClass);
+      }
      
      setupSessionForClassResults(umlClasses, request);
      return mapping.findForward("umlSearch");

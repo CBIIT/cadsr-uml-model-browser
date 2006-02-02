@@ -236,7 +236,7 @@ public class UMLBrowserTreeServiceImpl
                 new WebNode(nodeId,
                             aClass.getName(),
                             "javascript:" + treeFunctions.getJsFunctionName() 
-                            + "('P_PARAM_TYPE=PACKAGE&P_IDSEQ="
+                            + "('P_PARAM_TYPE=CLASS&P_IDSEQ="
                                + aClass.getId()
                                + treeFunctions.getExtraURLParameters() + "')",
                             aClass.getId()));
