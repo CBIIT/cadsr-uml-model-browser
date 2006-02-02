@@ -3,6 +3,7 @@ package gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions;
 import gov.nih.nci.cadsr.domain.Context;
 import gov.nih.nci.cadsr.domain.ObjectClass;
 import gov.nih.nci.cadsr.umlproject.domain.Project;
+import gov.nih.nci.cadsr.umlproject.domain.SemanticMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.SubProject;
 import gov.nih.nci.cadsr.umlproject.domain.UMLAttributeMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
@@ -11,6 +12,8 @@ import gov.nih.nci.ncicb.cadsr.jsp.bean.PaginationBean;
 import gov.nih.nci.ncicb.cadsr.service.UMLBrowserQueryService;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConstants;
 import gov.nih.nci.ncicb.cadsr.util.BeanPropertyComparator;
+
+import gov.nih.nci.ncicb.cadsr.util.UMLBrowserParams;
 
 import java.io.IOException;
 
@@ -173,6 +176,7 @@ public class UMLSearchAction extends BaseDispatchAction
    String sortField = (String) searchForm.get("sortField");
    Integer sortOrder = (Integer) searchForm.get("sortOrder");
    List umlClasses = (List)getSessionObject(request,UMLBrowserFormConstants.CLASS_SEARCH_RESULTS);
+   //getLazyAssociationsForClass(umlClasses);
    BeanPropertyComparator comparator = (BeanPropertyComparator)getSessionObject(request,UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR);
    comparator.setRelativePrimary(sortField);
    comparator.setOrder(sortOrder.intValue());
@@ -261,10 +265,10 @@ public class UMLSearchAction extends BaseDispatchAction
       setSessionObject(request,  UMLBrowserFormConstants.CLASS_VIEW, true, true);
 
       PaginationBean pb = new PaginationBean();
-
+      
         if (umlClasses != null) {
           pb.setListSize(umlClasses.size());
-        
+          
         UMLClassMetadata aClass = null;
         if(umlClasses.size()>0)
         {
@@ -275,6 +279,7 @@ public class UMLSearchAction extends BaseDispatchAction
           comparator.setOrder(comparator.ASCENDING);
           Collections.sort((List)umlClasses,comparator);
           setSessionObject(request,UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR,comparator);
+          //getLazyAssociationsForClass(umlClasses);
         }
         }
         setSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS_PAGINATION, pb,true);
@@ -435,5 +440,24 @@ public class UMLSearchAction extends BaseDispatchAction
      setupSessionForClassResults(umlClasses, request);
      return mapping.findForward("umlSearch");
    }
-   
+  private void getLazyAssociationsForClass(Collection classList)
+  {
+     if(classList==null) return;
+     
+     int itemPerPage = UMLBrowserParams.getInstance().getItemPerPage();
+     int count = 0;
+      for (Iterator resultsIterator = classList.iterator();
+              resultsIterator.hasNext();) {
+
+          UMLClassMetadata returnedClass = (UMLClassMetadata) resultsIterator.next();  
+              for (Iterator mdIterator = returnedClass.getSemanticMetadataCollection().iterator();
+                      mdIterator.hasNext();) {
+                      SemanticMetadata metaData = (SemanticMetadata) mdIterator.next();
+                      System.out.println("concept Name: " + metaData.getConceptName());
+                      }
+              }
+          ++count;
+          if(itemPerPage<=count) return;
+
+      }      
 }
