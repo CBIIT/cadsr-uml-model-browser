@@ -10,15 +10,15 @@
 <SCRIPT LANGUAGE="JavaScript1.1" SRC='<html:rewrite page="/jsLib/helpWinJS.js"/>'></SCRIPT>
 <SCRIPT LANGUAGE="JavaScript1.1" SRC='<html:rewrite page="/jsLib/newWinJS.js"/>'></SCRIPT>
 
-<TABLE width=100% Cellpadding=0 Cellspacing=0 border=0>
+<TABLE valign="top" width=100% Cellpadding=0 Cellspacing=0 border=0>
   <tr>
 
-    <td align="left" nowrap>
+    <td valign="top" align="left" nowrap>
 
     <html:img page="/i/umlbrowserbanner.gif" border="0" />
     </td>
 
-    <td align=right valign=top colspan=2 nowrap>
+    <td align=right valign="top" colspan=2 nowrap>
       <TABLE Cellpadding=0 Cellspacing=0 border=0 >
         <TR>
           <TD valign="TOP" align="CENTER" width="1%" colspan=1><html:link page="/" target="_top"><html:img page="/i/icon_home.gif" alt="Home" border="0"  width="32" height="32"/></html:link><br><font color=brown face=verdana size=1>&nbsp;Home&nbsp;</font></TD>
@@ -30,9 +30,11 @@
  </table>
   <table valign="top">
    <tr>
-    <td  width="90%" >
-    <TABLE align ="left" width="100%" Cellpadding=0 Cellspacing=0 border=0 >
+    <td  valign="top" width="90%" >
+    <TABLE valign="top" align ="left" width="100%" Cellpadding=0 Cellspacing=0 border=0 >
           <tr>
+           <td  valign="bottom" align="center" width="15%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
+               <a href="<%=params.getCdebrowserURL()%>" target="_blank" >CDEBrowser&nbsp;</a> </span></td>          
            <td  valign="bottom" align="center" width="15%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
                <a href="<%=params.getAdminToolUrl()%>" target="_blank" >Admin Tool&nbsp;</a> </span></td>
 
@@ -55,22 +57,12 @@
         </tr>
       </table>
      </td>
-    <td  width="10%" >
-    <TABLE align ="right" width="100%" Cellpadding=0 Cellspacing=0 border=0 >
-     <tr>
-           <td  align="right"   height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
-                <A HREF="javascript:newBrowserWin('<%=request.getContextPath()%>/common/help/cdeBrowserHelp.html#NewFeatures','helpWin',700,600)">
-                      What's new</a>&nbsp;&nbsp;</span>
-            </td>
-        </tr>
-      </table>
-     </td>
   </tr>
   </tabel>
   <table>
   <logic:present name="nciUser">
   <tr>
-    <td align="left" class="OraInlineInfoText" nowrap>
+    <td valign="top" align="left" class="OraInlineInfoText" nowrap>
         <bean:message key="user.greet" />
     	<bean:write name="nciUser" property="username"  scope="session"/>
     </td>
