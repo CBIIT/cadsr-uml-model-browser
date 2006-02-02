@@ -23,24 +23,6 @@ function performAction_not_used(urlParams){
   frm.document.body.style.cursor = "wait";
   frm.document.location = "search?"+urlParams + "<%= callerParams %>";
 }
-function formSearchAction(urlParams){
-    var frm = findFrameByName('body');
-    document.body.style.cursor = "wait";
-    frm.document.body.style.cursor = "wait";
-    frm.document.location = "/CDEBrowser/formSearchAction.do?method=getAllFormsForTreeNode&"+urlParams;
-}
-function classSearchAction(urlParams){
-    var frm = findFrameByName('body');
-    document.body.style.cursor = "wait";
-    frm.document.body.style.cursor = "wait";
-    frm.document.location = "/umlbrowser/umlSearchAction.do??method=classSearch&"+urlParams;
-}
-
-
-function formDetailsAction(urlParams){
-    top.document.location = "/CDEBrowser/formDetailsAction.do?method=getFormDetails&"+urlParams;
-}
-
 
 
 function classDetailsAction(urlParams){

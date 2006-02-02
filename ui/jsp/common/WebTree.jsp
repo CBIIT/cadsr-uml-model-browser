@@ -49,12 +49,12 @@
   <script language="JavaScript1.2" src="../jsLib/JavaScript.js"></script>
   <script language="JavaScript1.2">
   <!--
-  function performAction(urlParams){
+function classSearchAction(urlParams){
     var frm = findFrameByName('body');
     document.body.style.cursor = "wait";
     frm.document.body.style.cursor = "wait";
-    frm.document.location = "<%=request.getContextPath()%>" + "/search?" + urlParams + "<%=callerParams%>";
-  }
+    frm.document.location = "<%=request.getContextPath()%>/umlbrowser/umlSearchAction.do?method=treeClassSearch&"+urlParams;
+}
   //-->
   </script>
 </head>

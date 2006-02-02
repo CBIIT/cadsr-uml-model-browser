@@ -15,6 +15,7 @@ import gov.nih.nci.system.applicationservice.ApplicationService;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 
 public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
@@ -109,30 +110,32 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
   return resultList;
 
    }
+   
+   public List<UMLClassMetadata> getClassesForContext(String contextId){
+      List resultList =null;
+      try {
+        DetachedCriteria classCriteria = DetachedCriteria.forClass(UMLClassMetadata.class);
+ //        classCriteria.addOrder( Order.asc("name").ignoreCase() );
+        classCriteria.addOrder( Order.asc("name"));
+        if (contextId != null && contextId.length() >0) {
+           DetachedCriteria contextCri= classCriteria.createCriteria("project").createCriteria("classificationScheme").createCriteria("context");
+           contextCri.add(Expression.eq("id", contextId));
+        }
+        resultList = getCaCoreAPIService().query(classCriteria, UMLClassMetadata.class.getName());
+               
+      } catch (Exception e) {
+       e.printStackTrace();
+   }
+   return resultList;
+
+   }
+   
+   
 public List findUmlClass(UMLClassMetadata umlClass){
    List resultList =null;
    
    try {
        resultList = getCaCoreAPIService().search(UMLClassMetadata.class, umlClass);
-       /**
-       System.out.println("result count: " + resultList.size());
-       for (Iterator resultsIterator = resultList.iterator();
-               resultsIterator.hasNext();) {
-           UMLClassMetadata returnedClass = (UMLClassMetadata) resultsIterator.next();
-           System.out.println("returnClass Name:" + returnedClass.getName());
-          System.out.println("returnClass id:" + returnedClass.getId());
-          System.out.println("project name:" + returnedClass.getProject().getLongName());
-          System.out.println("project name:" + returnedClass.getObjectClass().getLongName());
-          System.out.println("Project id:" + returnedClass.getProject().getId());
-          System.out.println("Package name:" + returnedClass.getUMLPackageMetadata().getName());
-          System.out.println("size of metadata: " + returnedClass.getSemanticMetadataCollection().size());
-          for (Iterator mdIterator = returnedClass.getSemanticMetadataCollection().iterator();
-                  mdIterator.hasNext();) {
-                  SemanticMetadata metaData = (SemanticMetadata) mdIterator.next();
-                  System.out.println("concept Name: " + metaData.getConceptName());
-          }
-         
-       }*/
    } catch (Exception e) {
        e.printStackTrace();
    }
