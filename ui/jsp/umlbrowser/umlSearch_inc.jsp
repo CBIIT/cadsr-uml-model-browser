@@ -120,7 +120,7 @@ function resetSubProjPackage() {
             <tr>            
                 <td width="30%" class="OraTableColumnHeaderNoBG" nowrap>UML Project Name</td>
                 <td class="OraTabledata" nowrap>
-                <html:select styleClass = "Dropdown" property="<%=UMLBrowserFormConstants.PROJECT_IDSEQ%>"
+                <html:select styleClass = "FreeDropdown" property="<%=UMLBrowserFormConstants.PROJECT_IDSEQ%>"
                 onchange="submitForm('resetSubProjPkgOptions')">
                    <html:option key="cadsr.umlbrowser.form.blank" value="<%=UMLBrowserFormConstants.SEARCH_ALL%>" /> 
                    <html:options collection="<%=UMLBrowserFormConstants.ALL_PROJECTS%>" 
@@ -131,7 +131,7 @@ function resetSubProjPackage() {
             <tr>            
               <td width="30%" class="OraTableColumnHeaderNoBG" nowrap>Sub Project Name</td>
               <td width="70%" class="OraTabledata" nowrap>
-                <html:select styleClass = "Dropdown" property="<%=UMLBrowserFormConstants.SUB_PROJECT_IDSEQ%>" 
+                <html:select styleClass = "FreeDropdown" property="<%=UMLBrowserFormConstants.SUB_PROJECT_IDSEQ%>" 
                 onchange="submitForm('resetPkgOptions')">
                    <html:option key="cadsr.umlbrowser.form.blank" value="<%=UMLBrowserFormConstants.SEARCH_ALL%>" /> 
                    <html:options collection="<%=UMLBrowserFormConstants.SUBPROJECT_OPTIONS%>" 
@@ -143,7 +143,7 @@ function resetSubProjPackage() {
             <tr>            
               <td width="30%" class="OraTableColumnHeaderNoBG" nowrap>Package Name</td>
              <td width="70%" class="OraTabledata" nowrap>
-                <html:select styleClass = "Dropdown" property="<%=UMLBrowserFormConstants.PACKAGE_IDSEQ%>">
+                <html:select styleClass = "FreeDropdown" property="<%=UMLBrowserFormConstants.PACKAGE_IDSEQ%>">
                    <html:option key="cadsr.umlbrowser.form.blank" value="<%=UMLBrowserFormConstants.SEARCH_ALL%>" /> 
                    <html:options collection="<%=UMLBrowserFormConstants.PACKAGE_OPTIONS%>" 
                      property="id" labelProperty="name" />
