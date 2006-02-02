@@ -51,6 +51,9 @@ UML Model Browser
 </HEAD>
   <jsp:useBean id="requestMap" scope="request" class="java.util.HashMap" />
   
+  
+<frameset rows="8%,*">
+  <html:frame page="/common/topHeader.jsp" frameborder="0" scrolling = "no" frameName="tree_header"/>
   <frameset cols="25%,*">
     <frameset rows="15%,*">
        <html:frame page="/common/tree_hdr.html"
@@ -69,6 +72,6 @@ UML Model Browser
               frameborder="0"
               frameName="body"
               />      
-  </frameset>
+  </frameset>  
    
 </HTML>

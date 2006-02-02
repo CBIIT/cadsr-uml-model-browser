@@ -56,7 +56,7 @@
 
 <!-- add here --->
 
-<TD align=left valign=center bgcolor="#336699" height=25 width="94%">&nbsp;</TD>
+<TD align=left valign=top valign=center bgcolor="#336699" height=25 width="94%">&nbsp;</TD>
 </tr>
 </table>
 
