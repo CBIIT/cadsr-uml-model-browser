@@ -29,8 +29,7 @@ public class BaseTreeNode implements TreeConstants, CaDSRConstants,TreeFunctions
   public String getExtraURLParameters() {
     String extraURLParameters = (String)treeParams.get(EXTRA_URL_PARAMS);
     if ( extraURLParameters == null || getTreeType().equals(DE_SEARCH_TREE) ) {
-      extraURLParameters =
-        "&PageId=DataElementsGroup&NOT_FIRST_DISPLAY=1&performQuery=yes";
+      extraURLParameters = "";
     }
 
     if (getTreeType().equals(DE_SEARCH_TREE) ) {
