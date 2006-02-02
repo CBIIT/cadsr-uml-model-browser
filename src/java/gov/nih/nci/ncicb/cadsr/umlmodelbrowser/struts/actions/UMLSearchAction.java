@@ -129,29 +129,7 @@ public class UMLSearchAction extends BaseDispatchAction
          umlAtt.setUMLClassMetadata(umlClass);
       umlAttributes = queryService.findUmlAttributes(umlAtt);  
 
-      setSessionObject(request,  UMLBrowserFormConstants.CLASS_VIEW, false, true);
-      setSessionObject(request,  UMLBrowserFormConstants.CLASS_ATTRIBUTES, umlAttributes,true);
-
-      PaginationBean pb = new PaginationBean();
-
-      if (umlAttributes != null) {
-         pb.setListSize(umlAttributes.size());
-      }
-
-      UMLAttributeMetadata anAttribute = null;
-      if(umlAttributes.size()>0)        {
-        Object[] attArr = umlAttributes.toArray();
-        anAttribute=(UMLAttributeMetadata)attArr[0];
-        BeanPropertyComparator comparator = new BeanPropertyComparator(anAttribute.getClass());
-        comparator.setPrimary("name");
-        comparator.setOrder(comparator.ASCENDING);
-        Collections.sort((List)umlAttributes,comparator);
-        setSessionObject(request,UMLBrowserFormConstants.ATTRIBUTE_SEARCH_RESULT_COMPARATOR,comparator);
-        }
-
-        setSessionObject(request, UMLBrowserFormConstants.ATTRIBUTE_SEARCH_RESULTS_PAGINATION, pb,true);
-
-
+      setupSessionForAttributeResults(umlAttributes, request);
       return mapping.findForward("showAttributes");
     }
     
@@ -166,29 +144,7 @@ public class UMLSearchAction extends BaseDispatchAction
      UMLClassMetadata umlClass =(UMLClassMetadata) umlClasses.toArray()[selectedClassIndex];
      DynaActionForm dynaForm = (DynaActionForm) form;
      Collection<UMLAttributeMetadata> umlAttributes= umlClass.getUMLAttributeMetadataCollection();
-
-     setSessionObject(request,  UMLBrowserFormConstants.CLASS_VIEW, false, true);
-     setSessionObject(request,  UMLBrowserFormConstants.CLASS_ATTRIBUTES, umlAttributes,true);
-
-     PaginationBean pb = new PaginationBean();
-
-     if (umlAttributes != null) {
-        pb.setListSize(umlAttributes.size());
-     }
-
-     UMLAttributeMetadata anAttribute = null;
-     if(umlAttributes.size()>0)        {
-       Object[] attArr = umlAttributes.toArray();
-       anAttribute=(UMLAttributeMetadata)attArr[0];
-       BeanPropertyComparator comparator = new BeanPropertyComparator(anAttribute.getClass());
-       comparator.setPrimary("name");
-       comparator.setOrder(comparator.ASCENDING);
-       Collections.sort((List)umlAttributes,comparator);
-       setSessionObject(request,UMLBrowserFormConstants.ATTRIBUTE_SEARCH_RESULT_COMPARATOR,comparator);
-       }
-
-       setSessionObject(request, UMLBrowserFormConstants.ATTRIBUTE_SEARCH_RESULTS_PAGINATION, pb,true);
-
+     this.setupSessionForAttributeResults(umlAttributes, request);
 
      return mapping.findForward("showAttributes");
    }
@@ -276,6 +232,30 @@ public class UMLSearchAction extends BaseDispatchAction
       setupSessionForClassResults(umlClasses, request);
    }
    
+   private void setupSessionForAttributeResults(Collection<UMLAttributeMetadata> umlAttributes, HttpServletRequest request){
+      setSessionObject(request,  UMLBrowserFormConstants.CLASS_VIEW, false, true);
+      setSessionObject(request,  UMLBrowserFormConstants.CLASS_ATTRIBUTES, umlAttributes,true);
+
+      PaginationBean pb = new PaginationBean();
+
+      if (umlAttributes != null) {
+         pb.setListSize(umlAttributes.size());
+      }
+
+      UMLAttributeMetadata anAttribute = null;
+      if(umlAttributes.size()>0)        {
+        Object[] attArr = umlAttributes.toArray();
+        anAttribute=(UMLAttributeMetadata)attArr[0];
+        BeanPropertyComparator comparator = new BeanPropertyComparator(anAttribute.getClass());
+        comparator.setPrimary("name");
+        comparator.setOrder(comparator.ASCENDING);
+        Collections.sort((List)umlAttributes,comparator);
+        setSessionObject(request,UMLBrowserFormConstants.ATTRIBUTE_SEARCH_RESULT_COMPARATOR,comparator);
+        }
+
+        setSessionObject(request, UMLBrowserFormConstants.ATTRIBUTE_SEARCH_RESULTS_PAGINATION, pb,true);
+
+   }   
    private void setupSessionForClassResults(Collection umlClasses, HttpServletRequest request){
       setSessionObject(request,  UMLBrowserFormConstants.CLASS_SEARCH_RESULTS, umlClasses,true);
       setSessionObject(request,  UMLBrowserFormConstants.CLASS_VIEW, true, true);
