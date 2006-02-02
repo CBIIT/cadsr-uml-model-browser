@@ -40,7 +40,8 @@ public class UMLBrowserParams
     String cadsrURL="";
     String cdebrowserURL="";
     int itemPerPage=40;
-
+    String cdebrowserToolURL="";
+    
     Map evsUrlMap = new HashMap();
 
     static UMLBrowserParams instance;
@@ -299,7 +300,9 @@ public class UMLBrowserParams
             index++;
             cadsrURL = properties.getProperty("CADSR_URL");
             index++;
-            cdebrowserURL = properties.getProperty("CDEBROWSER_TOOL_URL");
+            cdebrowserURL = properties.getProperty("CDEBROWSER_URL");
+            index++;
+            cdebrowserToolURL = properties.getProperty("CDEBROWSER_TOOL_URL");
             index++;
             String itemPerPageStr =properties.getProperty("ITEM_PER_PAGE");
             
@@ -338,5 +341,15 @@ public class UMLBrowserParams
     public int getItemPerPage()
     {
         return itemPerPage;
+    }
+
+    public void setCdebrowserToolURL(String cdebrowserToolURL)
+    {
+        this.cdebrowserToolURL = cdebrowserToolURL;
+    }
+
+    public String getCdebrowserToolURL()
+    {
+        return cdebrowserToolURL;
     }
 }

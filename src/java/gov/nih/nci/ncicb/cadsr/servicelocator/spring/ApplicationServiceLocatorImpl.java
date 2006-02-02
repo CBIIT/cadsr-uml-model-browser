@@ -41,7 +41,7 @@ public class ApplicationServiceLocatorImpl implements ApplicationServiceLocator 
 
    public ApplicationService findCaCoreAPIService() throws ServiceLocatorException {
       if (cabioAppService == null)
-        cabioAppService = ApplicationService.getRemoteInstance("http://cbiodev104.nci.nih.gov:49080/cacore31/http/remoteService");
+        cabioAppService = ApplicationService.getRemoteInstance(getCaCoreAPIUrl());
       return cabioAppService;
    }
 
