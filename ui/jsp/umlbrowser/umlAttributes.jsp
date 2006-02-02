@@ -24,8 +24,6 @@
   }
 
 %>
-
-%>
 <HEAD>
 <TITLE>Welcome to UML Browser..</TITLE>
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
