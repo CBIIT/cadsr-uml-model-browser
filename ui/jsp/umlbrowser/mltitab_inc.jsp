@@ -12,7 +12,7 @@
 %>
 
 
-<TABLE width=100% Cellpadding=0 Cellspacing=0 border=0>
+<TABLE valign=top width=100% Cellpadding=0 Cellspacing=0 border=0>
   <tr>
     <td width=98%>&nbsp;</td>
     <td valign=bottom align=right>
@@ -41,12 +41,12 @@
 </tr>
 </table>
 
-</table>
+
 </td>
 </TR>
 </TABLE>
 
-<TABLE width=100% Cellpadding=0 Cellspacing=0 border=0>
+<TABLE valign=top width=100% Cellpadding=0 Cellspacing=0 border=0>
 <TR>
 <td align=left valign=top width="1%" bgcolor="#336699"><img src="<%=urlPrefix%>/i/top_left.gif" width=4 height="25"></td>
 <td align=left valign=top width="5%" bgcolor="#336699">&nbsp;</td>
