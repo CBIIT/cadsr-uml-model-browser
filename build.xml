@@ -19,7 +19,7 @@
   
    <!-- Make sure these are correct for your instance -->
    
-   <property name="jboss.home" value="D:\tools\other\jboss-4.0.2" /> 
+   <property name="jboss.home" value="C:\jboss-4.0.2" /> 
    <property name="jboss.start.script.name" value="run.bat" />
    <property name="jboss.start.debug.script.name" value="rundebug.bat" />
    <property name="jboss.stop.script.name" value="shutdown.bat" />
@@ -158,6 +158,31 @@
    </target>
   <!-- =========== END DEV CONFIG ======================= -->
   
+  <!-- =========== QA CONFIG ======================= -->
+    <target name="qa_config" depends="init">          
+     <copy todir="${classes.build.dir}/WEB-INF/classes">
+         <fileset dir="${config.qa}/properties">
+           <patternset>
+             <include name="*.properties"/>
+           </patternset>
+         </fileset>
+       </copy>
+         
+     <filter token="umlmodelbrowser.version" value="${umlmodelbrowser.version}"/>
+     <filter token="umlmodelbrowser.build" value="${umlmodelbrowser.build}" />
+     <copy todir="${classes.build.dir}/jsp/common" filtering="true">
+              <fileset dir="${jsp.dir}/common">
+                <patternset>
+                  <include name="common_bottom_border.jsp"/>
+                </patternset>
+              </fileset>
+     </copy> 
+     
+       <property name="debug.config.home" value="${config.qa}" /> 
+        
+   </target>
+  <!-- =========== END QA CONFIG ======================= -->
+
   <target name="debug_setting" depends="debug_copy,debug_remove">
  
   </target>
@@ -185,7 +210,7 @@
 
   <!-- =========== START WAR PROCESS ======================= -->
   
-   <target name="war_umlmodelbrowser" depends="compile,dev_config">  
+   <target name="war_umlmodelbrowser" depends="compile">  
 
      <copy todir="${classes.build.dir}/WEB-INF/classes">      
          <fileset dir="${java.src.dir}">
@@ -322,7 +347,7 @@
         <delete dir="${jboss.home}/server/default/work/jboss.web" failonerror="true" verbose="true" />
   </target>    
    
-   <target  name="deploy_dev" depends="clean,clean_jboss,debug_setting,ear_umlmodelbrowser"> 
+   <target  name="deploy_dev" depends="clean,clean_jboss,debug_setting,dev_config,ear_umlmodelbrowser"> 
      <copy todir="${jboss.home}/server/default/deploy">      
          <fileset dir="${build.dir}">
            <patternset>
@@ -337,7 +362,7 @@
    </target> 
    
   
-   <target  name="deploy_qa" depends="clean,clean_jboss,debug_setting,ear_umlmodelbrowser"> 
+   <target  name="deploy_qa" depends="clean,clean_jboss,debug_setting,qa_config,ear_umlmodelbrowser"> 
      <copy todir="${jboss.home}/server/default/deploy">      
          <fileset dir="${build.dir}">
            <patternset>
@@ -346,13 +371,6 @@
          </fileset> 
      </copy>  
      <filter token="user.password" value="${qa.user.password}"/>
-     <copy todir="${jboss.home}/server/default/deploy" overwrite="Yes" filtering="true">    
-         <fileset dir="${config.qa}/connections">
-           <patternset>
-             <include name="oracle-ds.xml"/>
-           </patternset>
-         </fileset>
-      </copy>       
    </target> 
    
       <target  name="deploy_qa_start" depends="deploy_qa,jboss_startdebug"> 
@@ -367,13 +385,6 @@
          </fileset> 
      </copy> 
      <filter token="user.password" value="${stage.user.password}"/>
-     <copy todir="${jboss.home}/server/default/deploy" overwrite="Yes" filtering="true">    
-         <fileset dir="${config.stage}/connections">
-           <patternset>
-             <include name="oracle-ds.xml"/>
-           </patternset>
-         </fileset>
-      </copy>       
    </target> 
    
       <target  name="deploy_stage_start" depends="deploy_stage,jboss_startdebug"> 
@@ -409,12 +420,12 @@
   <!-- =========== DEV DISTRIBUTION============== -->
   
   <!-- =========== DEV DISTRIBUTION============== -->
-   <target name="dist_dev" depends="clean_build_dir,debug_setting,ear_umlmodelbrowser,dist_ear_copy">      
+   <target name="dist_dev" depends="clean_build_dir,debug_setting,dev_config,ear_umlmodelbrowser,dist_ear_copy">      
    </target>      
   <!-- =========== END DEV DISTRIBUTION ======================= -->
   
   <!-- =========== QA DISTRIBUTION============== -->
-        <target name="dist_qa" depends="clean_build_dir,debug_setting,ear_umlmodelbrowser,dist_ear_copy">  
+        <target name="dist_qa" depends="clean_build_dir,debug_setting,qa_config,ear_umlmodelbrowser,dist_ear_copy">  
         </target>      
   <!-- =========== END TEST DISTRIBUTION ======================= -->
   
@@ -467,22 +478,20 @@
  
        Targets:
  
-       clean                  - Cleans the buid area.
-       ear_umlmodelbrowser     - Create ear file for umlmodelbrowser
-       war_umlmodelbrowser     - Create war file for umlmodelbrowser
+       clean                  -Cleans the build area.
 
 
        
-       dist_dev		      - Creates Developement Clean distribution.
-       dist_qa		      - Creates QA Clean distribution.
-       dist_stage	      - Creates Stage Clean distribution.
-       dist_prod	      - Creates Prod Clean distribution.
+       dist_dev		   -Creates Developement Clean distribution.
+       dist_qa		      -Creates QA Clean distribution.
+       dist_stage	      -Creates Stage Clean distribution.
+       dist_prod	      -Creates Prod Clean distribution.
        
 
-       deploy_dev_start       - Deploy to dev and Start JBOSS
-       deploy_qa_start	      - Deploy to QA and Start JBOSS
-       deploy_stage_start     - Deploy to Stage and Start JBOSS
-       deploy_prod_start      - Deploy to Prod and Start JBOSS
+       deploy_dev_start       -Deploy to dev and Start JBOSS
+       deploy_qa_start	      -Deploy to QA and Start JBOSS
+       deploy_stage_start     -Deploy to Stage and Start JBOSS
+       deploy_prod_start      -Deploy to Prod and Start JBOSS
        
 
        jboss_startdebug       - Start JBOSS in debug mod
@@ -491,8 +500,6 @@
        Settings:
            Project Home:    ${project.home}
  
-       Properties files has been moved to a database tabel. If you would like to use
-       a local properties file user 
        ===================================================================
  
      </echo>
