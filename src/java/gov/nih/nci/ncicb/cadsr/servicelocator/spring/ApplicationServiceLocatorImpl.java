@@ -7,7 +7,6 @@ import gov.nih.nci.ncicb.cadsr.servicelocator.ServiceLocatorException;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.service.UMLBrowserTreeService;
 import gov.nih.nci.ncicb.cadsr.util.UMLBrowserParams;
 import gov.nih.nci.system.applicationservice.ApplicationService;
-import gov.nih.nci.system.applicationservice.ApplicationServiceProvider;
 
 
 public class ApplicationServiceLocatorImpl implements ApplicationServiceLocator {
@@ -18,10 +17,6 @@ public class ApplicationServiceLocatorImpl implements ApplicationServiceLocator 
 
    private ApplicationService cabioAppService = null;
    
-   private String caCoreAPIUrl = null;
-
-
-
    public ApplicationServiceLocatorImpl() {
    }
 
@@ -41,7 +36,7 @@ public class ApplicationServiceLocatorImpl implements ApplicationServiceLocator 
 
    public ApplicationService findCaCoreAPIService() throws ServiceLocatorException {
       if (cabioAppService == null)
-        cabioAppService = ApplicationService.getRemoteInstance(getCaCoreAPIUrl());
+        cabioAppService = ApplicationService.getRemoteInstance(UMLBrowserParams.getInstance().getCadsrURL());
       return cabioAppService;
    }
 
@@ -59,30 +54,4 @@ public class ApplicationServiceLocatorImpl implements ApplicationServiceLocator 
       return queryService;
    }
 
-    /**
-   public UmlDomainModelQueryService findServiceLayerQueryService() throws ServiceLocatorException {
-      if (serviceLayerQueryService == null) {
-         try {
-            Object obj =
-               new SpringObjectLocatorImpl().findObject("umlServiceLayerQueryService");
-            serviceLayerQueryService = (UmlDomainModelQueryService)(obj);
-         } catch (Exception e) {
-            throw new ServiceLocatorException("Exp while locating query serice",
-                                              e);
-         }
-      }
-      return serviceLayerQueryService;
-
-   }
-**/
-
-    public void setCaCoreAPIUrl(String caCoreAPIUrl)
-    {
-        this.caCoreAPIUrl = caCoreAPIUrl;
-    }
-
-    public String getCaCoreAPIUrl()
-    {
-        return caCoreAPIUrl;
-    }
 }
