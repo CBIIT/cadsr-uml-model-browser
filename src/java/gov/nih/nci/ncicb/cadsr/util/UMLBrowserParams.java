@@ -21,12 +21,6 @@ public class UMLBrowserParams
     private static ApplicationServiceLocator appServiceLocator= new ApplicationServiceLocatorImpl();
     //String sbrextDSN = "";
     //String sbrDSN = "";
-    String xmlDownloadDir = "";
-    String xmlPaginationFlag = "no";
-    String xmlFileMaxRecord;
-    String treeURL = "";
-    String evsSources = "";
-    String showFormsAlphebetical ="no";
     String excludeTestContext = "no";
     String excludeTrainingContext="no";
     String excludeWorkFlowStatuses = "";
@@ -54,9 +48,6 @@ public class UMLBrowserParams
    private UMLBrowserParams()
    {
    }
-
-
-
 
 
     public static UMLBrowserParams getInstance(){
@@ -97,65 +88,6 @@ public class UMLBrowserParams
       }
       return instance;
     }
-
-    public String getTreeURL() {
-      return treeURL;
-    }
-    public String getXMLPaginationFlag(){
-      return xmlPaginationFlag;
-    }
-    public String getXMLFileMaxRecords() {
-      return xmlFileMaxRecord;
-    }
-
-  public void setEvsUrlMap(Map evsUrlMap)
-  {
-   this.evsUrlMap = evsUrlMap;
-  }
-
-  public void setEvsUrlMap(Properties bundle,String evsSourcesArr)
-  {
-        try
-        {
-            String[] urls = StringUtils.tokenizeCSVList(evsSourcesArr);
-            for(int i=0; i<urls.length;i++)
-            {
-              String key  = urls[i];
-              String value = bundle.getProperty(key);
-              if(evsUrlMap==null)
-                evsUrlMap = new HashMap();
-              evsUrlMap.put(key,value);
-            }
-        }
-        catch (java.util.MissingResourceException mre)
-        {
-            log.error("Error getting init parameters, missing resource values");
-            log.error("EVS Url not mapped correctly");
-            log.error(mre.getMessage(), mre);
-            System.exit(-1);
-        }
-        catch (Exception e)
-        {
-            log.error("Exception occurred", e);
-            System.exit(-1);
-        }
-  }
-  public Map getEvsUrlMap()
-  {
-    return evsUrlMap;
-  }
-
-  public void setShowFormsAlphebetical(String showFormsAlphebetical)
-  {
-    this.showFormsAlphebetical = showFormsAlphebetical;
-  }
-
-
-  public String getShowFormsAlphebetical()
-  {
-    return showFormsAlphebetical;
-  }
-
 
   public void setExcludeTestContext(String excludeTestContext)
   {
@@ -266,19 +198,6 @@ public class UMLBrowserParams
         try
         {
 
-            xmlDownloadDir = properties.getProperty("XML_DOWNLOAD_DIR");
-            index++;
-            xmlPaginationFlag = properties.getProperty("XML_PAGINATION_FLAG");
-            index++;
-            xmlFileMaxRecord = properties.getProperty("XML_FILE_MAX_RECORDS");
-            index++;
-            treeURL = properties.getProperty("TREE_URL");
-            index++;
-            evsSources = properties.getProperty("EVS_URL_SOURCES");
-            index++;
-            setEvsUrlMap(properties,evsSources);
-            showFormsAlphebetical = properties.getProperty("SHOW_FORMS_ALPHEBETICAL");
-            index++;
             excludeTestContext = properties.getProperty("EXCLUDE_TEST_CONTEXT_BY_DEFAULT");
             index++;
             excludeTrainingContext = properties.getProperty("EXCLUDE_TRAINING_CONTEXT_BY_DEFAULT");
