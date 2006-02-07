@@ -14,6 +14,7 @@ if(confirm(message)) location.href = url;
        <jsp:include page="mltitab_inc.jsp" flush="true">
          <jsp:param name="label" value="Classes"/>
        </jsp:include>
+    <A NAME="results"></A>
    
          <table width="100%" align="center" cellpadding="1" cellspacing="1" border="0">
                <tr>

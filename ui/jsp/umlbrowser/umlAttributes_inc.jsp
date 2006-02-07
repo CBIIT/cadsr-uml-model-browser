@@ -9,7 +9,8 @@
        </jsp:include>
        
    <logic:notEmpty name="<%=UMLBrowserFormConstants.CLASS_ATTRIBUTES%>">
-   
+     <A NAME="results"></A>
+ 
  <table width="100%" align="center" cellpadding="1" cellspacing="1" border="0">
        <tr>
          <td align="left" class="OraTableColumnHeaderNoBG" width="10%" nowrap>Sort order :</td>
