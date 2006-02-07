@@ -198,7 +198,7 @@
             <th class="OraTableColumnHeader" nowrap>DEC Public ID</th>
           </tr>
       <tr class="OraTabledata" >
-         	<td colspan="8" ><bean:message key="cadsr.umlbrowser.empty.search.results"/></td>
+         	<td colspan="8" ><bean:message key="cadsr.umlbrowser.empty.attributes.search.results"/></td>
   	  </tr>
   	</table>        
                  
