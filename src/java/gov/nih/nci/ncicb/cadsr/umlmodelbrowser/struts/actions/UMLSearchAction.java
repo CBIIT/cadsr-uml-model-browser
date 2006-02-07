@@ -149,6 +149,8 @@ public class UMLSearchAction extends BaseDispatchAction
      DynaActionForm dynaForm = (DynaActionForm) form;
      Collection<UMLAttributeMetadata> umlAttributes= umlClass.getUMLAttributeMetadataCollection();
      this.setupSessionForAttributeResults(umlAttributes, request);
+     dynaForm.set("className", umlClass.getName());
+      
 
      return mapping.findForward("showAttributes");
    }
