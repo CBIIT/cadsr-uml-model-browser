@@ -291,6 +291,8 @@ public class UMLSearchAction extends BaseDispatchAction
    
    private UMLClassMetadata populateClassFromForm(DynaActionForm dynaForm) {
       UMLClassMetadata umlClass = null;
+      Project project = null;
+      
       String className = ((String) dynaForm.get("className")).trim();
       if (className != null && className.length() >0) {
          umlClass = new UMLClassMetadata();
@@ -301,11 +303,22 @@ public class UMLSearchAction extends BaseDispatchAction
          if (umlClass == null) 
             umlClass = new UMLClassMetadata();
             
-         Project project = new Project();
+         project = new Project();
          project.setId(projectId);
          umlClass.setProject(project);
        }
-       UMLPackageMetadata packageMetadata = null;
+      String projectVersion = ((String) dynaForm.get(UMLBrowserFormConstants.PROJECT_VERSION)).trim();
+      if (projectVersion != null && projectVersion.length() >0) {
+        if (umlClass == null) 
+           umlClass = new UMLClassMetadata();
+        if (project == null) {
+            project = new Project();
+            umlClass.setProject(project);
+        }
+        project.setVersion(projectVersion);
+      }
+      
+      UMLPackageMetadata packageMetadata = null;
        
        String subprojectId = ((String) dynaForm.get(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ)).trim();
        if (projectId != null && subprojectId.length() >0) {

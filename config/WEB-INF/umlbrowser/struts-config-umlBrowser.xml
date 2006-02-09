@@ -7,6 +7,7 @@
       dynamic="true">
       <form-property name="resetCrumbs" type="java.lang.String"/>    
       <form-property name="projectName" type="java.lang.String"/>
+      <form-property name="projectVersion" type="java.lang.String"/>
       <form-property name="projectIdseq" type="java.lang.String"/>
       <form-property name="subProjectName" type="java.lang.String"/>
       <form-property name="subProjectIdseq" type="java.lang.String"/>
