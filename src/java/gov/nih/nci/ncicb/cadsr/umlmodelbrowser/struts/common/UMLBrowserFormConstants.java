@@ -9,6 +9,7 @@ public interface UMLBrowserFormConstants
    public static final String PACKAGE_NAME ="packageName";
    public static final String PACKAGE_IDSEQ ="packageIdseq";
    public static final String CLASS_NAME ="className";
+   public static final String PROJECT_VERSION ="projectVersion";
    public static final String ATTRIBUT_NAME ="attributeName";
    public static final String CLASS_SEARCH_RESULTS = "classSearchResults";
    public static final String CLASS_ATTRIBUTES = "classAttributes";

@@ -124,8 +124,8 @@ function resetSubProjPackage() {
       <td width="50%"  valign="top" >
           <table width="100%" cellpadding="0" cellspacing="1" class="OraBGAccentVeryDark" border="0" %>
             <tr>            
-                <td width="30%" class="OraTableColumnHeaderNoBG" nowrap>UML Project Name</td>
-                <td class="OraTabledata" nowrap>
+                <td width="10%" class="OraTableColumnHeaderNoBG" nowrap>UML Project Name</td>
+                <td class="OraTabledata"  nowrap width="40%">
                 <html:select styleClass = "FreeDropdown" property="<%=UMLBrowserFormConstants.PROJECT_IDSEQ%>"
                 onchange="submitForm('resetSubProjPkgOptions')">
                    <html:option key="cadsr.umlbrowser.form.blank" value="<%=UMLBrowserFormConstants.SEARCH_ALL%>" /> 
@@ -133,10 +133,14 @@ function resetSubProjPackage() {
                      property="id" labelProperty="shortName" />
                  </html:select>
                 </td>
+                <td width="10%" class="OraTableColumnHeaderNoBG"  nowrap>Version</td>
+                <td class="OraTabledata" nowrap width="40%">
+                <html:text property="<%=UMLBrowserFormConstants.PROJECT_VERSION%>" size="10" />
+                </td>
              </tr>
             <tr>            
-              <td width="30%" class="OraTableColumnHeaderNoBG" nowrap>Sub Project Name</td>
-              <td width="70%" class="OraTabledata" nowrap>
+              <td width="10%" class="OraTableColumnHeaderNoBG" nowrap>Sub Project Name</td>
+              <td width="70%" class="OraTabledata" nowrap colspan="3">
                 <html:select styleClass = "FreeDropdown" property="<%=UMLBrowserFormConstants.SUB_PROJECT_IDSEQ%>" 
                 onchange="submitForm('resetPkgOptions')">
                    <html:option key="cadsr.umlbrowser.form.blank" value="<%=UMLBrowserFormConstants.SEARCH_ALL%>" /> 
@@ -147,8 +151,8 @@ function resetSubProjPackage() {
                 </td>
              </tr>  
             <tr>            
-              <td width="30%" class="OraTableColumnHeaderNoBG" nowrap>Package Name</td>
-             <td width="70%" class="OraTabledata" nowrap>
+              <td width="10%" class="OraTableColumnHeaderNoBG" nowrap>Package Name</td>
+             <td width="70%" class="OraTabledata" nowrap colspan="3">
                 <html:select styleClass = "FreeDropdown" property="<%=UMLBrowserFormConstants.PACKAGE_IDSEQ%>">
                    <html:option key="cadsr.umlbrowser.form.blank" value="<%=UMLBrowserFormConstants.SEARCH_ALL%>" /> 
                    <html:options collection="<%=UMLBrowserFormConstants.PACKAGE_OPTIONS%>" 
