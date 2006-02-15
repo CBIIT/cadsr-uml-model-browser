@@ -48,7 +48,7 @@ if(confirm(message)) location.href = url;
                 
         <table width="100%" align="center" cellpadding="1" cellspacing="1" border="0" class="OraBGAccentVeryDark">
           <tr class="OraTableColumnHeader">
-          	<th class="OraTableColumnHeader" nowrap>
+          	<th class="OraTableColumnHeader">
 		        <cde:sortableColumnHeader
             sortableColumnHeaderBeanId="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR%>" 
 		       	actionUrl='<%="/umlbrowser/umlSortSearchAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"=sortResult"%>' 
@@ -59,7 +59,7 @@ if(confirm(message)) location.href = url;
 		   	   	target="_self"
             />   
             </th>             
-            <th class="OraTableColumnHeader" nowrap>
+            <th class="OraTableColumnHeader">
 		        <cde:sortableColumnHeader
             sortableColumnHeaderBeanId="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR%>" 
 		       	actionUrl='<%="/umlbrowser/umlSortSearchAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"=sortResult"%>' 
@@ -70,7 +70,7 @@ if(confirm(message)) location.href = url;
 		   	   	target="_self"
             />   
             </th>             
-            <th class="OraTableColumnHeader" nowrap>
+            <th class="OraTableColumnHeader">
 		        <cde:sortableColumnHeader
             sortableColumnHeaderBeanId="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR%>" 
 		       	actionUrl='<%="/umlbrowser/umlSortSearchAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"=sortResult"%>' 
@@ -80,8 +80,20 @@ if(confirm(message)) location.href = url;
 		   	   	sortFieldValue = "project.version"
 		   	   	target="_self"
             />   
+            </th>  
+            <th class="OraTableColumnHeader">
+		        <cde:sortableColumnHeader
+            sortableColumnHeaderBeanId="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR%>" 
+		       	actionUrl='<%="/umlbrowser/umlSortSearchAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"=sortResult"%>' 
+		   	   	columnHeader="Project Workflow Stauts" 
+                                orderParamId="sortOrder" 
+		   	   	sortFieldId="sortField"
+		   	   	sortFieldValue = "classificationScheme.workflowStatusName"
+		   	   	target="_self"
+            />   
             </th>             
-            <th class="OraTableColumnHeader" nowrap>
+
+            <th class="OraTableColumnHeader">
 		        <cde:sortableColumnHeader
             sortableColumnHeaderBeanId="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR%>" 
 		       	actionUrl='<%="/umlbrowser/umlSortSearchAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"=sortResult"%>' 
@@ -92,7 +104,7 @@ if(confirm(message)) location.href = url;
 		   	   	target="_self"
             />   
             </th>             
-            <th class="OraTableColumnHeader" nowrap>
+            <th class="OraTableColumnHeader">
 		        <cde:sortableColumnHeader
             sortableColumnHeaderBeanId="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR%>" 
 		       	actionUrl='<%="/umlbrowser/umlSortSearchAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"=sortResult"%>' 
@@ -104,7 +116,7 @@ if(confirm(message)) location.href = url;
             />   
             </th>    
             <!--
-            <th class="OraTableColumnHeader" nowrap>
+            <th class="OraTableColumnHeader">
 		        <cde:sortableColumnHeader
             sortableColumnHeaderBeanId="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR%>" 
 		       	actionUrl='<%="/umlbrowser/umlSortSearchAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"=sortResult"%>' 
@@ -115,7 +127,7 @@ if(confirm(message)) location.href = url;
 		   	   	target="_self"
             />  
             </th>      -->        
-            <th class="OraTableColumnHeader" nowrap>
+            <th class="OraTableColumnHeader">
 		        <cde:sortableColumnHeader
             sortableColumnHeaderBeanId="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR%>" 
 		       	actionUrl='<%="/umlbrowser/umlSortSearchAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"=sortResult"%>' 
@@ -126,7 +138,7 @@ if(confirm(message)) location.href = url;
 		   	   	target="_self"
             />   
             </th>             
-            <th class="OraTableColumnHeader" nowrap>
+            <th class="OraTableColumnHeader">
 		        <cde:sortableColumnHeader
             sortableColumnHeaderBeanId="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR%>" 
 		       	actionUrl='<%="/umlbrowser/umlSortSearchAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"=sortResult"%>' 
@@ -153,6 +165,9 @@ if(confirm(message)) location.href = url;
           	</td>             
           	<td class="OraFieldText">
        		<bean:write name="umlClass" property="project.version"/><br>
+          	</td>             
+          	<td class="OraFieldText">
+       		<bean:write name="umlClass" property="project.classificationScheme.workflowStatusName"/><br>
           	</td>             
           	<td class="OraFieldText">
           	 <logic:present name="umlClass" property="UMLPackageMetadata.subProject">
