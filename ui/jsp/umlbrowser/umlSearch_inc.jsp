@@ -129,9 +129,19 @@ function resetSubProjPackage() {
                 <html:select styleClass = "FreeDropdown" property="<%=UMLBrowserFormConstants.PROJECT_IDSEQ%>"
                 onchange="submitForm('resetSubProjPkgOptions')">
                    <html:option key="cadsr.umlbrowser.form.blank" value="<%=UMLBrowserFormConstants.SEARCH_ALL%>" /> 
-                   <html:options collection="<%=UMLBrowserFormConstants.ALL_PROJECTS%>" 
-                     property="id" labelProperty="shortName" />
-                 </html:select>
+
+          <logic:iterate id="umlProj" name="<%=UMLBrowserFormConstants.ALL_PROJECTS%>" 
+          	type="gov.nih.nci.cadsr.umlproject.domain.Project">
+            <option value="<%=umlProj.getId()%>" 
+            <% 
+             org.apache.struts.action.DynaActionForm dynaForm = (org.apache.struts.action.DynaActionForm) request.getAttribute("umlSearchForm");
+
+            if (umlProj.getId().equals(dynaForm.get(UMLBrowserFormConstants.PROJECT_IDSEQ))) { %>
+            selected="selected" <% } %>  > 
+            <%=umlProj.getShortName()+" (v"+umlProj.getVersion() +", " +umlProj.getClassificationScheme().getContext().getName() +")"%></option>
+	    </logic:iterate> 
+          </html:select>
+
                 </td>
                 <td width="10%" class="OraTableColumnHeaderNoBG"  nowrap>Version</td>
                 <td class="OraTabledata" nowrap width="40%">
