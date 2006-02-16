@@ -125,7 +125,7 @@ function resetSubProjPackage() {
           <table width="100%" cellpadding="0" cellspacing="1" class="OraBGAccentVeryDark" border="0" %>
             <tr>            
                 <td width="10%" class="OraTableColumnHeaderNoBG" nowrap>UML Project Name</td>
-                <td class="OraTabledata"  nowrap width="40%">
+                <td class="OraTabledata"  nowrap width="50%">
                 <html:select styleClass = "FreeDropdown" property="<%=UMLBrowserFormConstants.PROJECT_IDSEQ%>"
                 onchange="submitForm('resetSubProjPkgOptions')">
                    <html:option key="cadsr.umlbrowser.form.blank" value="<%=UMLBrowserFormConstants.SEARCH_ALL%>" /> 
@@ -143,8 +143,8 @@ function resetSubProjPackage() {
           </html:select>
 
                 </td>
-                <td width="10%" class="OraTableColumnHeaderNoBG"  nowrap>Version</td>
-                <td class="OraTabledata" nowrap width="40%">
+                <td width="20%" class="OraTableColumnHeaderNoBG"  nowrap>Version</td>
+                <td class="OraTabledata" nowrap width="20%">
                 <html:text property="<%=UMLBrowserFormConstants.PROJECT_VERSION%>" size="10" />
                 </td>
              </tr>
