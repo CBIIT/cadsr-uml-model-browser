@@ -24,8 +24,8 @@
    <property name="jboss.start.debug.script.name" value="rundebug.bat" />
    <property name="jboss.stop.script.name" value="shutdown.bat" />
    
-   <property name="umlmodelbrowser.version" value="3.1" />
-   <property name="umlmodelbrowser.build" value="1" />
+   <property name="umlmodelbrowser.version" value="1.0" />
+   <property name="umlmodelbrowser.build" value="5" />
    
    <!-- used for open source build for file suffix-->
    <property name="umlmodelbrowser.version.suffix" value="3_0_1_1" />
@@ -183,6 +183,30 @@
    </target>
   <!-- =========== END QA CONFIG ======================= -->
 
+  <!-- =========== STAGE CONFIG ======================= -->
+    <target name="stage_config" depends="init">          
+     <copy todir="${classes.build.dir}/WEB-INF/classes">
+         <fileset dir="${config.stage}/properties">
+           <patternset>
+             <include name="*.properties"/>
+           </patternset>
+         </fileset>
+       </copy>
+         
+     <filter token="umlmodelbrowser.version" value="${umlmodelbrowser.version}"/>
+     <filter token="umlmodelbrowser.build" value="${umlmodelbrowser.build}" />
+     <copy todir="${classes.build.dir}/jsp/common" filtering="true">
+              <fileset dir="${jsp.dir}/common">
+                <patternset>
+                  <include name="common_bottom_border.jsp"/>
+                </patternset>
+              </fileset>
+     </copy> 
+     
+       <property name="debug.config.home" value="${config.stage}" /> 
+        
+   </target>
+  <!-- =========== END STAGE CONFIG ======================= -->
   <target name="debug_setting" depends="debug_copy,debug_remove">
  
   </target>
@@ -376,7 +400,7 @@
       <target  name="deploy_qa_start" depends="deploy_qa,jboss_startdebug"> 
       </target>
 
-   <target  name="deploy_stage" depends="clean,clean_jboss,debug_setting,ear_umlmodelbrowser"> 
+   <target  name="deploy_stage" depends="clean,clean_jboss,debug_setting,stage_config,ear_umlmodelbrowser"> 
      <copy todir="${jboss.home}/server/default/deploy">      
          <fileset dir="${build.dir}">
            <patternset>
@@ -430,7 +454,7 @@
   <!-- =========== END TEST DISTRIBUTION ======================= -->
   
   <!-- =========== STAGE DISTRIBUTION============== -->
-       <target name="dist_stage" depends="clean_build_dir,debug_setting,ear_umlmodelbrowser,dist_ear_copy">  
+       <target name="dist_stage" depends="clean_build_dir,debug_setting,stage_config,ear_umlmodelbrowser,dist_ear_copy">  
         </target>      
   <!-- =========== END STAGE DISTRIBUTION ======================= -->
   
