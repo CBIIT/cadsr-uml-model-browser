@@ -1,0 +1,64 @@
+=============================================================================
+CD Browser @cdebrowser.version@ Installation Document for JBOSS
+=============================================================================
+
+Pre-requisites
+---------------
+1.  JBOSS 4.0.2 installed. Available from http://www.jboss.org
+2.  JDK 1.5  installed
+3.  Ant 1.6.2 or above installed. Available from http://ant.apache.org/
+4.  caDSR @umlmodelbrowser.version@ repository installed. Please refer to caDSR installation document
+
+Installation
+------------
+
+
+Please replace the following references with your environment specific information.
+
+<JBOSS_HOME> refers to Jboss home directory.
+<HOME> refers to directory to which "umlmodelbrowser_@umlmodelbrowser.version.suffix@.zip" is unzipped.
+<INSTALL_HOME> refers to directory  <HOME>/umlmodelbrowser_@umlmodelbrowser.version.suffix@
+       
+
+Installation steps
+==================
+
+Building the Application  
+------------------------
+An ear file need to be build before the application can be installed, follow
+the steps below to build an ear file. An ear file is not provided with the
+download because the caCore connection information and environment properties 
+could be different for each deployment.
+
+  1. Update  umlbrowser.properties located in directory  <INSTALL_HOME>\config\properties
+            - Pointing to new a caCore server
+               If there is a need for the application to point to a caCore server other than the one hosted by 
+               NCI please update. 
+                 -  CADSR_URL to point to the caCore server
+                 -  CDEBROWSER_URL to point to the CDE Browser home page that access the same caDSR repository
+                 
+               - Update links to other tools
+               If there is a need for other tools other than the one hosted by 
+               NCI please update . 
+		ADMIN_TOOL_URL - URL for the Admin tool
+		CURATION_TOOL_URL - URL for the Curation tool
+		SENTINEL_TOOL_URL - URL of the Sentinel tool
+		CDEBROWSER_TOOL_URL - URL of CDE Browser
+		
+  3. Run the build script (build.xml) from  directory src/java with target "dist"
+	eg. ant -f  build.xml  dist
+	
+  4. umlmodelbrowser.ear will be created under directory <INSTALL_HOME>/dist
+
+Deploying Application
+------------------------------
+1. Shutdown Jboss instance.
+
+2. Copy umlmodelbrowser.ear from <INSTALL_HOME>/dist to 
+	<JBOSS_HOME>\server\default\deploy
+	
+3. Startup the Jboss instance
+    
+4. Access the application using url http://<HOST>:<POST>/umlmodelbrowser/
+    eg.
+    	http://localhost:8080/umlmodelbrowser/
