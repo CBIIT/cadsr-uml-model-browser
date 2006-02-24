@@ -24,8 +24,8 @@
    <property name="jboss.start.debug.script.name" value="rundebug.bat" />
    <property name="jboss.stop.script.name" value="shutdown.bat" />
    
-   <property name="umlmodelbrowser.version" value="1.0" />
-   <property name="umlmodelbrowser.build" value="6" />
+   <property name="umlmodelbrowser.version" value="3.1" />
+   <property name="umlmodelbrowser.build" value="7" />
    
    <!-- used for open source build for file suffix-->
    <property name="umlmodelbrowser.version.suffix" value="3_0_1_1" />
