@@ -31,3 +31,20 @@ function classDetailsAction(urlParams){
     frm.document.body.style.cursor = "wait";
     frm.document.location = "/umlbrowser/umlSearchAction.do?method=attributeSearch&"+urlParams;
 }
+
+
+function newBrowserWin(url,windowName,nwidth,nheight)
+{
+  if (nwidth == null) {
+    nwidth = 440;
+  }
+
+  if (nheight == null) {
+    nheight = 300;
+  }
+
+  screenx = (screen.availWidth - nwidth) / 2;
+  screeny =  (screen.availHeight - nheight) / 2;
+  var hWnd = window.open(url,windowName,"toolbar=yes,width="+nwidth+",height="+nheight+",screenx="+screenx+",screeny="+screeny+",resizable=yes,scrollbars=yes,menubar=yes,directories=yes, location=yes");
+  hWnd.focus();
+}
