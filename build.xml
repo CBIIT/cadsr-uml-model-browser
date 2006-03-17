@@ -207,6 +207,32 @@
         
    </target>
   <!-- =========== END STAGE CONFIG ======================= -->
+  
+  
+  <!-- =========== PRODUCTION CONFIG ======================= -->
+    <target name="prod_config" depends="init">          
+     <copy todir="${classes.build.dir}/WEB-INF/classes">
+         <fileset dir="${config.prod}/properties">
+           <patternset>
+             <include name="*.properties"/>
+           </patternset>
+         </fileset>
+       </copy>
+         
+     <filter token="umlmodelbrowser.version" value="${umlmodelbrowser.version}"/>
+     <filter token="umlmodelbrowser.build" value="${umlmodelbrowser.build}" />
+     <copy todir="${classes.build.dir}/jsp/common" filtering="true">
+              <fileset dir="${jsp.dir}/common">
+                <patternset>
+                  <include name="common_bottom_border.jsp"/>
+                </patternset>
+              </fileset>
+     </copy> 
+     
+       <property name="debug.config.home" value="${config.prod}" /> 
+        
+   </target>
+  <!-- =========== END STAGE CONFIG ======================= -->
   <target name="debug_setting" depends="debug_copy,debug_remove">
  
   </target>
@@ -414,7 +440,7 @@
       <target  name="deploy_stage_start" depends="deploy_stage,jboss_startdebug"> 
    </target>
    
-   <target  name="deploy_prod" depends="clean,clean_jboss,debug_setting,ear_umlmodelbrowser"> 
+   <target  name="deploy_prod" depends="clean,clean_jboss,debug_setting,prod_config, ear_umlmodelbrowser"> 
      <copy todir="${jboss.home}/server/default/deploy">      
          <fileset dir="${build.dir}">
            <patternset>
@@ -459,7 +485,7 @@
   <!-- =========== END STAGE DISTRIBUTION ======================= -->
   
   <!-- =========== PROD DISTRIBUTION============== -->
-        <target name="dist_prod" depends="clean_build_dir,debug_setting,ear_umlmodelbrowser,dist_ear_copy">  
+        <target name="dist_prod" depends="clean_build_dir,debug_setting,prod_config,ear_umlmodelbrowser,dist_ear_copy">  
         </target>      
   <!-- =========== END PROD DISTRIBUTION ======================= -->
   
@@ -468,30 +494,6 @@
   <!-- =========== END PROD DISTRIBUTION ======================= -->
 
 
-  
-
-  
-  <!-- ===========cadsr api ========================== -->
-
- <target name="cadsrapi_build">
-   <ant antfile="${cadsrapi.location.build}/${cadsrapi.buildfile.name}"
-       inheritAll= "false" target="clean"/>
-   <ant antfile="${cadsrapi.location.build}/${cadsrapi.buildfile.name}"
-       inheritAll= "false" target="dist_ext"/>
- </target> 
- 
- <target name="cadsrapi_update" depends="cadsrapi_build" >
-   <copy todir="${java.lib.dir}">      
-        <fileset dir="${cadsrapi.home}/${cadsrapi.dist.dir}">
-           <patternset>
-             <include name="${cadsrapi.lib.name}"/>
-           </patternset>
-         </fileset>    
-    </copy>  
- </target>  
- 
- <!-- ===========cadsr api end ========================== -->
- 
  <!-- =========== BUILD HELPERS ======================= -->
    <target name="help" depends="init">
      <echo>
