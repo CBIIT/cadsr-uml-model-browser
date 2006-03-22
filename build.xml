@@ -4,7 +4,7 @@
   =============================================
 
   Author: Shaji Kakkodi
-  @version $Id:
+  @version $Id: build.xml,v 1.18 2006-03-22 19:23:52 jiangj Exp $
 
   This build script was created using Ant version 1.6 and Java 1.5
 -->
