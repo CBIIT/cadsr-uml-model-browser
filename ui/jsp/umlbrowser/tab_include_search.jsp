@@ -6,7 +6,9 @@
   UMLBrowserParams params = UMLBrowserParams.getInstance();
 %>
 
-<SCRIPT LANGUAGE="JavaScript1.1" SRC='<html:rewrite page="/jsLib/JavaScript.js"/>'></SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript1.1" SRC='<html:rewrite page="/jsLib/helpWinJS.js"/>'></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.1" SRC='<html:rewrite page="/jsLib/newWinJS.js"/>'></SCRIPT>
 
 <TABLE valign="top" width=100% Cellpadding=0 Cellspacing=0 border=0>
   <tr>
@@ -20,7 +22,7 @@
       <TABLE Cellpadding=0 Cellspacing=0 border=0 >
         <TR>
           <TD valign="TOP" align="CENTER" width="1%" colspan=1><html:link page="/" target="_top"><html:img page="/i/icon_home.gif" alt="Home" border="0"  width="32" height="32"/></html:link><br><font color=brown face=verdana size=1>&nbsp;Home&nbsp;</font></TD>
-          <TD valign="TOP" align="CENTER" width="1%" colspan=1><A HREF="javascript:newBrowserWin('<%=request.getContextPath()%>/common/help/UMLModelBrowserHelp.html','helpWin',700,600)"><html:img page="/i/icon_help.gif" alt="Task Help" border="0"  width="32" height="32" /></A><br><font color=brown face=verdana size=1>&nbsp;Help&nbsp;</font></TD>
+          <TD valign="TOP" align="CENTER" width="1%" colspan=1><A HREF="javascript:newBrowserWin('<%=request.getContextPath()%>/common/help/cdeBrowserHelp.html','helpWin',700,600)"><html:img page="/i/icon_help.gif" alt="Task Help" border="0"  width="32" height="32" /></A><br><font color=brown face=verdana size=1>&nbsp;Help&nbsp;</font></TD>
         </TR>
       </TABLE>
     </td>
