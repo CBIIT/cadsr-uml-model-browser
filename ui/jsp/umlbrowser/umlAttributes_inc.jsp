@@ -190,8 +190,8 @@
           		<bean:write name="umlAttribute" property="project.longName"/><br>
           	</td>   
           	<td class="OraFieldText">
-          	 <logic:present name="umlAttribute" property="UMLPackageMetadata.subProject">
-          		<bean:write name="umlAttribute" property="UMLPackageMetadata.subProject.name" ignore="true"/><br>
+          	 <logic:present name="umlAttribute" property="UMLClassMetadata.UMLPackageMetadata.subProject">
+          		<bean:write name="umlAttribute" property="UMLClassMetadata.UMLPackageMetadata.subProject.name" ignore="true"/><br>
           	</logic:present>
           		<br>
           	</td>               
