@@ -1,0 +1,206 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE faces-config PUBLIC
+  "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
+  "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
+
+<!-- =========== FULL CONFIGURATION FILE ================================== -->
+
+<!-- simple web app -->
+
+<faces-config>
+
+
+
+    <!-- Managed Beans for tree2.jsp -->
+    <managed-bean>
+        <managed-bean-name>treeBacker</managed-bean-name>
+        <managed-bean-class>gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.TreeBacker</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+
+
+
+    <!-- NAVIGATION RULES -->
+	
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>go_home</from-outcome>
+            <to-view-id>/home.jsp</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+
+    <navigation-rule>
+        <description>
+            Navigation rules for navigation component.
+        </description>
+        <from-view-id>*</from-view-id>
+
+        <navigation-case>
+            <from-outcome>go_sample1</from-outcome>
+            <to-view-id>/sample1.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_sample2</from-outcome>
+            <to-view-id>/sample2.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_aliasBean</from-outcome>
+            <to-view-id>/aliasBean.jsp</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>go_buffer</from-outcome>
+            <to-view-id>/buffer.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_dataTable</from-outcome>
+            <to-view-id>/dataTable.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_sortTable</from-outcome>
+            <to-view-id>/sortTable.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_selectbox</from-outcome>
+            <to-view-id>/selectbox.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_fileupload</from-outcome>
+            <to-view-id>/fileupload.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_tabbedPane</from-outcome>
+            <to-view-id>/tabbedPane.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_calendar</from-outcome>
+            <to-view-id>/calendar.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_popup</from-outcome>
+            <to-view-id>/popup.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_jslistener</from-outcome>
+            <to-view-id>/jslistener.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_date</from-outcome>
+            <to-view-id>/date.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_dataList</from-outcome>
+            <to-view-id>/dataList.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_tree</from-outcome>
+            <to-view-id>/tree.jsp</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>go_tree2</from-outcome>
+            <to-view-id>/tree2.jsp</to-view-id>
+        </navigation-case>        
+        
+        <navigation-case>
+            <from-outcome>go_treeTable</from-outcome>
+            <to-view-id>/treeTable.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_features</from-outcome>
+            <to-view-id>/features.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_options</from-outcome>
+            <to-view-id>/options.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_contact</from-outcome>
+            <to-view-id>/contact.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_copyright</from-outcome>
+            <to-view-id>/copyright.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_validate</from-outcome>
+            <to-view-id>/validate.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_datascroller</from-outcome>
+            <to-view-id>/dataScroller.jsp</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>go_panelstack</from-outcome>
+            <to-view-id>/panelstack.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_css</from-outcome>
+            <to-view-id>/css.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_newspaperTable</from-outcome>
+            <to-view-id>/newspaperTable.jsp</to-view-id>
+        </navigation-case>
+		
+		<navigation-case>
+            <from-outcome>go_forceId</from-outcome>
+            <to-view-id>/forceId.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_swapimage</from-outcome>
+            <to-view-id>/swapimage.jsp</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>go_selectOneCountry</from-outcome>
+            <to-view-id>/selectOneCountry.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_panelnavigation_1</from-outcome>
+            <to-view-id>/panelnavigation_1.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_panelnavigation_2</from-outcome>
+            <to-view-id>/panelnavigation_2.jsp</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>go_panelnavigation_3</from-outcome>
+            <to-view-id>/panelnavigation_3.jsp</to-view-id>
+        </navigation-case>
+
+
+
+    </navigation-rule>
+
+ 	
+
+</faces-config>
