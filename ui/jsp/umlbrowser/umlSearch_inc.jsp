@@ -119,7 +119,7 @@ function resetSubProjPackage() {
             </tr>
    </table>
  
-  <table valign="top" width="100%" >
+  <table align="center" valign="top" width="100%" cellpadding="0" cellspacing="1"  border="0" >
     <tr>
       <td width="50%"  valign="top" >
           <table width="100%" cellpadding="0" cellspacing="1" class="OraBGAccentVeryDark" border="0" %>
@@ -174,7 +174,7 @@ function resetSubProjPackage() {
            </table>      
  
     
-
+</table>
  <table align="center">
   <TR>
     <td   align="center" nowrap >
@@ -196,6 +196,3 @@ function resetSubProjPackage() {
     </td>
  </TR>
  </table>
- <table align="center">
-
-  </table>
