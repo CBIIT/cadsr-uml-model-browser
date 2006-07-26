@@ -54,6 +54,21 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
     return results;
   }
   
+  public List<Project> getProjectForContext(Context context) throws Exception{
+      ApplicationService caCoreService = getCaCoreAPIService();
+      DetachedCriteria projectCriteria =
+        DetachedCriteria.forClass(Project.class);
+      projectCriteria.addOrder(Order.asc("longName"));
+
+     if (context != null && context.getId().length() >0) {
+        DetachedCriteria csCri = projectCriteria.createCriteria("classificationScheme");
+        csCri.add(Expression.eq("latestVersionIndicator", "Yes"));
+        DetachedCriteria contextCri= csCri.createCriteria("context");
+        contextCri.add(Expression.eq("id", context.getId()));
+     }
+     List<Project> results = caCoreService.query(projectCriteria, Project.class.getName());;
+    return results;
+  }
     public List<SubProject> getAllSubProjects() throws Exception {
         ApplicationService caCoreService = getCaCoreAPIService();
         DetachedCriteria subProjectCriteria =
