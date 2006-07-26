@@ -24,6 +24,7 @@ public interface UMLBrowserQueryService {
    public List<Context> getAllContexts() throws Exception;
 
     public List<Project> getAllProjects() throws Exception;
+    public List<Project> getProjectForContext(Context context) throws Exception;
     
     public List<SubProject> getAllSubProjects() throws Exception;
     
