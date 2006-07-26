@@ -19,7 +19,13 @@
   <bean id="structsAction" class="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.BaseDispatchAction">
     <property name="appServiceLocator"><ref local="appServiceLocator"/></property>
   </bean>
+  <bean id="treeData" class="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.UMLBrowserTreeData">
+    <property name="appServiceLocator"><ref local="appServiceLocator"/></property>
+  </bean>
 
+  <bean id="treeModel" class="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.TreeBacker">
+    <property name="treeData"><ref local="treeData"/></property>
+  </bean>
 
 
 </beans>
