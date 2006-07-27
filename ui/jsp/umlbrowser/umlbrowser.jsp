@@ -8,39 +8,11 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
 <%@ taglib uri="/WEB-INF/cdebrowser.tld" prefix="cde"%>
+<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
+<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
+<%@ taglib uri="http://myfaces.apache.org/tomahawk" prefix="t"%>
 
 
-  
-<%
-   String ctepUser = (String)pageContext.getAttribute("accessValue");
-   String treeURL;
-/*
-  String umlTreeURL;
-    umlTreeURL = 
-      "common/WebTreeLoader.jsp?treeClass=gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.UMLBrowserTree"+
-      "&treeParams="+TreeConstants.TREE_TYPE_URL_PARAM +":" + 
-      TreeConstants.CLASS_SEARCH_TREE + ";" +
-      TreeConstants.FUNCTION_NAME_URL_PARAM + ":" +
-      TreeConstants.CLASS_SEARCH_FUNCTION + ";" +
-      TreeConstants.CTEP_USER_FLAG + ":" +
-      ctepUser +
-      "&treeName=umlClassTree" +
-      "&skin=umlbrowser";
- 
- */
- 
-     treeURL = 
-       "common/WebTreeLoader.jsp?treeClass=gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.UMLBrowserTree"+
-       "&treeParams="+TreeConstants.TREE_TYPE_URL_PARAM +":" + 
-       TreeConstants.CLASS_SEARCH_TREE + ";" +
-       TreeConstants.FUNCTION_NAME_URL_PARAM + ":" +
-       TreeConstants.CLASS_SEARCH_FUNCTION + ";" +
-       TreeConstants.CTEP_USER_FLAG + ":" +
-       ctepUser +
-       "&treeName=umlClassTree" +
-       "&skin=umlbrowser";
-
-%>
 <HTML>
 <HEAD>
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252">
@@ -61,7 +33,7 @@ UML Model Browser
               frameborder="0"
               frameName="tree_header"
               scrolling = "no"/>
-       <html:frame page='<%="/"+treeURL%>'
+       <html:frame page='/umlbrowser/tree2.jsf'
               name="requestMap"
               frameborder="0"
               frameName="tree"
