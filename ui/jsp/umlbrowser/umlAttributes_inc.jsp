@@ -19,7 +19,7 @@
                   sortableColumnHeaderBeanId="<%=UMLBrowserFormConstants.ATTRIBUTE_SEARCH_RESULT_COMPARATOR%>" 
                   separator=">>" 
                   showDefault="Y"
-                  labelMapping="name, Attribute Name, dataType, Data Type, dataElement.longName, DE Name, dataElement.publicID, DE Public ID, description, Definition, project.longName, Project Name, UMLPackageMetadata.subProject.name, Sub Project Name, UMLClassMetadata.UMLPackageMetadata.name, Package Name "
+                  labelMapping="name, Attribute Name, dataElement.version, Version, dataElement.context.name, Context, dataType, Data Type, dataElement.longName, DE Name, dataElement.publicID, DE Public ID, description, Definition, project.longName, Project Name, UMLPackageMetadata.subProject.name, Sub Project Name, UMLClassMetadata.UMLPackageMetadata.name, Package Name "
                   defaultText=" (Default) "
                   ascendingText=" [Ascending]"
                   descendingText=" [Descending]"                          
@@ -51,6 +51,28 @@
                                 orderParamId="sortOrder" 
 		   	   	sortFieldId="sortField"
 		   	   	sortFieldValue = "name"
+		   	   	target="_self"
+            />   
+            </th>             
+            <th class="OraTableColumnHeader" nowrap>
+		        <cde:sortableColumnHeader
+            sortableColumnHeaderBeanId="<%=UMLBrowserFormConstants.ATTRIBUTE_SEARCH_RESULT_COMPARATOR%>" 
+		       	actionUrl='<%="/umlbrowser/sortAttributesAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"=sortAttributes"%>' 
+		   	   	columnHeader="Version" 
+                                orderParamId="sortOrder" 
+		   	   	sortFieldId="sortField"
+		   	   	sortFieldValue = "dataElement.version"
+		   	   	target="_self"
+            />   
+            </th>             
+            <th class="OraTableColumnHeader" nowrap>
+		        <cde:sortableColumnHeader
+            sortableColumnHeaderBeanId="<%=UMLBrowserFormConstants.ATTRIBUTE_SEARCH_RESULT_COMPARATOR%>" 
+		       	actionUrl='<%="/umlbrowser/sortAttributesAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"=sortAttributes"%>' 
+		   	   	columnHeader="Context" 
+                                orderParamId="sortOrder" 
+		   	   	sortFieldId="sortField"
+		   	   	sortFieldValue = "dataElement.context.name"
 		   	   	target="_self"
             />   
             </th>             
@@ -142,7 +164,13 @@
           		<bean:write name="umlAttribute" property="name"/><br>
           	</td>
           	<td class="OraFieldText">
-          		<bean:write name="umlAttribute" property="attributeTypeMetadata.valueDomainLongName"/><br>
+          		<bean:write name="umlAttribute" property="dataElement.version"/><br>
+          	</td>
+          	<td class="OraFieldText">
+          		<bean:write name="umlAttribute" property="dataElement.context.name"/><br>
+          	</td>
+          	<td class="OraFieldText">
+          		<bean:write name="umlAttribute" property="attributeTypeMetadata.valueDomainDataType"/><br>
 
           	</td>             
           	<td class="OraFieldText">
@@ -162,8 +190,8 @@
           		<bean:write name="umlAttribute" property="project.longName"/><br>
           	</td>   
           	<td class="OraFieldText">
-          	 <logic:present name="umlAttribute" property="UMLPackageMetadata.subProject">
-          		<bean:write name="umlAttribute" property="UMLPackageMetadata.subProject.name" ignore="true"/><br>
+          	 <logic:present name="umlAttribute" property="UMLClassMetadata.UMLPackageMetadata.subProject">
+          		<bean:write name="umlAttribute" property="UMLClassMetadata.UMLPackageMetadata.subProject.name" ignore="true"/><br>
           	</logic:present>
           		<br>
           	</td>               
