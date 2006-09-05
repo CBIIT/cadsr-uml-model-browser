@@ -40,46 +40,38 @@ function classSearchAction(urlParams){
             </h:panelGroup>
         </f:facet>
         <f:facet name="Project Folder">
-        <h:panelGrid id="c" columns="2" cellpadding="2" cellspacing="0" columnClasses="noWrapColumn,noWrapColumn">
+        <h:panelGroup style="white-space:nowrap;">
                 <t:graphicImage value="/i/yellow-folder-open.png" alt="Project" title="Project" rendered="#{t.nodeExpanded}" border="0"/>
                 <t:graphicImage value="/i/yellow-folder-closed.png" alt="Project" title="Project" rendered="#{!t.nodeExpanded}" border="0"/>
-            <h:panelGroup>
-                <h:outputLink id="projectLink" value="#{node.action}">
+                 <h:outputLink id="projectLink" value="#{node.action}">
                  <h:outputText value="#{node.description}" styleClass="treeNode"/>
                 </h:outputLink>
-            </h:panelGroup>
-        </h:panelGrid>
+         </h:panelGroup>
         </f:facet>
         <f:facet name="SubProject Folder">
-        <h:panelGrid id="c" columns="2" cellpadding="2" cellspacing="0" columnClasses="noWrapColumn">
+        <h:panelGroup style="white-space:nowrap;">
                 <t:graphicImage value="/i/yellow-folder-open.png" alt="SubProject" title="SubProject" rendered="#{t.nodeExpanded}" border="0"/>
                 <t:graphicImage value="/i/yellow-folder-closed.png" alt="SubProject" title="SubProject" rendered="#{!t.nodeExpanded}" border="0"/>
-            <h:panelGroup>
-                <h:outputLink id="subProjLink" value="#{node.action}">
+                 <h:outputLink id="subProjLink" value="#{node.action}">
                  <h:outputText value="#{node.description}" styleClass="treeNode"/>
                 </h:outputLink>
             </h:panelGroup>
-        </h:panelGrid>
         </f:facet>
         <f:facet name="Package Folder">
-        <h:panelGrid id="c" columns="2" cellpadding="2" cellspacing="0" columnClasses="noWrapColumn">
+         <h:panelGroup style="white-space:nowrap;">
            <t:graphicImage value="/i/tree-package.gif" alt="Package" title="Package" border="0"/>
-            <h:panelGroup>
                 <h:outputLink id="pkgLink" value="#{node.action}">
                  <h:outputText value="#{node.description}" styleClass="treeNode"/>
                 </h:outputLink>
             </h:panelGroup>
-        </h:panelGrid>
         </f:facet>
         <f:facet name="Class Node">
-        <h:panelGrid id="c" columns="2" cellpadding="2" cellspacing="0" columnClasses="noWrapColumn">
-                <t:graphicImage value="/i/tree-class.gif"  alt="Class" title="Class" border="0"/>
-            <h:panelGroup>
+         <h:panelGroup style="white-space:nowrap;">
+                 <t:graphicImage value="/i/tree-class.gif"  alt="Class" title="Class" border="0"/>
                 <h:outputLink id="classLink" value="#{node.action}">
                  <h:outputText value="#{node.description}" styleClass="treeNode"/>
                 </h:outputLink>
             </h:panelGroup>
-        </h:panelGrid>
         </f:facet>
     </t:tree2>
 </h:form>
