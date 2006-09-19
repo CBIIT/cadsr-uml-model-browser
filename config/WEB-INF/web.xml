@@ -210,5 +210,9 @@
     <taglib-location>/WEB-INF/struts-bean.tld</taglib-location>
   </taglib>
 
+  <error-page>
+		<error-code>500</error-code>
+		<location>/common/SystemError.jsp</location>
+  </error-page>
 
 </web-app>
