@@ -12,6 +12,7 @@ import gov.nih.nci.ncicb.webtree.LazyActionTreeNode;
 import java.io.Serializable;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class UMLBrowserTreeData implements Serializable {
          new LazyActionTreeNode("Context Folder", "caDSR Contexts",
              "javascript:classSearchAction('P_PARAM_TYPE=Context')",
              false);
+      HashMap<String,LazyActionTreeNode> contextMap = new HashMap();
       //get the node path
 
       //first build a text folder node context.
@@ -58,29 +60,32 @@ public class UMLBrowserTreeData implements Serializable {
                  .getId(),
                  false);
             contextFolder.getChildren().add(contextNode);
-
+            contextMap.put(context.getId(), contextNode);
+         }
             // Build project nodes
             List<Project> projects =
-               queryService.getProjectForContext(context);
-            for (Iterator projIter = projects.iterator(); projIter.hasNext();
-            ) {
+               queryService.getAllProjects();
+            for (Iterator projIter = projects.iterator(); projIter.hasNext(); ) {
                Project project = (Project)projIter.next();
+               Collection<SubProject> subProjects =
+                  project.getSubProjectCollection();
+               Collection<UMLPackageMetadata> pkgs = project.getUMLPackageMetadataCollection();
+               Context projContext = project.getClassificationScheme().getContext();
                LazyActionTreeNode projectNode =
                   new LazyActionTreeNode("Project Folder",
                     project.getLongName(),
                     "javascript:classSearchAction('P_PARAM_TYPE=PROJECT&P_IDSEQ=" +
                     project.getId() +
                     "&treeBreadCrumbs=caDSR Contexts>>" +
-                    context.getName() +
+                    projContext.getName() +
                     ">>Projects>>" + project.getLongName() +
                     " ')",  project.getId(),
                     false);
-               contextNode.getChildren().add(projectNode);
+               contextMap.get(projContext.getId()).getChildren().add(projectNode);
 
                // build sub project nodes
 
-               Collection<SubProject> subProjects =
-                  project.getSubProjectCollection();
+               if (subProjects != null) {
                for (Iterator subprojIter = subProjects.iterator();
                     subprojIter.hasNext(); ) {
                   SubProject subProject = (SubProject)subprojIter.next();
@@ -90,7 +95,7 @@ public class UMLBrowserTreeData implements Serializable {
                     "javascript:classSearchAction('P_PARAM_TYPE=SUBPROJECT&P_IDSEQ=" +
                     subProject.getId() +
                     "&treeBreadCrumbs=caDSR Contexts>>" +
-                    context.getName() +
+                    projContext.getName() +
                     ">>Projects>>" + project.getLongName() +
                     ">>" +  subProject.getName() +
                     " ')",
@@ -99,9 +104,9 @@ public class UMLBrowserTreeData implements Serializable {
                   projectNode.getChildren().add(subprojectNode);
                   
                   // build package nodes under sub project
-                  addPackageNodes(subProject.getUMLPackageMetadataCollection(),
-                  subprojectNode);
+                  addPackageNodes(pkgs, subprojectNode);
       
+               }
                }
                // then build package nodes directly under project
                addPackageNodes(project.getUMLPackageMetadataCollection(), projectNode);
@@ -110,7 +115,7 @@ public class UMLBrowserTreeData implements Serializable {
 
          }
 
-      } catch (Exception e) {
+       catch (Exception e) {
          log.error("Exception caught when building the tree", e);
          throw new RuntimeException(e);
       }
@@ -128,6 +133,9 @@ public class UMLBrowserTreeData implements Serializable {
 
    private void addPackageNodes(Collection<UMLPackageMetadata> packages, 
    LazyActionTreeNode parentNode){
+   
+      if (packages == null) return;
+      
       //build class nodes
        int bcIndex = parentNode.getAction().indexOf("&treeBreadCrumbs=");
        String parentBreadCrumb = parentNode.getAction().subSequence(bcIndex, 
