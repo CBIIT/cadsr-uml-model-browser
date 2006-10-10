@@ -4,7 +4,7 @@
   =============================================
 
   Author: Shaji Kakkodi
-  @version $Id: build.xml,v 1.19 2006-07-06 15:16:40 jiangj Exp $
+  @version $Id: build.xml,v 1.20 2006-10-10 21:12:08 marwahah Exp $
 
   This build script was created using Ant version 1.6 and Java 1.5
 -->
@@ -351,7 +351,9 @@
 
       <lib dir="${java.lib.dir}">
       	<include name="*.jar"/>       	
-      	<include name="*.zip"/>       	
+      	<include name="*.zip"/>      
+      	<exclude name="log4j-1.2.8.jar"/>
+      	<exclude name="ojdbc14.jar" />      	
       </lib>
        
     </war>

@@ -30,6 +30,23 @@
 <LINK rel="stylesheet" TYPE="text/css" HREF="<html:rewrite page='/css/blaf.css' />">
 
 </HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+function fileDownloadWin(url,windowName,nwidth,nheight)
+{
+  if (nwidth == null) {
+    nwidth = 440;
+  }
+
+  if (nheight == null) {
+    nheight = 300;
+  }
+
+  screenx = (screen.availWidth - nwidth) / 2;
+  screeny =  (screen.availHeight - nheight) / 2;
+  var hWnd = window.open(url,windowName,"toolbar=yes,width="+nwidth+",height="+nheight+",screenx="+screenx+",screeny="+screeny+",resizable=no,scrollbars=no,menubar=yes,directories=no, location=no");
+  hWnd.focus();
+}
+</SCRIPT>
 <BODY topmargin=0 bgcolor="#ffffff">
 <%@ include  file="tab_include_search.jsp" %>
 

@@ -24,7 +24,11 @@
                   ascendingText=" [Ascending]"
                   descendingText=" [Descending]"                          
            />           
-         </td> 
+         </td>
+          <td nowrap="nowrap" align="right">
+		       <b><a href="javascript:fileDownloadWin('<%=request.getContextPath()%>/umlbrowser/xmlDownloadAction.do?method=xmlDownloadPopup','xmlWin',500,200)" >[Download Data Elements as XML]</a></b> &nbsp;&nbsp;
+
+        </td>         
    
        </tr>
 </table>     
