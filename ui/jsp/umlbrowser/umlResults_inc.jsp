@@ -161,7 +161,10 @@ if(confirm(message)) location.href = url;
           		<br>
           	</td>
           	<td class="OraFieldText">
-       		<bean:write name="umlClass" property="project.longName"/><br>
+          	<a href="javascript:newBrowserWin('<%=request.getContextPath()%>/umlbrowser/detailsPageAction.do?method=projectDetailsPage&<%=UMLBrowserFormConstants.PROJECT_IDSEQ%>=<%=umlClass.getProject().getId()%>','ProjectDetails',800,600)">
+       		   <bean:write name="umlClass" property="project.longName"/>
+       		</a>
+       		 <br>
           	</td>             
           	<td class="OraFieldText">
        		<bean:write name="umlClass" property="project.version"/><br>

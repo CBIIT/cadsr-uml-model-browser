@@ -28,5 +28,12 @@ public interface UMLBrowserFormConstants
    public static final String SUBPROJECT_OPTIONS ="subProjectOptions";
    public static final String PACKAGE_OPTIONS ="packageOptions";
    
+   public static final String PROJECT_DETAILS="projectDetails";
+   public static final String PROJECT_DETAILS_CS="projectDetailsCS";
+   public static final String PROJECT_DETAILS_RDS="projectDetailsRDS";
+   public static final String PROJECT_DETAILS_RDAS="projectDetailRDAS";
+   
+   public static final String PROJECT_REFERENCE_DOCUMENT_ATT_NAME="projectReferenceDocumentAttName";
+   
 }
 

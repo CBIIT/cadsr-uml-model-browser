@@ -168,4 +168,15 @@ public List findUmlClass(UMLClassMetadata umlClass){
      return resultList;
    }
 
+
+    public List findProject(Project project){
+       List resultList =null;
+       
+       try {
+           resultList = getCaCoreAPIService().search(Project.class, project);
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
+      return resultList;
+    }
 }

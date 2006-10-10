@@ -18,6 +18,14 @@
       <form-property name="sortField" type="java.lang.String"/>
       <form-property name="sortOrder" type="java.lang.Integer"/>
       </form-bean>
+      <form-bean name="projectDetailsForm"
+           type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.formbeans.UMLBrowserBaseDynaFormBean" dynamic="true">
+         <form-property name="projectIdseq" type="java.lang.String"/>
+      </form-bean>
+      <form-bean name="viewRefDocAttachmentForm"
+           type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.formbeans.UMLBrowserBaseDynaFormBean" dynamic="true">
+         <form-property name="projectReferenceDocumentAttName" type="java.lang.String" />
+      </form-bean>
   </form-beans>  
   
   <action-mappings>
@@ -59,6 +67,26 @@
       validate="false">
       <forward name="success" path="/umlbrowser/umlAttributes.jsp"/>
     </action>
+    
+    <action name="projectDetailsForm" path="/umlbrowser/detailsPageAction" parameter="method" scope="session"
+      type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.DetailsPageAction"
+      validate="false">
+        <forward name="success" path="/umlbrowser/projectDetails.jsp"/>
+        <forward name="failure" path="/common/systemError.jsp"/>
+    </action>
+    
+    <action name="viewRefDocAttachmentForm" path="/umlbrowser/viewRefDocAttachment" parameter="method" scope="session"
+        type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.DetailsPageAction"
+        validate="false">
+    </action>
+    
+    <action path="/umlbrowser/xmlDownloadAction" parameter="method" scope="session"
+        type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.XmlDownloadAction"
+        validate="false">
+         <forward name="success" path="/umlbrowser/downloadXMLPage.jsp"/>
+         <forward name="nodata" path="/umlbrowser/downloadXMLPageNoData.jsp"/>
+     </action>
+    
 
   </action-mappings>  
 

@@ -136,15 +136,20 @@ public class BaseDispatchAction extends DispatchAction implements CaDSRConstants
       String key,
        HttpServletRequest request) {
     if (key != null) {
-      ActionError errorMessage = new ActionError(key);
-      ActionErrors errorMessages = null;
-      errorMessages = (ActionErrors)request.getAttribute(Globals.ERROR_KEY);
-      if(errorMessages==null)
-        errorMessages = new ActionErrors();
-
-      errorMessages.add(errorMessages.GLOBAL_ERROR, errorMessage);
-      saveErrors(request,errorMessages);
+        saveError(new ActionError(key),request);
     }
+  }
+  
+  protected void saveError(ActionError errorMessage, HttpServletRequest request) {
+        if (errorMessage != null) {
+          ActionErrors errorMessages = null;
+          errorMessages = (ActionErrors)request.getAttribute(Globals.ERROR_KEY);
+          if(errorMessages==null)
+            errorMessages = new ActionErrors();
+
+          errorMessages.add(errorMessages.GLOBAL_ERROR, errorMessage);
+          saveErrors(request,errorMessages);
+        }
   }
   protected void saveMessage(
     String key,
