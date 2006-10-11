@@ -4,7 +4,7 @@
   =============================================
 
   Author: Shaji Kakkodi
-  @version $Id: build.xml,v 1.21 2006-10-11 01:06:37 jiangj Exp $
+  @version $Id: build.xml,v 1.22 2006-10-11 15:06:29 marwahah Exp $
 
   This build script was created using Ant version 1.6 and Java 1.5
 -->
@@ -56,7 +56,8 @@
   <property name="build.dir" value="${project.home}/build"/>
   <property name="dist.dir" value="${project.home}/dist"/>
   <property name="classes.build.dir" value="${build.dir}/classes"/>
-  <property name="java.lib.dir" value="${project.home}/lib/java"/>
+  <property name="run.java.lib.dir" value="${project.home}/lib/java/run"/>
+  <property name="compile.java.lib.dir" value="${project.home}/lib/java/compile"/>
  
   <property name="config.home" value="${project.home}/config"/>
   <property name="config.qa" value="${project.home}/config_qa"/>
@@ -128,11 +129,16 @@
 
    <!--Set the lib classpath-->
    <path id="classpath">
-    <fileset dir="${java.lib.dir}">
+    <fileset dir="${run.java.lib.dir}">
       <include name="*.jar"/>
       <include name="*.zip"/>
     </fileset>
-  
+
+    <fileset dir="${compile.java.lib.dir}">
+      <include name="*.jar"/>
+      <include name="*.zip"/>    
+    </fileset>
+    
    </path>
    
    <path id="srcpath">
@@ -169,6 +175,15 @@
               </fileset>
      </copy> 
      
+     <filter token="user.password" value="${dev.user.password}"/>
+     <copy todir="${jboss.home}/server/default/deploy" filtering="true">
+               <fileset dir="${config.home}/connections">
+     	      <patternset>
+     	         <include name="oracle-ds.xml"/>
+     	      </patternset>
+               </fileset>
+     </copy>
+     
        <property name="debug.config.home" value="${config.home}" /> 
         
    </target>
@@ -193,6 +208,15 @@
                 </patternset>
               </fileset>
      </copy> 
+     
+     <filter token="user.password" value="${qa.user.password}"/>
+     <copy todir="${jboss.home}/server/default/deploy" filtering="true">
+          <fileset dir="${config.home}/connections">
+	      <patternset>
+	         <include name="oracle-ds.xml"/>
+	      </patternset>
+          </fileset>
+     </copy>          
      
        <property name="debug.config.home" value="${config.qa}" /> 
         
@@ -219,6 +243,15 @@
               </fileset>
      </copy> 
      
+      <filter token="user.password" value="${stage.user.password}"/>
+      <copy todir="${jboss.home}/server/default/deploy" filtering="true">
+               <fileset dir="${config.home}/connections">
+     	      <patternset>
+     	         <include name="oracle-ds.xml"/>
+     	      </patternset>
+               </fileset>
+     </copy>     
+     
        <property name="debug.config.home" value="${config.stage}" /> 
         
    </target>
@@ -244,6 +277,15 @@
                 </patternset>
               </fileset>
      </copy> 
+     
+     <filter token="user.password" value="${prod.user.password}"/>
+     <copy todir="${jboss.home}/server/default/deploy" filtering="true">
+          <fileset dir="${config.home}/connections">
+	      <patternset>
+	         <include name="oracle-ds.xml"/>
+	      </patternset>
+          </fileset>
+     </copy>          
      
        <property name="debug.config.home" value="${config.prod}" /> 
         
@@ -349,11 +391,9 @@
         </patternset>      
       </fileset>
 
-      <lib dir="${java.lib.dir}">
+      <lib dir="${run.java.lib.dir}">
       	<include name="*.jar"/>       	
       	<include name="*.zip"/>      
-      	<exclude name="log4j-1.2.8.jar"/>
-      	<exclude name="ojdbc14.jar" />      	
       </lib>
        
     </war>
@@ -395,6 +435,11 @@
   </target>    
    
    <target  name="deploy_dev" depends="clean,clean_jboss,debug_setting,dev_config,war_umlmodelbrowser"> 
+     <copy todir="${jboss.home}/server/default/lib">
+           <fileset dir="${compile.java.lib.dir}">
+              <include name="ojdbc14.jar" />
+           </fileset>
+     </copy>
      <copy todir="${jboss.home}/server/default/deploy">      
          <fileset dir="${build.dir}">
            <patternset>
@@ -410,6 +455,11 @@
    
   
    <target  name="deploy_qa" depends="clean,clean_jboss,debug_setting,qa_config,war_umlmodelbrowser"> 
+     <copy todir="${jboss.home}/server/default/lib">
+           <fileset dir="${compile.java.lib.dir}">
+              <include name="ojdbc14.jar" />
+           </fileset>
+     </copy>
      <copy todir="${jboss.home}/server/default/deploy">      
          <fileset dir="${build.dir}">
            <patternset>
@@ -424,6 +474,11 @@
       </target>
 
    <target  name="deploy_stage" depends="clean,clean_jboss,debug_setting,stage_config,war_umlmodelbrowser"> 
+     <copy todir="${jboss.home}/server/default/lib">
+        <fileset dir="${compile.java.lib.dir}">
+           <include name="ojdbc14.jar" />
+        </fileset>
+     </copy>   
      <copy todir="${jboss.home}/server/default/deploy">      
          <fileset dir="${build.dir}">
            <patternset>
@@ -438,6 +493,11 @@
    </target>
    
    <target  name="deploy_prod" depends="clean,clean_jboss,debug_setting,prod_config, war_umlmodelbrowser"> 
+     <copy todir="${jboss.home}/server/default/lib">
+        <fileset dir="${compile.java.lib.dir}">
+           <include name="ojdbc14.jar" />
+        </fileset>
+     </copy>   
      <copy todir="${jboss.home}/server/default/deploy">      
          <fileset dir="${build.dir}">
            <patternset>
@@ -583,11 +643,16 @@
   <target name="opensource_unit" depends="opensource_to_accii">
       <!-- copy libs -->
      <copy todir="${open.source.dir}/ascii/${open.source.dir.base.name}/lib/java">      
-         <fileset dir="${java.lib.dir}">
+         <fileset dir="${run.java.lib.dir}">
            <patternset>
              <include name="**/*.*"/>
            </patternset>
-         </fileset>               
+         </fileset> 
+         <fileset dir="${compile.java.lib.dir}">
+           <patternset>
+             <include name="**/*.*"/>
+           </patternset>
+         </fileset>                        
       </copy>       
      <!-- copy images -->
      <copy todir="${open.source.dir}/ascii/${open.source.dir.base.name}/ui">      

@@ -53,7 +53,7 @@ public class XmlDownloadAction extends BaseDispatchAction {
         CaDSRQueryService caDSRQueryService = getAppServiceLocator().findCaDSRQueryService();
         String xmlString = caDSRQueryService.getXMLForAttributes(attributes);
         response.setContentType("application/octet-stream"); 
-        String fileName="DataElementDownload_"+sdf.format(new Date()+".xml");
+        String fileName="DataElementDownload_"+sdf.format(new Date())+".xml";
         response.setHeader("Content-disposition", "attachment;filename="+fileName);
         response.getWriter().write(xmlString);
         return null;
