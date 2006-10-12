@@ -127,7 +127,7 @@
 </filter>
   <filter-mapping> 
          <filter-name>SessionFilter</filter-name>
-         <url-pattern>/umlbrowser/*</url-pattern> 
+         <url-pattern>*.do</url-pattern> 
  </filter-mapping>
 
 <!-- extension mapping for adding <script/>, <link/>, and other resource tags to JSF-pages  -->
