@@ -67,52 +67,53 @@ public class UMLBrowserTreeData implements Serializable {
                queryService.getAllProjects();
             for (Iterator projIter = projects.iterator(); projIter.hasNext(); ) {
                Project project = (Project)projIter.next();
-               Collection<SubProject> subProjects =
-                  project.getSubProjectCollection();
-               Collection<UMLPackageMetadata> pkgs = project.getUMLPackageMetadataCollection();
-               Context projContext = project.getClassificationScheme().getContext();
-               LazyActionTreeNode projectNode =
-                  new LazyActionTreeNode("Project Folder",
-                    project.getLongName(),
-                    "javascript:classSearchAction('P_PARAM_TYPE=PROJECT&P_IDSEQ=" +
-                    project.getId() +
-                    "&treeBreadCrumbs=caDSR Contexts>>" +
-                    projContext.getName() +
-                    ">>Projects>>" + project.getLongName() +
-                    " ')",  project.getId(),
-                    false);
-               contextMap.get(projContext.getId()).getChildren().add(projectNode);
-
-               // build sub project nodes
-
-               if (subProjects != null) {
-               for (Iterator subprojIter = subProjects.iterator();
-                    subprojIter.hasNext(); ) {
-                  SubProject subProject = (SubProject)subprojIter.next();
-                  LazyActionTreeNode subprojectNode =
-                     new LazyActionTreeNode("SubProject Folder",
-                    subProject.getName(),
-                    "javascript:classSearchAction('P_PARAM_TYPE=SUBPROJECT&P_IDSEQ=" +
-                    subProject.getId() +
-                    "&treeBreadCrumbs=caDSR Contexts>>" +
-                    projContext.getName() +
-                    ">>Projects>>" + project.getLongName() +
-                    ">>" +  subProject.getName() +
-                    " ')",
-                    subProject.getId(),
-                    false);
-                  projectNode.getChildren().add(subprojectNode);
-                  
-                  // build package nodes under sub project
-                  addPackageNodes(pkgs, subprojectNode);
-      
-               }
+               if (project.getClassificationScheme().getLatestVersionIndicator().equalsIgnoreCase("YES")) {
+                  Collection<SubProject> subProjects =
+                     project.getSubProjectCollection();
+                  Collection<UMLPackageMetadata> pkgs = project.getUMLPackageMetadataCollection();
+                  Context projContext = project.getClassificationScheme().getContext();
+                  LazyActionTreeNode projectNode =
+                     new LazyActionTreeNode("Project Folder",
+                       project.getLongName(),
+                       "javascript:classSearchAction('P_PARAM_TYPE=PROJECT&P_IDSEQ=" +
+                       project.getId() +
+                       "&treeBreadCrumbs=caDSR Contexts>>" +
+                       projContext.getName() +
+                       ">>Projects>>" + project.getLongName() +
+                       " ')",  project.getId(),
+                       false);
+                  contextMap.get(projContext.getId()).getChildren().add(projectNode);
+   
+                  // build sub project nodes
+   
+                  if (subProjects != null) {
+                  for (Iterator subprojIter = subProjects.iterator();
+                       subprojIter.hasNext(); ) {
+                     SubProject subProject = (SubProject)subprojIter.next();
+                     LazyActionTreeNode subprojectNode =
+                        new LazyActionTreeNode("SubProject Folder",
+                       subProject.getName(),
+                       "javascript:classSearchAction('P_PARAM_TYPE=SUBPROJECT&P_IDSEQ=" +
+                       subProject.getId() +
+                       "&treeBreadCrumbs=caDSR Contexts>>" +
+                       projContext.getName() +
+                       ">>Projects>>" + project.getLongName() +
+                       ">>" +  subProject.getName() +
+                       " ')",
+                       subProject.getId(),
+                       false);
+                     projectNode.getChildren().add(subprojectNode);
+                     
+                     // build package nodes under sub project
+                     addPackageNodes(pkgs, subprojectNode);
+         
+                  }
                }
                // then build package nodes directly under project
                addPackageNodes(project.getUMLPackageMetadataCollection(), projectNode);
 
             }
-
+            }
          }
 
        catch (Exception e) {
