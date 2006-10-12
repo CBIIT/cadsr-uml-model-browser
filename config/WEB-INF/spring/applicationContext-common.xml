@@ -10,7 +10,7 @@
      <property name="serviceLocator"><ref local="appServiceLocator"/></property>
   </bean>
   <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-     <property name="jndiName" value="java:/jdbc/UMLModelBrowserDS"/>
+     <property name="jndiName" value="java:/jdbc/CDEBrowserDS"/>
   </bean>  
   <bean id="caDSRQueryService" class="gov.nih.nci.ncicb.cadsr.service.impl.CaDSRQueryServiceImpl">
      <property name="dataSource"><ref local="dataSource"/></property>
