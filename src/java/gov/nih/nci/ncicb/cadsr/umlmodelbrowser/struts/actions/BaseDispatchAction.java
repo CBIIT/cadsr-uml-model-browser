@@ -8,6 +8,7 @@ import gov.nih.nci.ncicb.cadsr.servicelocator.ApplicationServiceLocator;
 
 import gov.nih.nci.ncicb.cadsr.servicelocator.ServiceLocatorException;
 
+import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.SearchPreferences;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConstants;
 
 import java.util.ArrayList;
@@ -293,14 +294,19 @@ public class BaseDispatchAction extends DispatchAction implements CaDSRConstants
     */
    protected void setInitLookupValues(HttpServletRequest req) {
       
-     Object obj = getSessionObject(req, UMLBrowserFormConstants.ALL_PROJECTS);
-
-     if (obj == null) {
+     SearchPreferences searchPreferences = (SearchPreferences)getSessionObject(req, UMLBrowserFormConstants.SEARCH_PREFERENCES);
+       if (searchPreferences == null) {
+          searchPreferences = new SearchPreferences();
+          searchPreferences.reset();
+          setSessionObject(req, UMLBrowserFormConstants.SEARCH_PREFERENCES, searchPreferences);
+       } 
+    Object obj = getSessionObject(req, UMLBrowserFormConstants.ALL_PROJECTS);
+    if (obj == null) {
        try {
-       obj = getAppServiceLocator().findQuerySerivce().getAllProjects();
+       obj = getAppServiceLocator().findQuerySerivce().getAllProjects(searchPreferences);
        } catch (Exception e) {
          log.error("Exception occurred while retrieving all projects", e);
-          
+         e.printStackTrace();
        }
        setSessionObject(req, UMLBrowserFormConstants.ALL_PROJECTS, obj);
      }
@@ -309,7 +315,7 @@ public class BaseDispatchAction extends DispatchAction implements CaDSRConstants
 
            if (obj == null) {
              try {
-             obj = getAppServiceLocator().findQuerySerivce().getAllSubProjects();
+             obj = getAppServiceLocator().findQuerySerivce().getAllSubProjects(searchPreferences);
              } catch (Exception e) {
                log.error("Exception occurred while retrieving all projects", e);
                 
@@ -321,7 +327,7 @@ public class BaseDispatchAction extends DispatchAction implements CaDSRConstants
 
            if (obj == null) {
              try {
-             obj = getAppServiceLocator().findQuerySerivce().getAllPackages();
+             obj = getAppServiceLocator().findQuerySerivce().getAllPackages(searchPreferences);
              } catch (Exception e) {
                log.error("Exception occurred while retrieving all projects", e);
                 
@@ -330,5 +336,11 @@ public class BaseDispatchAction extends DispatchAction implements CaDSRConstants
            }     
            
    }   
+   
+    protected void removeInitLookupValues(HttpServletRequest req) { 
+      setSessionObject(req, UMLBrowserFormConstants.ALL_PROJECTS, null);
+      setSessionObject(req, UMLBrowserFormConstants.ALL_PACKAGES, null);
+      setSessionObject(req, UMLBrowserFormConstants.ALL_SUBPROJECTS, null);
+    }
    
 }

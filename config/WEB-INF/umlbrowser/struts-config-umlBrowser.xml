@@ -26,6 +26,11 @@
            type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.formbeans.UMLBrowserBaseDynaFormBean" dynamic="true">
          <form-property name="projectReferenceDocumentAttName" type="java.lang.String" />
       </form-bean>
+      <form-bean name="searchPreferencesForm"
+           type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.formbeans.UMLBrowserBaseDynaFormBean" dynamic="true">
+         <form-property name="excludetrainingcontext" type="java.lang.String" />
+         <form-property name="excludetestcontext" type="java.lang.String" />
+      </form-bean>
   </form-beans>  
   
   <action-mappings>
@@ -46,6 +51,21 @@
       <forward name="success" path="/umlbrowser/umlSearch.jsp"
       redirect="false"/>  
     </action>      
+    
+    <action name="searchPreferencesForm" path="/umlbrowser/setSearchPreferencesAction" parameter="method"
+      scope="request"
+      type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.SearchPreferencesAction"
+      validate="false">
+      <forward name="success" path="/umlbrowser/umlSearchPreferences.jsp"  redirect="false"/>  
+    </action>   
+    
+    <action name="searchPreferencesForm" path="/umlbrowser/gotoSearchPreferencesAction" parameter="method"
+      scope="request"
+      type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.SearchPreferencesAction"
+      validate="false">
+      <forward name="success" path="/umlbrowser/umlSearchPreferences.jsp"  redirect="false"/>  
+    </action>     
+        
     
     <action name="umlSearchForm" path="/umlbrowser/sortAttributesAction" parameter="method"
       scope="session"

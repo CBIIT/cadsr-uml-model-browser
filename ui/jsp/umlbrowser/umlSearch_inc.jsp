@@ -97,6 +97,12 @@ function resetSubProjPackage() {
      </logic:present>
     </logic:notEqual>
    </b></td>
+   
+   <td align="right" width="20%" nowrap>
+           <html:link page="/umlbrowser/gotoSearchPreferencesAction.do?method=gotoSearchPreferences" target="_parent">
+             Search preferences
+           </html:link>
+   </td>
      
          
  </tr>   

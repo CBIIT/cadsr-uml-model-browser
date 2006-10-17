@@ -2,6 +2,7 @@ package gov.nih.nci.ncicb.cadsr.umlmodelbrowser.servlets;
 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,11 @@ public class SessionFilter implements javax.servlet.Filter
        String expiredSessionJSP = filterConfig.getInitParameter("expiredSessionJSP");
        HttpServletRequest httpservletrequest = (HttpServletRequest)request;
        HttpSession httpsession = httpservletrequest.getSession(false);
+       if (httpsession == null && httpservletrequest.getRequestedSessionId() == null ) {
+           //This is a client accessing the first time.
+            chain.doFilter(request, response);
+            return;
+       }
        if (httpsession == null || httpservletrequest.getRequestedSessionId() == null )
        {
          ((HttpServletResponse)response).sendRedirect(httpservletrequest.getContextPath()+ expiredSessionJSP);

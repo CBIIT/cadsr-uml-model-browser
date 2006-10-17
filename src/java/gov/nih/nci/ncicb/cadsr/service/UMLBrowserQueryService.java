@@ -8,6 +8,8 @@ import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLPackageMetadata;
 import gov.nih.nci.ncicb.cadsr.servicelocator.ApplicationServiceLocator;
 
+import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.SearchPreferences;
+
 import java.util.List;
 
 
@@ -22,15 +24,26 @@ public interface UMLBrowserQueryService {
     * @throws Exception
     */
    public List<Context> getAllContexts() throws Exception;
+   
+   public List<Context> getAllContexts(SearchPreferences searchPreferences) throws Exception;
 
     public List<Project> getAllProjects() throws Exception;
+    
+    public List<Project> getAllProjects(SearchPreferences searchPreferences) throws Exception;
+    
     public List<Project> getProjectForContext(Context context) throws Exception;
     
     public List<SubProject> getAllSubProjects() throws Exception;
     
+    public List<SubProject> getAllSubProjects(SearchPreferences searchPreferences) throws Exception;
+    
     public List<UMLPackageMetadata> getAllPackages() throws Exception;
     
+    public List<UMLPackageMetadata> getAllPackages(SearchPreferences searchPreferences) throws Exception;
+    
     public List<UMLClassMetadata> getAllClasses() throws Exception;
+    
+    public List<UMLClassMetadata> getAllClasses(SearchPreferences searchPreferences) throws Exception;
    /**
     * public List<UmlSubProjectMetaData> getAllSubProjects() throws Exception {
     * List subprojects = getServiceLayerQuerySvc().findAllSubProjects();
@@ -48,8 +61,14 @@ public interface UMLBrowserQueryService {
    
    public List findUmlClass(UMLClassMetadata umlClass);
    
+   public List findUmlClass(UMLClassMetadata umlClass, SearchPreferences searchPreferences)throws Exception;
+   
    public List findUmlAttributes(UMLAttributeMetadata umlAttribute);
+   
+   public List findUmlAttributes(UMLAttributeMetadata umlAttribute, SearchPreferences searchPreferences)throws Exception;
+      
    public List<UMLPackageMetadata> getAllPackageForProject(Project project);
+   
    public List<UMLClassMetadata> getClassesForContext(String contextId);
    
    public List<Project> findProject(Project project);

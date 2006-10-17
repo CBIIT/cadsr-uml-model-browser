@@ -23,6 +23,8 @@ public class UMLBrowserParams
     //String sbrDSN = "";
     String excludeTestContext = "no";
     String excludeTrainingContext="no";
+    String testContext="Test";
+    String trainingContext="Training";
     String excludeWorkFlowStatuses = "";
     String excludeRegistrationStatuses = "";
 
@@ -202,6 +204,10 @@ public class UMLBrowserParams
             index++;
             excludeTrainingContext = properties.getProperty("EXCLUDE_TRAINING_CONTEXT_BY_DEFAULT");
             index++;
+            testContext = properties.getProperty("TEST_CONTEXT");
+            index++;
+            trainingContext=properties.getProperty("TRAINING_CONTEXT");
+            index++;
             excludeWorkFlowStatuses = properties.getProperty("EXCLUDE_WORKFLOW_BY_DEFAULT");
             index++;
             excludeRegistrationStatuses = properties.getProperty("EXCLUDE_REGISTRATION_BY_DEFAULT");
@@ -270,5 +276,21 @@ public class UMLBrowserParams
     public String getCdebrowserToolURL()
     {
         return cdebrowserToolURL;
+    }
+
+    public void setTraingContext(String traingContext) {
+        this.trainingContext = trainingContext;
+    }
+
+    public String getTrainingContext() {
+        return trainingContext;
+    }
+
+    public void setTestContext(String testContext) {
+        this.testContext = testContext;
+    }
+
+    public String getTestContext() {
+        return testContext;
     }
 }

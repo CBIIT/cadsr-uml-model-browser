@@ -194,7 +194,7 @@
   </tr>
   <logic:empty name="contacts">
     <tr class="OraTabledata">
-        <td class="OraFieldText" colspan="5">No contacts available. </td>
+        <td class="OraFieldText" colspan="6">No contacts available. </td>
     </tr>
   </logic:empty>  
   <logic:iterate id="contact" name="contacts" type="gov.nih.nci.cadsr.domain.AdministeredComponentContact" >
