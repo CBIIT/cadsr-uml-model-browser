@@ -35,5 +35,9 @@ public interface UMLBrowserFormConstants
    
    public static final String PROJECT_REFERENCE_DOCUMENT_ATT_NAME="projectReferenceDocumentAttName";
    
+   public static final String EXCLUDE_TEST_CONTEXT="excludetestcontext";
+   public static final String EXCLUDE_TRAINING_CONTEXT="excludetrainingcontext";
+   public static final String SEARCH_PREFERENCES="searchpreferences";
+   
 }
 

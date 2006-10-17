@@ -11,6 +11,7 @@ import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLPackageMetadata;
 import gov.nih.nci.ncicb.cadsr.jsp.bean.PaginationBean;
 import gov.nih.nci.ncicb.cadsr.service.UMLBrowserQueryService;
+import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.SearchPreferences;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConstants;
 import gov.nih.nci.ncicb.cadsr.util.BeanPropertyComparator;
 
@@ -89,9 +90,11 @@ public class UMLSearchAction extends BaseDispatchAction
        //Set the lookup values in the session
        setInitLookupValues(request);
        setSessionObject(request,  UMLBrowserFormConstants.SUBPROJECT_OPTIONS,
-          getSessionObject(request, UMLBrowserFormConstants.ALL_SUBPROJECTS ),true);
+              getSessionObject(request, UMLBrowserFormConstants.ALL_SUBPROJECTS ),true);
        setSessionObject(request,  UMLBrowserFormConstants.PACKAGE_OPTIONS,
           getSessionObject(request, UMLBrowserFormConstants.ALL_PACKAGES ),true);
+
+       
       return mapping.findForward("umlSearch");
     }
 
@@ -99,15 +102,16 @@ public class UMLSearchAction extends BaseDispatchAction
       ActionMapping mapping,
       ActionForm form,
       HttpServletRequest request,
-      HttpServletResponse response) throws IOException, ServletException {
+      HttpServletResponse response) throws Exception {
 
 
       DynaActionForm dynaForm = (DynaActionForm) form;
       String resetCrumbs = (String) dynaForm.get(UMLBrowserFormConstants.RESET_CRUMBS);
 
       UMLClassMetadata umlClass = this.populateClassFromForm(dynaForm);
+      SearchPreferences searchPreferences = (SearchPreferences)getSessionObject(request,UMLBrowserFormConstants.SEARCH_PREFERENCES);
 
-      this.findClassesLike(umlClass, request);
+      this.findClassesLike(umlClass, searchPreferences, request);
 
       return mapping.findForward("umlSearch");
     }
@@ -116,7 +120,7 @@ public class UMLSearchAction extends BaseDispatchAction
       ActionMapping mapping,
       ActionForm form,
       HttpServletRequest request,
-      HttpServletResponse response) throws IOException, ServletException {
+      HttpServletResponse response) throws Exception {
 
 //      removeSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS);
 
@@ -131,7 +135,8 @@ public class UMLSearchAction extends BaseDispatchAction
       UMLClassMetadata umlClass = this.populateClassFromForm(dynaForm);
       if (umlClass != null)
          umlAtt.setUMLClassMetadata(umlClass);
-      umlAttributes = queryService.findUmlAttributes(umlAtt);
+      SearchPreferences searchPreferences = (SearchPreferences)getSessionObject(request, UMLBrowserFormConstants.SEARCH_PREFERENCES);
+      umlAttributes = queryService.findUmlAttributes(umlAtt, searchPreferences);
 
       setupSessionForAttributeResults(umlAttributes, request);
       return mapping.findForward("showAttributes");
@@ -231,10 +236,10 @@ public class UMLSearchAction extends BaseDispatchAction
    return mapping.findForward(SUCCESS);
    }
 
-   private void findClassesLike (UMLClassMetadata  umlClass, HttpServletRequest request ){
+   private void findClassesLike (UMLClassMetadata  umlClass, SearchPreferences searchPreferences,HttpServletRequest request ) throws Exception {
       Collection<UMLClassMetadata> umlClasses = new ArrayList();
       UMLBrowserQueryService queryService = getAppServiceLocator().findQuerySerivce();
-      umlClasses = queryService.findUmlClass(umlClass);
+      umlClasses = queryService.findUmlClass(umlClass, searchPreferences);
 
       setupSessionForClassResults(umlClasses, request);
    }
