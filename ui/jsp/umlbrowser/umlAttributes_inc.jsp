@@ -163,6 +163,8 @@
           	type="gov.nih.nci.cadsr.umlproject.domain.UMLAttributeMetadata"
                 offset="<%=Integer.toString(pageBean.getOffset())%>"
                 length="<%=Integer.toString(pageBean.getPageSize())%>">
+                <bean:define id="umlClass" name="umlAttribute" property="UMLClassMetadata" 
+                       type="gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata" />
             <tr class="OraTabledata">  
           	<td class="OraFieldText">
           		<bean:write name="umlAttribute" property="name"/><br>
@@ -191,7 +193,9 @@
           	</td>               
 
           	<td class="OraFieldText">
-          		<bean:write name="umlAttribute" property="project.longName"/><br>
+            	   <a href="javascript:newBrowserWin('<%=request.getContextPath()%>/umlbrowser/detailsPageAction.do?method=projectDetailsPage&<%=UMLBrowserFormConstants.PROJECT_IDSEQ%>=<%=umlClass.getProject().getId()%>','ProjectDetails',800,600)">
+       		      <bean:write name="umlClass" property="project.longName"/>
+       		   </a>          	
           	</td>   
           	<td class="OraFieldText">
           	 <logic:present name="umlAttribute" property="UMLClassMetadata.UMLPackageMetadata.subProject">
