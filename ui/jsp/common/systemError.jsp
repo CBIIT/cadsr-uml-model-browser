@@ -3,7 +3,7 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
 <HTML>
   <HEAD>
-    <TITLE>CDEBrowser: System Error</TITLE>
+    <TITLE>UML Model Browser: System Error</TITLE>
     <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache"/>
     <LINK rel="stylesheet" TYPE="text/css" HREF="<html:rewrite page='/css/blaf.css' />">
 <script language="javascript">
