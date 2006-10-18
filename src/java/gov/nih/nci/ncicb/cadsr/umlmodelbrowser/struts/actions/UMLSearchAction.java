@@ -131,7 +131,7 @@ public class UMLSearchAction extends BaseDispatchAction
       UMLAttributeMetadata umlAtt = new UMLAttributeMetadata();
       String attName = ((String) dynaForm.get("attributeName")).trim();
       if (attName !=null && attName.length()>0)
-         umlAtt.setName(attName );
+         umlAtt.setName(attName.replace('*','%') );
       UMLClassMetadata umlClass = this.populateClassFromForm(dynaForm);
       if (umlClass != null)
          umlAtt.setUMLClassMetadata(umlClass);
@@ -256,8 +256,8 @@ public class UMLSearchAction extends BaseDispatchAction
 
       UMLAttributeMetadata anAttribute = null;
       if(umlAttributes.size()>0)        {
-        Object[] attArr = umlAttributes.toArray();
-        anAttribute=(UMLAttributeMetadata)attArr[0];
+        //Object[] attArr = umlAttributes.toArray();
+        anAttribute=(UMLAttributeMetadata)umlAttributes.iterator().next();
         BeanPropertyComparator comparator = new BeanPropertyComparator(anAttribute.getClass());
         comparator.setPrimary("name");
         comparator.setOrder(comparator.ASCENDING);
@@ -301,6 +301,7 @@ public class UMLSearchAction extends BaseDispatchAction
       String className = ((String) dynaForm.get("className")).trim();
       if (className != null && className.length() >0) {
          umlClass = new UMLClassMetadata();
+         className = className.replace('*','%');
          umlClass.setName(className);
       }
        String projectId = ((String) dynaForm.get(UMLBrowserFormConstants.PROJECT_IDSEQ)).trim();
@@ -320,6 +321,7 @@ public class UMLSearchAction extends BaseDispatchAction
             project = new Project();
             umlClass.setProject(project);
         }
+        projectVersion = projectVersion.replace('*','%');
         project.setVersion(projectVersion);
       }
 
