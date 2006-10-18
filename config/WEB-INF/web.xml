@@ -171,6 +171,9 @@
 	<listener>
 	<listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
 	</listener>
+	<listener>
+	<listener-class>gov.nih.nci.ncicb.cadsr.umlmodelbrowser.servlets.SessionListener</listener-class>
+	</listener>  
 
 	<servlet>
 	  <servlet-name>SpringContextServlet</servlet-name>

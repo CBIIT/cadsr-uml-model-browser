@@ -3,6 +3,7 @@ package gov.nih.nci.ncicb.cadsr.service.impl;
 import gov.nih.nci.cadsr.domain.DataElement;
 import gov.nih.nci.cadsr.umlproject.domain.UMLAttributeMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
+import gov.nih.nci.ncicb.cadsr.CaDSRConstants;
 import gov.nih.nci.ncicb.cadsr.service.CaDSRQueryService;
 
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.ReferenceDocumentAttachment;
@@ -28,6 +29,7 @@ import java.util.Collection;
 import java.util.List;
 
 
+import java.util.Locale;
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -148,8 +150,59 @@ public class CaDSRQueryServiceImpl implements CaDSRQueryService{
             throw e;
         }
     }
+    
+    public Properties getApplicationProperties(Locale locale) throws Exception {
+        ApplicationPropertiesQuery query = new ApplicationPropertiesQuery();
+        try{
+        query.setDataSource(getDataSource());
+        query.setSql(CaDSRConstants.UMLBROWSER, locale.getCountry());
+        query.execute();
+        }
+        catch(Exception exp)
+        {
+          log.error ("Error getting properties from database");
+          throw exp;
+        }
+        return query.getProperties();
+    }
 
+    public Properties reloadApplicationProperties(Locale locale, String username)
+    throws Exception
+    {
+      // Add code to valiad user preveleges
+      return getApplicationProperties(locale);
+    }
 
+    
+
+    /**
+    * Inner class to get Properties
+    */
+    private class ApplicationPropertiesQuery extends MappingSqlQuery {
+    private Properties properties =  new Properties();
+    ApplicationPropertiesQuery() {
+      super();
+    }
+
+    public Properties getProperties()
+    {
+     return properties;
+    }
+    public void setSql(String toolName,String locale) {
+      super.setSql("select PROPERTY, VALUE from TOOL_OPTIONS_EXT " +
+        " where tool_name = '"+toolName +"' and locale = '" +locale +"'");
+    }
+
+    protected Object mapRow(
+      ResultSet rs,
+      int rownum) throws SQLException {
+      String key = rs.getString(1);
+      String value = rs.getString(2);
+      properties.put(key,value);
+      return null;
+    }
+    }
+    
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
     }
