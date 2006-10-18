@@ -32,7 +32,7 @@ function classSearchAction(urlParams){
     <!-- Expand/Collapse Handled By Server -->
     <t:tree2 id="serverTree" value="#{treeBacker.treeModel}" var="node" varNodeToggler="t" clientSideToggle="false" binding="#{treeBacker.tree}">
         <f:facet name="Context Folder">
-            <h:panelGroup>
+            <h:panelGroup >
                 <t:graphicImage alt="Context" title="Context" value="/i/yellow-folder-open.png" rendered="#{t.nodeExpanded}" border="0"/>
                 <t:graphicImage value="/i/yellow-folder-closed.png" alt="Context" title="Context" rendered="#{!t.nodeExpanded}" border="0"/>
                 <h:outputLink id="contextLink" value="#{node.action}">
@@ -45,7 +45,7 @@ function classSearchAction(urlParams){
                 <t:graphicImage value="/i/yellow-folder-open.png" alt="Project" title="Project" rendered="#{t.nodeExpanded}" border="0"/>
                 <t:graphicImage value="/i/yellow-folder-closed.png" alt="Project" title="Project" rendered="#{!t.nodeExpanded}" border="0"/>
                  <h:outputLink id="projectLink" value="#{node.action}">
-                 <h:outputText value="#{node.description}" styleClass="treeNode"/>
+                 <h:outputText value="#{node.description}" styleClass="treeNode" title="#{node.toolTip}"/>
                 </h:outputLink>
          </h:panelGroup>
         </f:facet>

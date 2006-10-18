@@ -1,7 +1,5 @@
 package gov.nih.nci.ncicb.webtree;
 
-import java.util.List;
-
 import org.apache.myfaces.custom.tree2.TreeNodeBase;
 
 public class LazyActionTreeNode extends TreeNodeBase {
@@ -10,6 +8,8 @@ public class LazyActionTreeNode extends TreeNodeBase {
     */
    private static final long serialVersionUID = 1L;
    private String    _action;      // * optional - url action for node *
+   private static ApplicationServiceLocator appServiceLocator = null;
+   private String _toolTip;
    
    public LazyActionTreeNode() {
    }
@@ -51,4 +51,14 @@ public class LazyActionTreeNode extends TreeNodeBase {
    public String getPath() {
       return "";
    }
+
+    public void setToolTip(String toolTip) {
+        this._toolTip = toolTip;
+    }
+
+    public String getToolTip() {
+        return _toolTip;
+    }
+
+   
 }
