@@ -7,10 +7,12 @@ import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLPackageMetadata;
 import gov.nih.nci.ncicb.cadsr.service.UMLBrowserQueryService;
 import gov.nih.nci.ncicb.cadsr.servicelocator.ApplicationServiceLocator;
+import gov.nih.nci.ncicb.cadsr.util.UMLBrowserParams;
 import gov.nih.nci.ncicb.webtree.LazyActionTreeNode;
 
 import java.io.Serializable;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,20 +20,25 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.myfaces.custom.tree2.TreeModelBase;
 
 public class UMLBrowserTreeData implements Serializable {
    private static final long serialVersionUID = 1L;
 
-   protected Log log = LogFactory.getLog(UMLBrowserTreeData.class.getName());
+   protected static Log log = LogFactory.getLog(UMLBrowserTreeData.class.getName());
    private static ApplicationServiceLocator appServiceLocator = null;
-   LazyActionTreeNode treeData = null;
+   private static List<LazyActionTreeNode> contextNodes = null;
+   private static LazyActionTreeNode testNode = null;
+   private static LazyActionTreeNode trainingNode = null;
+   
    
    public UMLBrowserTreeData() {
    }
    
-   private LazyActionTreeNode buildTree() {
+   private synchronized static void buildTree() {
+       List<LazyActionTreeNode> newContextNodes = new ArrayList<LazyActionTreeNode>();
       log.info("Building UML Browser tree start ....");
+      String testContext = UMLBrowserParams.getInstance().getTestContext();
+      String trainingContext = UMLBrowserParams.getInstance().getTrainingContext();
       LazyActionTreeNode contextFolder =
          new LazyActionTreeNode("Context Folder", "caDSR Contexts",
              "javascript:classSearchAction('P_PARAM_TYPE=Context')",
@@ -50,16 +57,15 @@ public class UMLBrowserTreeData implements Serializable {
             LazyActionTreeNode contextNode =
                new LazyActionTreeNode("Context Folder", context.name,
                  "javascript:classSearchAction('P_PARAM_TYPE=Context&P_IDSEQ=" +
-                 context
-                 .getId() +
-                 "&treeBreadCrumbs=caDSR Contexts>>" +
-                 context
-                 .getName() +
-                 " ')",
-                 context
-                 .getId(),
-                 false);
-            contextFolder.getChildren().add(contextNode);
+                 context.getId() + "&treeBreadCrumbs=caDSR Contexts>>" +
+                 context.getName() +   " ')", context.getId(), false);
+            if (context.name.equalsIgnoreCase(testContext))
+                testNode = contextNode;
+            else if (context.name.equalsIgnoreCase(trainingContext))
+                trainingNode = contextNode;
+            else
+                newContextNodes.add(contextNode);
+                
             contextMap.put(context.getId(), contextNode);
          }
             // Build project nodes
@@ -68,8 +74,7 @@ public class UMLBrowserTreeData implements Serializable {
             for (Iterator projIter = projects.iterator(); projIter.hasNext(); ) {
                Project project = (Project)projIter.next();
                if (project.getClassificationScheme().getLatestVersionIndicator().equalsIgnoreCase("YES")) {
-                  Collection<SubProject> subProjects =
-                     project.getSubProjectCollection();
+                  Collection<SubProject> subProjects = project.getSubProjectCollection();
                   Collection<UMLPackageMetadata> pkgs = project.getUMLPackageMetadataCollection();
                   Context projContext = project.getClassificationScheme().getContext();
                   LazyActionTreeNode projectNode =
@@ -82,6 +87,7 @@ public class UMLBrowserTreeData implements Serializable {
                        ">>Projects>>" + project.getLongName() +
                        " ')",  project.getId(),
                        false);
+                  projectNode.setToolTip(project.getClassificationScheme().getPreferredDefinition());
                   contextMap.get(projContext.getId()).getChildren().add(projectNode);
    
                   // build sub project nodes
@@ -120,8 +126,8 @@ public class UMLBrowserTreeData implements Serializable {
          log.error("Exception caught when building the tree", e);
          throw new RuntimeException(e);
       }
+      contextNodes = newContextNodes;
       log.info("Finished Building UML Browser tree");
-      return contextFolder;
 
    }
    public void setAppServiceLocator(ApplicationServiceLocator appServiceLocator) {
@@ -132,7 +138,7 @@ public class UMLBrowserTreeData implements Serializable {
       return appServiceLocator;
    }
 
-   private void addPackageNodes(Collection<UMLPackageMetadata> packages, 
+   private static void addPackageNodes(Collection<UMLPackageMetadata> packages, 
    LazyActionTreeNode parentNode){
    
       if (packages == null) return;
@@ -157,7 +163,7 @@ public class UMLBrowserTreeData implements Serializable {
       
    }
 
-   private void addClassNodes(Collection<UMLClassMetadata> umlClasses, 
+   private static void addClassNodes(Collection<UMLClassMetadata> umlClasses, 
    LazyActionTreeNode pkgNode){
       //build class nodes
        int bcIndex = pkgNode.getAction().indexOf("&treeBreadCrumbs=");
@@ -174,17 +180,29 @@ public class UMLBrowserTreeData implements Serializable {
          }
       
    }
-   public void refreshTree()   {
-      setTreeData(this.buildTree());
+   public static void refreshTree()   {
+      buildTree();
    }
 
-   public synchronized  void setTreeData(LazyActionTreeNode treeData) {
-      this.treeData = treeData;
-   }
+   public static LazyActionTreeNode getTreeData(boolean excludeTest, boolean excludeTraining) {
+      if (contextNodes == null)
+         buildTree();
+         
+       LazyActionTreeNode contextFolder =
+          new LazyActionTreeNode("Context Folder", "caDSR Contexts",
+              "javascript:classSearchAction('P_PARAM_TYPE=Context')",
+              false);
 
-   public LazyActionTreeNode getTreeData() {
-      if (treeData == null)
-         setTreeData(buildTree());
-      return treeData;
+      for (Iterator iter= contextNodes.iterator(); iter.hasNext();)   
+        contextFolder.getChildren().add((LazyActionTreeNode) iter.next());
+       
+      if (!excludeTest && testNode != null) 
+        contextFolder.getChildren().add(testNode);
+      
+      if (!excludeTraining && trainingNode != null)
+        contextFolder.getChildren().add(trainingNode);
+      return contextFolder;
    }
+   
+   
 }

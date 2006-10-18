@@ -3,6 +3,8 @@ package gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.SearchPreferences;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConstants;
 
+import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.TreeBacker;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -74,6 +76,9 @@ public class SearchPreferencesAction extends BaseDispatchAction {
       }
       removeInitLookupValues(request);
       setSessionObject(request, UMLBrowserFormConstants.SEARCH_PREFERENCES, searchPreferences);
+      TreeBacker treeBacker =  (TreeBacker)getSessionObject(request, "treeBacker");
+      treeBacker.updateModel(searchPreferences.isExcludeTestContext(),
+      searchPreferences.isExcludeTrainingContext());
       return mapping.findForward("success");
     }    
 }

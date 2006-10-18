@@ -7,6 +7,8 @@ import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLPackageMetadata;
 import gov.nih.nci.ncicb.cadsr.service.UMLBrowserQueryService;
 import gov.nih.nci.ncicb.cadsr.servicelocator.ApplicationServiceLocator;
+import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.SearchPreferences;
+import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConstants;
 import gov.nih.nci.ncicb.webtree.LazyActionTreeNode;
 
 import java.io.Serializable;
@@ -14,6 +16,10 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.faces.context.FacesContext;
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,7 +30,7 @@ import org.apache.myfaces.custom.tree2.TreeState;
 
 /**
  * @author Jane Jiang
- * @version: $Id: TreeBacker.java,v 1.1 2006-07-26 18:55:58 jiangj Exp $
+ * @version: $Id: TreeBacker.java,v 1.2 2006-10-18 20:45:25 jiangj Exp $
  */
 
 public class TreeBacker implements Serializable {
@@ -50,17 +56,29 @@ public class TreeBacker implements Serializable {
 
    public TreeModel getTreeModel() {
       if (_treeModel == null) {
-         _treeModel = new TreeModelBase(treeData.getTreeData());
+          SearchPreferences searchPreferences = this.getSearchPreferences();
+         _treeModel = new TreeModelBase(UMLBrowserTreeData.getTreeData(
+          searchPreferences.isExcludeTestContext(),
+          searchPreferences.isExcludeTrainingContext()));
          _treeModel.getTreeState().toggleExpanded("0");
          _treeModel.getTreeState().setTransient(true);   
       }
 
       return _treeModel;
    }
-   
+    public void updateModel(boolean excludeTest, boolean excludeTraining) {
+        _treeModel = new TreeModelBase(UMLBrowserTreeData.getTreeData(
+        excludeTest, excludeTraining));
+        _treeModel.getTreeState().toggleExpanded("0");
+        _treeModel.getTreeState().setTransient(true);
+    }   
    public String refreshTree()   {
        treeData.refreshTree();
-       _treeModel = new TreeModelBase(treeData.getTreeData());
+       SearchPreferences searchPreferences = this.getSearchPreferences();
+       
+       _treeModel = new TreeModelBase(treeData.getTreeData(
+           searchPreferences.isExcludeTestContext(),
+           searchPreferences.isExcludeTrainingContext()));
        _treeModel.getTreeState().toggleExpanded("0");
        _treeModel.getTreeState().setTransient(true);      
        return null;
@@ -91,4 +109,16 @@ public class TreeBacker implements Serializable {
    public UMLBrowserTreeData getTreeData() {
       return treeData;
    }
+   
+    private SearchPreferences getSearchPreferences() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        SearchPreferences searchPreferences = (SearchPreferences)session.getAttribute(UMLBrowserFormConstants.SEARCH_PREFERENCES);
+        if (searchPreferences == null) {
+                 searchPreferences = new SearchPreferences();
+                 searchPreferences.reset();
+        }
+        return searchPreferences;
+    }
+   
 }
