@@ -51,6 +51,7 @@ public class UMLBrowserParams
 
 
     public static UMLBrowserParams getInstance(){
+        if (instance == null ) {
         try {
             Properties properties = appServiceLocator.findCaDSRQueryService().getApplicationProperties(Locale.US);
             instance = new UMLBrowserParams();
@@ -72,6 +73,7 @@ public class UMLBrowserParams
                   throw nse;
                 }
               }
+        }
         }
       return instance;
     }
