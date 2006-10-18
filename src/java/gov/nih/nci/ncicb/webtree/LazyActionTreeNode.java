@@ -8,7 +8,6 @@ public class LazyActionTreeNode extends TreeNodeBase {
     */
    private static final long serialVersionUID = 1L;
    private String    _action;      // * optional - url action for node *
-   private static ApplicationServiceLocator appServiceLocator = null;
    private String _toolTip;
    
    public LazyActionTreeNode() {
