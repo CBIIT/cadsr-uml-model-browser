@@ -310,7 +310,7 @@ public List findUmlClass(UMLClassMetadata umlClass, SearchPreferences searchPref
               {
                  Project project = umlClass.getProject();
                  if (project.getId() != null) projectCriteria.add(Restrictions.eq("id",project.getId()));
-                 if (project.getVersion()!=null) projectCriteria.add(Restrictions.eq("version", project.getVersion()));
+                 if (project.getVersion()!=null) projectCriteria.add(Restrictions.like("version", project.getVersion()));
               }
               if (umlClass.getUMLPackageMetadata()!=null) {
                   UMLPackageMetadata umlPackage = umlClass.getUMLPackageMetadata();
@@ -351,8 +351,8 @@ public List findUmlClass(UMLClassMetadata umlClass, SearchPreferences searchPref
        List resultList = null;
         try {
            DetachedCriteria attributeCriteria = DetachedCriteria.forClass(UMLAttributeMetadata.class);
-           DetachedCriteria classCriteria = attributeCriteria.createCriteria("UMLClassMetadata");
-           DetachedCriteria projectCriteria = classCriteria.createCriteria("project");
+           DetachedCriteria projectCriteria = attributeCriteria.createCriteria("project");
+            DetachedCriteria classCriteria = null;
            DetachedCriteria contextCriteria = projectCriteria.createCriteria("classificationScheme")
                                                             .createCriteria("context");
 
@@ -364,6 +364,7 @@ public List findUmlClass(UMLClassMetadata umlClass, SearchPreferences searchPref
                    attributeCriteria.add(Restrictions.like("name", umlAttribute.getName()));
                }
                if ((umlClass != null)&&(umlClass.getName() != null)) {
+                   classCriteria = attributeCriteria.createCriteria("UMLClassMetadata");
                    classCriteria.add(Restrictions.like("name",umlClass.getName()));
                }
                if ((umlClass != null)&&(umlClass.getProject() != null))
@@ -374,6 +375,9 @@ public List findUmlClass(UMLClassMetadata umlClass, SearchPreferences searchPref
                }
                if ((umlClass != null)&&(umlClass.getUMLPackageMetadata()!=null)) {
                    UMLPackageMetadata umlPackage = umlClass.getUMLPackageMetadata();
+                   if (classCriteria == null){
+                       classCriteria = attributeCriteria.createCriteria("UMLClassMetadata");
+                   }
                    DetachedCriteria packageCriteria = classCriteria.createCriteria("UMLPackageMetadata");
                    if (umlPackage.getId() != null) packageCriteria.add(Restrictions.eq("id", umlPackage.getId()));
                    if (umlPackage.getSubProject() != null){
