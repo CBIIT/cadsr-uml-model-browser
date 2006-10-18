@@ -25,8 +25,6 @@ public class UMLBrowserParams
     String excludeTrainingContext="no";
     String testContext="Test";
     String trainingContext="Training";
-    String excludeWorkFlowStatuses = "";
-    String excludeRegistrationStatuses = "";
 
     String curationToolUrl = "";
     String nciMetathesaurusUrl="";
@@ -53,20 +51,28 @@ public class UMLBrowserParams
 
 
     public static UMLBrowserParams getInstance(){
-      if (instance == null ) {
-        try
-        {
-          getDebugInstance();
-          log.debug("Using debug properties file");
-          mode="DEBUG MODE";
-          return instance;
+        try {
+            Properties properties = appServiceLocator.findCaDSRQueryService().getApplicationProperties(Locale.US);
+            instance = new UMLBrowserParams();
+            instance.initAttributesFromProperties(properties);
+            log.debug("Using database for properties");
+        } catch (Exception exp) {
+            log.error("error retrieving properties from database, use property file instead");
+              if (instance == null ) {
+                try
+                {
+                  getDebugInstance();
+                  log.debug("Using debug properties file");
+                  mode="DEBUG MODE";
+                  return instance;
+                }
+                catch (NoSuchElementException nse)
+                {
+                  log.error("Cannot find property"+nse);
+                  throw nse;
+                }
+              }
         }
-        catch (NoSuchElementException nse)
-        {
-          log.error("Cannot find property"+nse);
-          throw nse;
-        }
-      }
       return instance;
     }
 
@@ -88,6 +94,7 @@ public class UMLBrowserParams
         instance = new UMLBrowserParams();
         instance.initAttributesFromProperties(properties);
       }
+
       return instance;
     }
 
@@ -112,27 +119,6 @@ public class UMLBrowserParams
   {
     return excludeTrainingContext;
   }
-
-  public String getExcludeWorkFlowStatuses()
-  {
-    return excludeWorkFlowStatuses;
-  }
-
-  public void setExcludeWorkFlowStatuses(String excludeWorkFlowStatuses)
-  {
-    this.excludeWorkFlowStatuses = excludeWorkFlowStatuses;
-  }
-
-  public String getExcludeRegistrationStatuses()
-  {
-    return excludeRegistrationStatuses;
-  }
-
-  public void setExcludeRegistrationStatuses(String excludeRegistrationStatuses)
-  {
-    this.excludeRegistrationStatuses = excludeRegistrationStatuses;
-  }
-
 
   public void setCurationToolUrl(String curationToolUrl)
   {
@@ -197,20 +183,25 @@ public class UMLBrowserParams
   {
         // read the init parameters from the resource bundle
         int index = 0;
+        String propertyValue;
         try
         {
 
-            excludeTestContext = properties.getProperty("EXCLUDE_TEST_CONTEXT_BY_DEFAULT");
+            propertyValue = properties.getProperty("EXCLUDE_TEST_CONTEXT_BY_DEFAULT");
+            if (propertyValue != null)
+                excludeTestContext = propertyValue;
             index++;
-            excludeTrainingContext = properties.getProperty("EXCLUDE_TRAINING_CONTEXT_BY_DEFAULT");
+            propertyValue = properties.getProperty("EXCLUDE_TRAINING_CONTEXT_BY_DEFAULT");
+            if (propertyValue != null)
+                excludeTrainingContext = propertyValue;
             index++;
-            testContext = properties.getProperty("TEST_CONTEXT");
+            propertyValue = properties.getProperty("TEST_CONTEXT");
+            if (propertyValue != null)
+                testContext = propertyValue;
             index++;
-            trainingContext=properties.getProperty("TRAINING_CONTEXT");
-            index++;
-            excludeWorkFlowStatuses = properties.getProperty("EXCLUDE_WORKFLOW_BY_DEFAULT");
-            index++;
-            excludeRegistrationStatuses = properties.getProperty("EXCLUDE_REGISTRATION_BY_DEFAULT");
+            propertyValue =properties.getProperty("TRAINING_CONTEXT");
+            if (propertyValue != null)
+                trainingContext = propertyValue;
             index++;
 
             adminToolUrl = properties.getProperty("ADMIN_TOOL_URL");
@@ -223,15 +214,17 @@ public class UMLBrowserParams
             index++;
             sentinelToolUrl = properties.getProperty("SENTINEL_TOOL_URL");
             index++;
-            cadsrURL = properties.getProperty("CADSR_URL");
+            propertyValue = properties.getProperty("CACORE_URL");
+            if (propertyValue != null)
+                cadsrURL = propertyValue;
             index++;
             cdebrowserURL = properties.getProperty("CDEBROWSER_URL");
             index++;
             cdebrowserToolURL = properties.getProperty("CDEBROWSER_TOOL_URL");
             index++;
             String itemPerPageStr =properties.getProperty("ITEM_PER_PAGE");
-            
-            itemPerPage = Integer.parseInt(itemPerPageStr);
+            if (itemPerPageStr !=null)
+                itemPerPage = Integer.parseInt(itemPerPageStr);
          
            log.info("Loaded Properties"+properties);
 
@@ -241,14 +234,18 @@ public class UMLBrowserParams
             log.error("Error getting init parameters, missing resource values");
             log.error("Property missing index: " + index);
             log.error(mre.getMessage(), mre);
-            System.exit(-1);
         }
         catch (Exception e)
         {
             log.error("Exception occurred", e);
-            System.exit(-1);
         }
   }
+  
+    public static void reloadInstance(){
+       instance = null;
+       getInstance();
+    }
+
 
     public String getCadsrURL() {
         return cadsrURL;
@@ -278,8 +275,8 @@ public class UMLBrowserParams
         return cdebrowserToolURL;
     }
 
-    public void setTraingContext(String traingContext) {
-        this.trainingContext = trainingContext;
+    public void setTraingContext(String newTraingContext) {
+        this.trainingContext = newTraingContext;
     }
 
     public String getTrainingContext() {

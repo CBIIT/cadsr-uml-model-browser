@@ -8,6 +8,8 @@ import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.ReferenceDocumentAttachment;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
+import java.util.Properties;
 
 public interface CaDSRQueryService 
 {
@@ -34,5 +36,6 @@ public interface CaDSRQueryService
      */
     public ReferenceDocumentAttachment getReferenceDocumentAttachment(String referenceDocumentName) throws Exception;
     
+    public Properties getApplicationProperties(Locale locale) throws Exception ;
 
 }
