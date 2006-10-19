@@ -304,7 +304,7 @@ public List findUmlClass(UMLClassMetadata umlClass, SearchPreferences searchPref
           if (umlClass != null)
           {
               if (umlClass.getName() != null) {
-                  classCriteria.add(Restrictions.like("name",umlClass.getName()));
+                  classCriteria.add(Restrictions.ilike("name",umlClass.getName()));
               }
               if (umlClass.getProject() != null)
               {
@@ -361,11 +361,11 @@ public List findUmlClass(UMLClassMetadata umlClass, SearchPreferences searchPref
            {
                UMLClassMetadata umlClass = umlAttribute.getUMLClassMetadata();
                if (umlAttribute.getName() != null) {
-                   attributeCriteria.add(Restrictions.like("name", umlAttribute.getName()));
+                   attributeCriteria.add(Restrictions.ilike("name", umlAttribute.getName()));
                }
                if ((umlClass != null)&&(umlClass.getName() != null)) {
                    classCriteria = attributeCriteria.createCriteria("UMLClassMetadata");
-                   classCriteria.add(Restrictions.like("name",umlClass.getName()));
+                   classCriteria.add(Restrictions.ilike("name",umlClass.getName()));
                }
                if ((umlClass != null)&&(umlClass.getProject() != null))
                {
