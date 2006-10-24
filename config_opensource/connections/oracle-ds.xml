@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  JBoss Server Configuration                                           -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+<<<<<<< oracle-ds.xml
+<!-- $Id: oracle-ds.xml,v 1.1 2006-10-24 15:36:03 marwahah Exp $ -->
+=======
+<!-- $Id: oracle-ds.xml,v 1.1 2006-10-24 15:36:03 marwahah Exp $ -->
+>>>>>>> 1.6.2.2
+<!-- ==================================================================== -->
+<!--  Datasource config for Oracle originally from Steven Coy             -->
+<!-- ==================================================================== -->
+<datasources>
+	<local-tx-datasource>
+		<jndi-name>jdbc/CDEBrowserDS</jndi-name>
+		<connection-url>jdbc:oracle:thin:@hostname:port:SID</connection-url>
+		<driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
+		<user-name>username</user-name>
+		<password>password</password>
+		<exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter</exception-sorter-class-name>
+   		<blocking-timeout-millis>10000</blocking-timeout-millis>
+   		<idle-timeout-minutes>1</idle-timeout-minutes>
+   		<max-pool-size>85</max-pool-size>
+   		<min-pool-size>10</min-pool-size>
+   		<application-managed-security/>
+	</local-tx-datasource>
+</datasources>
