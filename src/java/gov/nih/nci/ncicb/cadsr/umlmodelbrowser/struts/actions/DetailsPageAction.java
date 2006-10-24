@@ -13,6 +13,8 @@ import gov.nih.nci.ncicb.cadsr.service.UMLBrowserQueryService;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.ReferenceDocumentAttachment;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConstants;
 
+import gov.nih.nci.ncicb.cadsr.util.AdministeredComponentContactComparator;
+
 import java.io.IOException;
 
 import java.io.InputStream;
@@ -24,6 +26,7 @@ import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,6 +36,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanComparator;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
@@ -71,6 +75,11 @@ public class DetailsPageAction extends BaseDispatchAction {
          Project prj = projects.get(0);
          ClassificationScheme cs =prj.getClassificationScheme();
          setSessionObject(request,UMLBrowserFormConstants.PROJECT_DETAILS_CS,cs);
+         Collection<AdministeredComponentContact> contacts = cs.getAdministeredComponentContactCollection();
+         List<AdministeredComponentContact> lc= new ArrayList(contacts.size());
+         lc.addAll(contacts);
+         Collections.sort(lc, new AdministeredComponentContactComparator());
+         setSessionObject(request, UMLBrowserFormConstants.PROJECT_DETAILS_CONTACTS,lc);
          //Retrieve ReferenceDocumentAttachment
          Collection<ReferenceDocument> rds = cs.getReferenceDocumentCollection();
          Map rdas = new HashMap(rds.size());

@@ -30,6 +30,7 @@ public interface UMLBrowserFormConstants
    
    public static final String PROJECT_DETAILS="projectDetails";
    public static final String PROJECT_DETAILS_CS="projectDetailsCS";
+   public static final String PROJECT_DETAILS_CONTACTS="projectDetailsContacts";
    public static final String PROJECT_DETAILS_RDS="projectDetailsRDS";
    public static final String PROJECT_DETAILS_RDAS="projectDetailRDAS";
    

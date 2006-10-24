@@ -1,5 +1,7 @@
 package gov.nih.nci.ncicb.cadsr.service.impl;
 
+import gov.nih.nci.cadsr.domain.AdministeredComponent;
+import gov.nih.nci.cadsr.domain.AdministeredComponentContact;
 import gov.nih.nci.cadsr.domain.ClassificationScheme;
 import gov.nih.nci.cadsr.domain.Context;
 import gov.nih.nci.cadsr.umlproject.domain.Project;
@@ -280,6 +282,7 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
 
    }
    
+ 
    
 public List findUmlClass(UMLClassMetadata umlClass){
    List resultList =null;
