@@ -181,7 +181,7 @@
     <td><img src="/i/beigedot.gif" align="top" border="0" height="1" width="99%"> </td>
   </tr>
 </tbody></table>
-  <bean:define id="contacts" name="classificationScheme" property="administeredComponentContactCollection"
+  <bean:define id="contacts" name="<%=UMLBrowserFormConstants.PROJECT_DETAILS_CONTACTS%>"
        type="java.util.Collection" />
 <table align="center" bgcolor="#999966" cellpadding="1" cellspacing="1" width="80%">
   <tbody><tr class="OraTableColumnHeader">
@@ -211,6 +211,25 @@
             <td class="OraFieldText">    
                 Organization
             </td>
+            <td class="OraFieldText"><bean:write name="contact" property="contactRole" /></td>            
+            <bean:define id="comms" name="organization" property="contactCommunication"
+                type="java.util.Collection" />
+            <td class="OraFieldText">
+              <logic:iterate id="comm" name="comms" type="gov.nih.nci.cadsr.domain.ContactCommunication" >
+                  <logic:equal name="comm" property="type" value="PHONE" >
+                     <bean:write name="comm" property="value" /><br>
+                  </logic:equal>
+              </logic:iterate>
+            </td>
+            <td class="OraFieldText">
+              <logic:iterate id="comm" name="comms" type="gov.nih.nci.cadsr.domain.ContactCommunication" >
+                  <logic:equal name="comm" property="type" value="EMAIL" >
+                     <a href="mailto:<%=comm.getValue()%>" >
+                     <bean:write name="comm" property="value" />
+                     </a><br>
+                  </logic:equal>
+              </logic:iterate>
+            </td>            
          </logic:present>
          <logic:present name="contact" property="person" >
              <bean:define id="person" name="contact" property="person" 
@@ -223,10 +242,26 @@
             <td class="OraFieldText">    
                 Person
             </td>
+            <td class="OraFieldText"><bean:write name="contact" property="contactRole" /></td>            
+            <bean:define id="comms" name="person" property="contactCommunication"
+                type="java.util.Collection" />
+            <td class="OraFieldText">
+              <logic:iterate id="comm" name="comms" type="gov.nih.nci.cadsr.domain.ContactCommunication" >
+                  <logic:equal name="comm" property="type" value="PHONE" >
+                     <bean:write name="comm" property="value" /><br>
+                  </logic:equal>
+              </logic:iterate>
+            </td>
+            <td class="OraFieldText">
+              <logic:iterate id="comm" name="comms" type="gov.nih.nci.cadsr.domain.ContactCommunication" >
+                  <logic:equal name="comm" property="type" value="EMAIL" >
+                     <a href="mailto:<%=comm.getValue()%>" >
+                        <bean:write name="comm" property="value" />
+                     </a><br>
+                  </logic:equal>
+              </logic:iterate>
+            </td>                        
          </logic:present>         
-         <td class="OraFieldText"><bean:write name="contact" property="contactRole" /></td>
-         <td class="OraFieldText"></td>
-         <td class="OraFieldText"></td>
        </tr>
   </logic:iterate>
 </tbody></table>
