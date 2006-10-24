@@ -4,7 +4,7 @@
   =============================================
 
   Author: Shaji Kakkodi
-  @version $Id: build.xml,v 1.22 2006-10-11 15:06:29 marwahah Exp $
+  @version $Id: build.xml,v 1.23 2006-10-24 15:20:43 marwahah Exp $
 
   This build script was created using Ant version 1.6 and Java 1.5
 -->
@@ -211,7 +211,7 @@
      
      <filter token="user.password" value="${qa.user.password}"/>
      <copy todir="${jboss.home}/server/default/deploy" filtering="true">
-          <fileset dir="${config.home}/connections">
+          <fileset dir="${config.qa}/connections">
 	      <patternset>
 	         <include name="oracle-ds.xml"/>
 	      </patternset>
@@ -245,7 +245,7 @@
      
       <filter token="user.password" value="${stage.user.password}"/>
       <copy todir="${jboss.home}/server/default/deploy" filtering="true">
-               <fileset dir="${config.home}/connections">
+               <fileset dir="${config.stage}/connections">
      	      <patternset>
      	         <include name="oracle-ds.xml"/>
      	      </patternset>
@@ -280,7 +280,7 @@
      
      <filter token="user.password" value="${prod.user.password}"/>
      <copy todir="${jboss.home}/server/default/deploy" filtering="true">
-          <fileset dir="${config.home}/connections">
+          <fileset dir="${config.prod}/connections">
 	      <patternset>
 	         <include name="oracle-ds.xml"/>
 	      </patternset>
