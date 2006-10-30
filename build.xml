@@ -4,7 +4,7 @@
   =============================================
 
   Author: Shaji Kakkodi
-  @version $Id: build.xml,v 1.23 2006-10-24 15:20:43 marwahah Exp $
+  @version $Id: build.xml,v 1.24 2006-10-30 16:58:23 jiangj Exp $
 
   This build script was created using Ant version 1.6 and Java 1.5
 -->
@@ -26,7 +26,7 @@
    
    <property name="cdebrowser.version" value="3.2" />
    <property name="umlmodelbrowser.version" value="3.2" />
-   <property name="umlmodelbrowser.build" value="1" />
+   <property name="umlmodelbrowser.build" value="2" />
    
    <!-- used for open source build for file suffix-->
    <property name="umlmodelbrowser.version.suffix" value="0_5" />
