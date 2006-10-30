@@ -1,5 +1,7 @@
 package gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree;
 
+import gov.nih.nci.cadsr.domain.ClassificationScheme;
+import gov.nih.nci.cadsr.domain.ClassificationSchemeRelationship;
 import gov.nih.nci.cadsr.domain.Context;
 import gov.nih.nci.cadsr.umlproject.domain.Project;
 import gov.nih.nci.cadsr.umlproject.domain.SubProject;
@@ -44,6 +46,8 @@ public class UMLBrowserTreeData implements Serializable {
              "javascript:classSearchAction('P_PARAM_TYPE=Context')",
              false);
       HashMap<String,LazyActionTreeNode> contextMap = new HashMap();
+      HashMap<String,Project> projectMap = new HashMap();
+      
       //get the node path
 
       //first build a text folder node context.
@@ -68,58 +72,22 @@ public class UMLBrowserTreeData implements Serializable {
                 
             contextMap.put(context.getId(), contextNode);
          }
-            // Build project nodes
-            List<Project> projects =
-               queryService.getAllProjects();
-            for (Iterator projIter = projects.iterator(); projIter.hasNext(); ) {
-               Project project = (Project)projIter.next();
-               if (project.getClassificationScheme().getLatestVersionIndicator().equalsIgnoreCase("YES")) {
-                  Collection<SubProject> subProjects = project.getSubProjectCollection();
-                  Collection<UMLPackageMetadata> pkgs = project.getUMLPackageMetadataCollection();
-                  Context projContext = project.getClassificationScheme().getContext();
-                  LazyActionTreeNode projectNode =
-                     new LazyActionTreeNode("Project Folder",
-                       project.getLongName(),
-                       "javascript:classSearchAction('P_PARAM_TYPE=PROJECT&P_IDSEQ=" +
-                       project.getId() +
-                       "&treeBreadCrumbs=caDSR Contexts>>" +
-                       projContext.getName() +
-                       ">>Projects>>" + project.getLongName() +
-                       " ')",  project.getId(),
-                       false);
-                  projectNode.setToolTip(project.getClassificationScheme().getPreferredDefinition());
-                  contextMap.get(projContext.getId()).getChildren().add(projectNode);
-   
-                  // build sub project nodes
-   
-                  if (subProjects != null) {
-                  for (Iterator subprojIter = subProjects.iterator();
-                       subprojIter.hasNext(); ) {
-                     SubProject subProject = (SubProject)subprojIter.next();
-                     LazyActionTreeNode subprojectNode =
-                        new LazyActionTreeNode("SubProject Folder",
-                       subProject.getName(),
-                       "javascript:classSearchAction('P_PARAM_TYPE=SUBPROJECT&P_IDSEQ=" +
-                       subProject.getId() +
-                       "&treeBreadCrumbs=caDSR Contexts>>" +
-                       projContext.getName() +
-                       ">>Projects>>" + project.getLongName() +
-                       ">>" +  subProject.getName() +
-                       " ')",
-                       subProject.getId(),
-                       false);
-                     projectNode.getChildren().add(subprojectNode);
-                     
-                     // build package nodes under sub project
-                     addPackageNodes(pkgs, subprojectNode);
-         
-                  }
-               }
-               // then build package nodes directly under project
-               addPackageNodes(project.getUMLPackageMetadataCollection(), projectNode);
+        // Build project nodes
+        List<Project> projects = queryService.getAllProjects();
+        for (Iterator projIter = projects.iterator(); projIter.hasNext(); ) {
+           Project project = (Project)projIter.next();
+           Context projContext = project.getClassificationScheme().getContext();
+           addProject(project, contextMap.get(projContext.getId()));
+           projectMap.put(project.getClassificationScheme().getId(), project);
+        }
+            //add all containers
+         List<ClassificationScheme> containers = queryService.findAllCSContainers();
+         for (Iterator csIter = containers.iterator(); csIter.hasNext(); ) {
+            ClassificationScheme container = (ClassificationScheme)csIter.next();
+            addContainer(container, contextMap.get(container.getContext().getId()),projectMap);
 
-            }
-            }
+        }
+            
          }
 
        catch (Exception e) {
@@ -204,5 +172,89 @@ public class UMLBrowserTreeData implements Serializable {
       return contextFolder;
    }
    
+   private static void addProject(Project project, LazyActionTreeNode pNode){
+       if (project == null)
+        return;
+       if (project.getClassificationScheme().getLatestVersionIndicator().equalsIgnoreCase("YES")) {
+          Collection<SubProject> subProjects = project.getSubProjectCollection();
+          Collection<UMLPackageMetadata> pkgs = project.getUMLPackageMetadataCollection();
+          Context projContext = project.getClassificationScheme().getContext();
+          LazyActionTreeNode projectNode =
+             new LazyActionTreeNode("Project Folder",
+               project.getLongName(),
+               "javascript:classSearchAction('P_PARAM_TYPE=PROJECT&P_IDSEQ=" +
+               project.getId() +
+               "&treeBreadCrumbs=caDSR Contexts>>" +
+               projContext.getName() +
+               ">>Projects>>" + project.getLongName() +
+               " ')",  project.getId(),
+               false);
+          projectNode.setToolTip(project.getClassificationScheme().getPreferredDefinition());
+          
+          pNode.getChildren().add(projectNode);
+       
+          // build sub project nodes
+       
+          if (subProjects != null) {
+          for (Iterator subprojIter = subProjects.iterator();
+               subprojIter.hasNext(); ) {
+             SubProject subProject = (SubProject)subprojIter.next();
+             LazyActionTreeNode subprojectNode =
+                new LazyActionTreeNode("SubProject Folder",
+               subProject.getName(),
+               "javascript:classSearchAction('P_PARAM_TYPE=SUBPROJECT&P_IDSEQ=" +
+               subProject.getId() +
+               "&treeBreadCrumbs=caDSR Contexts>>" +
+               projContext.getName() +
+               ">>Projects>>" + project.getLongName() +
+               ">>" +  subProject.getName() +
+               " ')",
+               subProject.getId(),
+               false);
+             projectNode.getChildren().add(subprojectNode);
+             
+             // build package nodes under sub project
+             addPackageNodes(pkgs, subprojectNode);
+       
+          }
+       }
+       // then build package nodes directly under project
+       addPackageNodes(project.getUMLPackageMetadataCollection(), projectNode);
+
+       }
+       
+   }
    
+    private static void addContainer(ClassificationScheme container, 
+    LazyActionTreeNode pNode, HashMap<String,Project> projectMap){
+        LazyActionTreeNode containerNode =
+           new LazyActionTreeNode("Container",
+             container.getLongName(),
+             "javascript:classSearchAction('P_PARAM_TYPE=CONTAINER&P_IDSEQ=" +
+             container.getId() +
+             "&treeBreadCrumbs=caDSR Contexts>>" +
+             container.getContext().getName() +
+             ">>Container>>" + container.getLongName() +
+             " ')",  container.getId(),
+             false);
+        containerNode.setToolTip(container.getPreferredDefinition());
+        
+        pNode.getChildren().add(containerNode);
+        
+        Iterator<ClassificationSchemeRelationship> childIter = container.getParentClassificationSchemeRelationshipCollection().iterator();
+        while (childIter.hasNext()) {
+            ClassificationSchemeRelationship childRel = childIter.next();
+            if (childRel.getName().equalsIgnoreCase("HAS_A")) {
+                ClassificationScheme childCs = childRel.getChildClassificationScheme();
+                if (childCs.getType().equalsIgnoreCase("Container")) 
+                    addContainer(childCs, containerNode, projectMap);
+                else if (childCs.getType().equalsIgnoreCase("Project")) {
+                    addProject(projectMap.get(childCs.getId()), containerNode);
+                }
+            }
+        }
+        
+    
+   
+    }
 }

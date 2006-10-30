@@ -40,6 +40,14 @@ function classSearchAction(urlParams){
                 </h:outputLink>
             </h:panelGroup>
         </f:facet>
+        <f:facet name="Container">
+        <h:panelGroup style="white-space:nowrap;">
+                <t:graphicImage value="/i/container.png" alt="Project" title="Container" border="0"/>
+                 <h:outputLink id="containerLink" value="#{node.action}">
+                 <h:outputText value="#{node.description}" styleClass="treeNode" title="#{node.toolTip}"/>
+                </h:outputLink>
+         </h:panelGroup>
+        </f:facet>
         <f:facet name="Project Folder">
         <h:panelGroup style="white-space:nowrap;">
                 <t:graphicImage value="/i/yellow-folder-open.png" alt="Project" title="Project" rendered="#{t.nodeExpanded}" border="0"/>
