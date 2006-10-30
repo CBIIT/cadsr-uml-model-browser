@@ -3,6 +3,7 @@ package gov.nih.nci.ncicb.cadsr.service.impl;
 import gov.nih.nci.cadsr.domain.AdministeredComponent;
 import gov.nih.nci.cadsr.domain.AdministeredComponentContact;
 import gov.nih.nci.cadsr.domain.ClassificationScheme;
+import gov.nih.nci.cadsr.domain.ClassificationSchemeRelationship;
 import gov.nih.nci.cadsr.domain.Context;
 import gov.nih.nci.cadsr.umlproject.domain.Project;
 import gov.nih.nci.cadsr.umlproject.domain.SubProject;
@@ -17,6 +18,8 @@ import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.SearchPreferences;
 import gov.nih.nci.ncicb.cadsr.util.UMLBrowserParams;
 import gov.nih.nci.system.applicationservice.ApplicationService;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -26,6 +29,7 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
 
 public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
 {
@@ -295,6 +299,28 @@ public List findUmlClass(UMLClassMetadata umlClass){
   return resultList;
 }
 
+  public List findUmlClassForContainer(String csId) throws Exception{
+  
+//first get cs
+    ClassificationScheme container = new ClassificationScheme();
+    container.setId(csId);
+    List<ClassificationScheme> csResult = getCaCoreAPIService().search(ClassificationScheme.class,container);
+    if (csResult != null)
+        container = csResult.get(0);
+       List resultList = new ArrayList();
+       
+       //first get all project under this container
+       List<String> projIds = getProjectIdsForContainer(container);
+       
+       if (projIds != null && projIds.size() >0) {
+           DetachedCriteria classCriteria = DetachedCriteria.forClass(UMLClassMetadata.class);
+           DetachedCriteria projectCriteria = classCriteria.createCriteria("project");
+    
+           projectCriteria.add(Restrictions.in("id", projIds));
+           resultList = getCaCoreAPIService().query(classCriteria, UMLClassMetadata.class.getName());
+       }
+       return resultList;
+    }
 
 public List findUmlClass(UMLClassMetadata umlClass, SearchPreferences searchPreferences) throws Exception{
      List resultList =null;
@@ -412,5 +438,35 @@ public List findUmlClass(UMLClassMetadata umlClass, SearchPreferences searchPref
            e.printStackTrace();
        }
       return resultList;
+    }
+    
+    public List<ClassificationScheme> findAllCSContainers() throws Exception {
+    
+        DetachedCriteria csCriteria = DetachedCriteria.forClass(ClassificationScheme.class);
+        csCriteria.add(Restrictions.eq("type", "Container"));
+        csCriteria.add(Restrictions.eq("workflowStatusName", "RELEASED"));
+
+        csCriteria.addOrder(Order.asc("longName").ignoreCase());
+        List<ClassificationScheme> results = getCaCoreAPIService().query(csCriteria, ClassificationScheme.class.getName());
+        return results;
+        
+    }
+    
+    public List<String> getProjectIdsForContainer(ClassificationScheme container) {
+        List<String> result = new ArrayList<String>();
+        Iterator<ClassificationSchemeRelationship> childIter = container.getParentClassificationSchemeRelationshipCollection().iterator();
+        while (childIter.hasNext()) {
+            ClassificationSchemeRelationship childRel = childIter.next();
+            if (childRel.getName().equalsIgnoreCase("HAS_A")) {
+                ClassificationScheme childCs = childRel.getChildClassificationScheme();
+                if (childCs.getType().equalsIgnoreCase("Container")) 
+                    result.addAll(this.getProjectIdsForContainer(childCs));
+                else if (childCs.getType().equalsIgnoreCase("Project")) {
+                    result.add(childCs.getId());
+                }
+            }
+        }
+        return result;
+        
     }
 }

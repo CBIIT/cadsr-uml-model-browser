@@ -1,5 +1,6 @@
 package gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions;
 
+import gov.nih.nci.cadsr.domain.ClassificationScheme;
 import gov.nih.nci.cadsr.domain.Context;
 import gov.nih.nci.cadsr.domain.ObjectClass;
 import gov.nih.nci.cadsr.umlproject.domain.Project;
@@ -455,6 +456,7 @@ public class UMLSearchAction extends BaseDispatchAction
      HttpServletRequest request,
      HttpServletResponse response) throws IOException, ServletException {
 
+    try {
      String searchType = request.getParameter("P_PARAM_TYPE");
      String searchId = request.getParameter("P_IDSEQ");
      UMLBrowserQueryService queryService = getAppServiceLocator().findQuerySerivce();
@@ -485,6 +487,10 @@ public class UMLSearchAction extends BaseDispatchAction
         umlClasses = queryService.findUmlClass(umlClass);
      }
 
+       if (searchType.equalsIgnoreCase("Container")  ) {
+          umlClasses = queryService.findUmlClassForContainer(searchId);
+       }
+
       if (searchType.equalsIgnoreCase("SubProject")  ) {
          UMLClassMetadata umlClass = new UMLClassMetadata();
          SubProject subproject = new SubProject();
@@ -504,6 +510,11 @@ public class UMLSearchAction extends BaseDispatchAction
       }
 
      setupSessionForClassResults(umlClasses, request);
+    } catch (Exception e) {
+        log.error(e);
+        throw new ServletException("Error occurred while performing tree search", e);
+        
+    }
      return mapping.findForward("umlSearch");
    }
   private void getLazyAssociationsForClass(Collection classList)

@@ -1,5 +1,6 @@
 package gov.nih.nci.ncicb.cadsr.service;
 
+import gov.nih.nci.cadsr.domain.ClassificationScheme;
 import gov.nih.nci.cadsr.domain.Context;
 import gov.nih.nci.cadsr.umlproject.domain.Project;
 import gov.nih.nci.cadsr.umlproject.domain.SubProject;
@@ -72,5 +73,7 @@ public interface UMLBrowserQueryService {
    public List<UMLClassMetadata> getClassesForContext(String contextId);
    
    public List<Project> findProject(Project project);
+   public List<ClassificationScheme> findAllCSContainers() throws Exception ;
+   public List findUmlClassForContainer(String csId) throws Exception;
    
 }
