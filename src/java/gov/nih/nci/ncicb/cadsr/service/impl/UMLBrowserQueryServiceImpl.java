@@ -69,7 +69,7 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
             ApplicationService caCoreService = getCaCoreAPIService();
             Context context = new Context();
             UMLBrowserParams params = UMLBrowserParams.getInstance();
-            context.setName(params.getTestContext());
+            context.setName(params.getTrainingContext());
             List<Context> contexts = caCoreService.search(Context.class,context);
             if (contexts.size()>0) {
                 trainingContext = contexts.get(0);
