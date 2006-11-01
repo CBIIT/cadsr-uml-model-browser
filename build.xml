@@ -4,7 +4,7 @@
   =============================================
 
   Author: Shaji Kakkodi
-  @version $Id: build.xml,v 1.18 2006-03-22 19:23:52 jiangj Exp $
+  @version $Id: build.xml,v 1.18.2.1 2006-11-01 17:31:36 jiangj Exp $
 
   This build script was created using Ant version 1.6 and Java 1.5
 -->
@@ -26,7 +26,7 @@
    
    <property name="cdebrowser.version" value="3.1" />
    <property name="umlmodelbrowser.version" value="0.5" />
-   <property name="umlmodelbrowser.build" value="12" />
+   <property name="umlmodelbrowser.build" value="13" />
    
    <!-- used for open source build for file suffix-->
    <property name="umlmodelbrowser.version.suffix" value="0_5" />
@@ -34,6 +34,7 @@
    <property name="dev.user.password" value="cdeuser" />
    <property name="qa.user.password" value="cdeuser" />
    <property name="stage.user.password" value="cdeuser" />
+   <property name="umlstage.user.password" value="cdeuser" />
    <property name="prod.user.password" value="cdeuser" />
 
   
@@ -62,6 +63,7 @@
   <property name="config.home" value="${project.home}/config"/>
   <property name="config.qa" value="${project.home}/config_qa"/>
   <property name="config.stage" value="${project.home}/config_stage"/>  
+  <property name="config.umlstage" value="${project.home}/config_umlstage"/>  
   <property name="config.prod" value="${project.home}/config_prod"/>
   <property name="config.opensource" value="${project.home}/config_opensource"/>
   <property name="ejb.descriptor.home" value="${project.home}/config/ejb"/>
@@ -225,6 +227,31 @@
    </target>
   <!-- =========== END STAGE CONFIG ======================= -->
   
+  <!-- =========== UML STAGE/Sandbox CONFIG ======================= -->
+    <target name="umlstage_config" depends="init">          
+     <copy todir="${classes.build.dir}/WEB-INF/classes">
+         <fileset dir="${config.umlstage}/properties">
+           <patternset>
+             <include name="*.properties"/>
+           </patternset>
+         </fileset>
+       </copy>
+         
+     <filter token="umlmodelbrowser.version" value="${umlmodelbrowser.version}"/>
+     <filter token="umlmodelbrowser.build" value="${umlmodelbrowser.build}" />
+     <copy todir="${classes.build.dir}/jsp/common" filtering="true">
+              <fileset dir="${jsp.dir}/common">
+                <patternset>
+                  <include name="common_bottom_border.jsp"/>
+                </patternset>
+              </fileset>
+     </copy> 
+     
+       <property name="debug.config.home" value="${config.umlstage}" /> 
+        
+   </target>
+  <!-- =========== END UML STAGE CONFIG ======================= -->
+  
   
   <!-- =========== PRODUCTION CONFIG ======================= -->
     <target name="prod_config" depends="init">          
@@ -249,7 +276,7 @@
        <property name="debug.config.home" value="${config.prod}" /> 
         
    </target>
-  <!-- =========== END STAGE CONFIG ======================= -->
+  <!-- =========== END PRODUCTION CONFIG ======================= -->
   <target name="debug_setting" depends="debug_copy,debug_remove">
  
   </target>
@@ -457,6 +484,19 @@
       <target  name="deploy_stage_start" depends="deploy_stage,jboss_startdebug"> 
    </target>
    
+   <target  name="deploy_umlstage" depends="clean,clean_jboss,debug_setting,umlstage_config,ear_umlmodelbrowser"> 
+     <copy todir="${jboss.home}/server/default/deploy">      
+         <fileset dir="${build.dir}">
+           <patternset>
+             <include name="${ear.name}.ear"/>
+           </patternset>
+         </fileset> 
+     </copy> 
+     <filter token="user.password" value="${umlstage.user.password}"/>
+   </target> 
+   
+    <target  name="deploy_umlstage_start" depends="deploy_umlstage,jboss_startdebug"> 
+   </target>
    <target  name="deploy_prod" depends="clean,clean_jboss,debug_setting,prod_config, ear_umlmodelbrowser"> 
      <copy todir="${jboss.home}/server/default/deploy">      
          <fileset dir="${build.dir}">
@@ -501,6 +541,10 @@
         </target>      
   <!-- =========== END STAGE DISTRIBUTION ======================= -->
   
+  <!-- =========== UML STAGE/SANDBOX DISTRIBUTION============== -->
+       <target name="dist_umlstage" depends="clean_build_dir,debug_setting,umlstage_config,ear_umlmodelbrowser,dist_ear_copy">  
+        </target>      
+  <!-- =========== END UML STAGE/SANDBOX DISTRIBUTION ======================= -->
   <!-- =========== PROD DISTRIBUTION============== -->
         <target name="dist_prod" depends="clean_build_dir,debug_setting,prod_config,ear_umlmodelbrowser,dist_ear_copy">  
         </target>      
