@@ -144,7 +144,7 @@ function resetSubProjPackage() {
 
             if (umlProj.getId().equals(dynaForm.get(UMLBrowserFormConstants.PROJECT_IDSEQ))) { %>
             selected="selected" <% } %>  > 
-            <%=umlProj.getShortName()+" (v"+umlProj.getVersion() +", " +umlProj.getClassificationScheme().getContext().getName() +")"%></option>
+            <%=umlProj.getLongName()+" (v"+umlProj.getVersion() +", " +umlProj.getClassificationScheme().getContext().getName() +")"%></option>
 	    </logic:iterate> 
           </html:select>
 
