@@ -1,7 +1,5 @@
 package gov.nih.nci.ncicb.cadsr.service.impl;
 
-import gov.nih.nci.cadsr.domain.AdministeredComponent;
-import gov.nih.nci.cadsr.domain.AdministeredComponentContact;
 import gov.nih.nci.cadsr.domain.ClassificationScheme;
 import gov.nih.nci.cadsr.domain.ClassificationSchemeRelationship;
 import gov.nih.nci.cadsr.domain.Context;
@@ -10,9 +8,7 @@ import gov.nih.nci.cadsr.umlproject.domain.SubProject;
 import gov.nih.nci.cadsr.umlproject.domain.UMLAttributeMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLPackageMetadata;
-
 import gov.nih.nci.ncicb.cadsr.service.UMLBrowserQueryService;
-
 import gov.nih.nci.ncicb.cadsr.servicelocator.ApplicationServiceLocator;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.SearchPreferences;
 import gov.nih.nci.ncicb.cadsr.util.UMLBrowserParams;
@@ -29,7 +25,7 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.SimpleExpression;
+
 
 public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
 {
@@ -116,7 +112,7 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
   public List<Context> getAllContexts() throws Exception {
      DetachedCriteria contextCriteria =
        DetachedCriteria.forClass(Context.class);
-     contextCriteria.addOrder(Order.asc("name"));
+     contextCriteria.addOrder(Order.asc("name").ignoreCase());
       ApplicationService caCoreService = getCaCoreAPIService();
      List results = caCoreService.query(contextCriteria, Context.class.getName());
     return results;
@@ -148,7 +144,7 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
           DetachedCriteria contextCriteria = projectCriteria.createCriteria("classificationScheme")
                                              .createCriteria("context");
         applyContextSearchPreferences(searchPreferences, contextCriteria);
-        projectCriteria.addOrder(Order.asc("shortName"));
+        projectCriteria.addOrder(Order.asc("longName").ignoreCase());
         List<Project> results = caCoreService.query(projectCriteria, Project.class.getName());;
 
         return results;
@@ -158,7 +154,7 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
       ApplicationService caCoreService = getCaCoreAPIService();
       DetachedCriteria projectCriteria =
         DetachedCriteria.forClass(Project.class);
-      projectCriteria.addOrder(Order.asc("longName"));
+      projectCriteria.addOrder(Order.asc("longName").ignoreCase());
 
      if (context != null && context.getId().length() >0) {
         DetachedCriteria csCri = projectCriteria.createCriteria("classificationScheme");
@@ -173,7 +169,7 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
         ApplicationService caCoreService = getCaCoreAPIService();
         DetachedCriteria subProjectCriteria =
           DetachedCriteria.forClass(SubProject.class);
-        subProjectCriteria.addOrder(Order.asc("name"));
+        subProjectCriteria.addOrder(Order.asc("name").ignoreCase());
        List<SubProject> results = caCoreService.query(subProjectCriteria, SubProject.class.getName());;
       return results;
     }
@@ -186,7 +182,7 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
                                              .createCriteria("classificationScheme")
                                              .createCriteria("context");
          applyContextSearchPreferences(searchPreferences, contextCriteria);
-        subProjectCriteria.addOrder(Order.asc("name"));
+        subProjectCriteria.addOrder(Order.asc("name").ignoreCase());
        List<SubProject> results = caCoreService.query(subProjectCriteria, SubProject.class.getName());;
       return results;
     }
@@ -195,7 +191,7 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
         ApplicationService caCoreService = getCaCoreAPIService();
         DetachedCriteria subPackageCriteria =
           DetachedCriteria.forClass(UMLPackageMetadata.class);
-        subPackageCriteria.addOrder(Order.asc("name"));
+        subPackageCriteria.addOrder(Order.asc("name").ignoreCase());
        List<UMLPackageMetadata> results = caCoreService.query(subPackageCriteria, UMLPackageMetadata.class.getName());;
       return results;
     }
@@ -208,7 +204,7 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
                                              .createCriteria("classificationScheme")
                                              .createCriteria("context");
          applyContextSearchPreferences(searchPreferences, contextCriteria);
-        subPackageCriteria.addOrder(Order.asc("name"));
+        subPackageCriteria.addOrder(Order.asc("name").ignoreCase());
        List<UMLPackageMetadata> results = caCoreService.query(subPackageCriteria, UMLPackageMetadata.class.getName());;
       return results;
     }
@@ -217,7 +213,7 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
         ApplicationService caCoreService = getCaCoreAPIService();
         DetachedCriteria umlClassMetadataCriteria =
           DetachedCriteria.forClass(UMLClassMetadata.class);
-          umlClassMetadataCriteria.addOrder(Order.asc("name"));
+          umlClassMetadataCriteria.addOrder(Order.asc("name").ignoreCase());
        List<UMLClassMetadata> results = caCoreService.query(umlClassMetadataCriteria, UMLClassMetadata.class.getName());;
       return results;
     }
@@ -230,7 +226,7 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
                                              .createCriteria("classificationScheme")
                                              .createCriteria("context");
           applyContextSearchPreferences(searchPreferences,contextCriteria);
-          umlClassMetadataCriteria.addOrder(Order.asc("name"));
+          umlClassMetadataCriteria.addOrder(Order.asc("name").ignoreCase());
        List<UMLClassMetadata> results = caCoreService.query(umlClassMetadataCriteria, UMLClassMetadata.class.getName());;
       return results;
     }
@@ -272,7 +268,7 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
       try {
         DetachedCriteria classCriteria = DetachedCriteria.forClass(UMLClassMetadata.class);
  //        classCriteria.addOrder( Order.asc("name").ignoreCase() );
-        classCriteria.addOrder( Order.asc("name"));
+        classCriteria.addOrder( Order.asc("name").ignoreCase());
         if (contextId != null && contextId.length() >0) {
            DetachedCriteria contextCri= classCriteria.createCriteria("project").createCriteria("classificationScheme").createCriteria("context");
            contextCri.add(Expression.eq("id", contextId));
