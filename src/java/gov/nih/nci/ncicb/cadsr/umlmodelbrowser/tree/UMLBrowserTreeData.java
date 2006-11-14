@@ -59,7 +59,8 @@ public class UMLBrowserTreeData implements Serializable {
          for (Iterator iter = contexts.iterator(); iter.hasNext(); ) {
             Context context = (Context)iter.next();
             LazyActionTreeNode contextNode =
-               new LazyActionTreeNode("Context Folder", context.name,
+               new LazyActionTreeNode("Context", 
+               context.name + " (" + context.getDescription() + ")",
                  "javascript:classSearchAction('P_PARAM_TYPE=Context&P_IDSEQ=" +
                  context.getId() + "&treeBreadCrumbs=caDSR Contexts>>" +
                  context.getName() +   " ')", context.getId(), false);
