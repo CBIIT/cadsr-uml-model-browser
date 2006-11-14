@@ -40,6 +40,23 @@ function classSearchAction(urlParams){
                 </h:outputLink>
             </h:panelGroup>
         </f:facet>
+        <f:facet name="Context">
+            <h:panelGroup style="white-space:nowrap;">
+                <h:commandLink immediate="true"
+                               action="#{treeBacker.selectedNode}"
+                               actionListener="#{t.setNodeSelected}">
+                    <t:graphicImage value="/i/yellow-folder-closed.png"
+                                    border="0"/>
+                    <f:param name="docNum"
+                             value="#{node.identifier}"/>
+                </h:commandLink>
+                <h:outputLink 
+                              value="#{node.action}">
+                    <h:outputText value="#{node.description}"
+                                  styleClass="treeNode"/>
+                </h:outputLink>
+            </h:panelGroup>
+       </f:facet>
         <f:facet name="Container">
         <h:panelGroup style="white-space:nowrap;">
                 <t:graphicImage value="/i/container.png" alt="Project" title="Container" border="0"/>
