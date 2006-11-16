@@ -1,3 +1,4 @@
+<%@page import="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserNavigationConstants" %>
 
 <SCRIPT LANGUAGE="JavaScript">
 <!--
@@ -116,11 +117,11 @@ function resetSubProjPackage() {
             <tr>
               <td width="10%" class="OraTableColumnHeaderNoBG" nowrap>Class Name</td>
               <td class="OraTabledata" nowrap>
-                <html:text property="<%=UMLBrowserFormConstants.CLASS_NAME%>" size="35" />
+                <html:text property="<%=UMLBrowserFormConstants.CLASS_NAME%>" size="35" onkeypress="if (event.keyCode==13){submitForm('classSearch')};"/>
               </td>
               <td width="10%" class="OraTableColumnHeaderNoBG" nowrap>Attribute Name</td>
               <td class="OraTabledata" nowrap>
-                <html:text property="attributeName" size="35" />
+                <html:text property="attributeName" size="35" onkeypress="if (event.keyCode==13){submitForm('classSearch')};" />
               </td>
             </tr>
    </table>
@@ -151,7 +152,7 @@ function resetSubProjPackage() {
                 </td>
                 <td width="20%" class="OraTableColumnHeaderNoBG"  nowrap>Version</td>
                 <td class="OraTabledata" nowrap width="20%">
-                <html:text property="<%=UMLBrowserFormConstants.PROJECT_VERSION%>" size="10" />
+                <html:text property="<%=UMLBrowserFormConstants.PROJECT_VERSION%>" size="10" onkeypress="if (event.keyCode==13){submitForm('classSearch')};"/>
                 </td>
              </tr>
             <tr>            
