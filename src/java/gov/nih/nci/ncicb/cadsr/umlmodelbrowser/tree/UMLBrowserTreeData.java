@@ -215,12 +215,12 @@ public class UMLBrowserTreeData implements Serializable {
              projectNode.getChildren().add(subprojectNode);
              
              // build package nodes under sub project
-             addPackageNodes(pkgs, subprojectNode);
+             addPackageNodes(subProject.getUMLPackageMetadataCollection(), subprojectNode);
        
           }
        }
        // then build package nodes directly under project
-       addPackageNodes(project.getUMLPackageMetadataCollection(), projectNode);
+       addPackageNodes(pkgs, projectNode);
 
        }
        
