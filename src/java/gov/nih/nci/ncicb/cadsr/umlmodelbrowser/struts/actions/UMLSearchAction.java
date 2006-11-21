@@ -14,6 +14,7 @@ import gov.nih.nci.ncicb.cadsr.jsp.bean.PaginationBean;
 import gov.nih.nci.ncicb.cadsr.service.UMLBrowserQueryService;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.SearchPreferences;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConstants;
+import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.TreeConstants;
 import gov.nih.nci.ncicb.cadsr.util.BeanPropertyComparator;
 
 import gov.nih.nci.ncicb.cadsr.util.UMLBrowserParams;
@@ -148,15 +149,20 @@ public class UMLSearchAction extends BaseDispatchAction
      ActionForm form,
      HttpServletRequest request,
      HttpServletResponse response) throws IOException, ServletException {
-
+     
+     String breadCrumb = "";
      int selectedClassIndex = Integer.parseInt(request.getParameter("selectedClassIndex"));
      Collection umlClasses = (Collection) getSessionObject(request,  UMLBrowserFormConstants.CLASS_SEARCH_RESULTS);
      UMLClassMetadata umlClass =(UMLClassMetadata) umlClasses.toArray()[selectedClassIndex];
+     breadCrumb = umlClass.getObjectClass().getContext().getName() + ">>"
+      + umlClass.getProject().getLongName() + ">>"
+      + umlClass.getUMLPackageMetadata().getName() + ">>"
+      + umlClass.getName();
      DynaActionForm dynaForm = (DynaActionForm) form;
      Collection<UMLAttributeMetadata> umlAttributes= umlClass.getUMLAttributeMetadataCollection();
      this.setupSessionForAttributeResults(umlAttributes, request);
      dynaForm.set("className", umlClass.getName());
-
+     request.setAttribute(UMLBrowserFormConstants.ATTRIBUTE_CRUMB, breadCrumb);
 
      return mapping.findForward("showAttributes");
    }
@@ -231,7 +237,7 @@ public class UMLSearchAction extends BaseDispatchAction
    if (umlClasses != null) {
      pb.setListSize(umlClasses.size());
    }
-   Collections.sort(umlClasses,comparator);
+   Collections.sort(umlClasses, comparator);
    setSessionObject(request, UMLBrowserFormConstants.ATTRIBUTE_SEARCH_RESULTS_PAGINATION, pb,true);
    setSessionObject(request, ANCHOR, "results",true);
    return mapping.findForward(SUCCESS);
