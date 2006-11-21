@@ -21,8 +21,12 @@
   
   if (!paramIdseq.equals("") && !paramType.equals("")){
     pageContextInfo = request.getParameter(TreeConstants.TREE_BREADCRUMBS);
+  } else {
+    pageContextInfo = (String)request.getAttribute(UMLBrowserFormConstants.ATTRIBUTE_CRUMB);
   }
 
+  if (pageContextInfo == null)
+    pageContextInfo = "";
 %>
 <HEAD>
 <TITLE>Welcome to UML Browser..</TITLE>
