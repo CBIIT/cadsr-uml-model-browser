@@ -109,8 +109,10 @@ public class UMLBrowserTreeData implements Serializable {
 
    private static void addPackageNodes(Collection<UMLPackageMetadata> packages, 
    LazyActionTreeNode parentNode){
+      boolean isParentProject = parentNode.getType().equalsIgnoreCase("Project Folder");
    
       if (packages == null) return;
+      
       
       //build class nodes
        int bcIndex = parentNode.getAction().indexOf("&treeBreadCrumbs=");
@@ -119,6 +121,8 @@ public class UMLBrowserTreeData implements Serializable {
       
       for (Iterator pkgIter = packages.iterator(); pkgIter.hasNext(); ) {
          UMLPackageMetadata pkg = (UMLPackageMetadata)pkgIter.next();
+         if (pkg.getSubProject() != null && isParentProject )
+            continue;
          LazyActionTreeNode pkgNode =
             new LazyActionTreeNode("Package Folder", pkg.getName(),
           "javascript:classSearchAction('P_PARAM_TYPE=PACKAGE&P_IDSEQ=" +
