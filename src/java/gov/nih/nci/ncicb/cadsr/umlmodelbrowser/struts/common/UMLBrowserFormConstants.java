@@ -39,6 +39,7 @@ public interface UMLBrowserFormConstants
    public static final String EXCLUDE_TEST_CONTEXT="excludetestcontext";
    public static final String EXCLUDE_TRAINING_CONTEXT="excludetrainingcontext";
    public static final String SEARCH_PREFERENCES="searchpreferences";
+   public static final String ATTRIBUTE_CRUMB="attributeCrumb";
    
 }
 
