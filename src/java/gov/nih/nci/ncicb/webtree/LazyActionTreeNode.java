@@ -1,5 +1,7 @@
 package gov.nih.nci.ncicb.webtree;
 
+import java.util.Iterator;
+
 import org.apache.myfaces.custom.tree2.TreeNodeBase;
 
 public class LazyActionTreeNode extends TreeNodeBase {
@@ -57,6 +59,22 @@ public class LazyActionTreeNode extends TreeNodeBase {
 
     public String getToolTip() {
         return _toolTip;
+    }
+    
+    public void addLeafSortedByDescription(LazyActionTreeNode newLeaf) {
+        Iterator nodeIter = this.getChildren().iterator();
+        int index = 0;
+        while (nodeIter.hasNext()) {
+            LazyActionTreeNode leafNode = (LazyActionTreeNode) nodeIter.next();
+            
+            if (leafNode.getDescription().compareTo(newLeaf.getDescription()) <0)
+             index ++; 
+            else {
+              break;
+            }
+        }
+        this.getChildren().add(index, newLeaf);
+        
     }
 
    
