@@ -149,7 +149,8 @@ public class UMLBrowserTreeData implements Serializable {
            "javascript:classSearchAction('P_PARAM_TYPE=CLASS&P_IDSEQ=" +
            umlClass.getId() +  pkgBreadCrumb + ">>" + umlClass.getName() +" ')",
            umlClass.getId(), false);
-           pkgNode.getChildren().add(clsNode);
+           
+           pkgNode.addLeafSortedByDescription(clsNode);
          }
       
    }
@@ -216,7 +217,7 @@ public class UMLBrowserTreeData implements Serializable {
                " ')",
                subProject.getId(),
                false);
-             projectNode.getChildren().add(subprojectNode);
+             projectNode.addLeafSortedByDescription(subprojectNode);
              
              // build package nodes under sub project
              addPackageNodes(subProject.getUMLPackageMetadataCollection(), subprojectNode);
