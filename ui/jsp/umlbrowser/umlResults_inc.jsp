@@ -8,7 +8,7 @@ if(confirm(message)) location.href = url;
 <%@ include file="showMessages.jsp" %>
 <%
     String attributeurl = request.getContextPath()+"/umlbrowser/umlSearchAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"="+UMLBrowserNavigationConstants.SHOW_ATTRIBUTE_SEARCH_METHOD;
-    String ocbrowserurl = UMLBrowserParams.getInstance().getCdebrowserURL() +"ocbrowser/ocDetailsAction.do?method=getObjectClass&resetCrumbs=true&objectClassIdseq=";
+    String ocbrowserurl = UMLBrowserParams.getInstance().getCdebrowserURL() +"ocbrowser/ocrDetailsAction.do?FirstTimer=0&method=getObjectClassRelationships&resetCrumbs=false&objectClassIdseq=";
 %>   
    <logic:notEmpty name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>">
        <jsp:include page="mltitab_inc.jsp" flush="true">
@@ -24,7 +24,7 @@ if(confirm(message)) location.href = url;
                           sortableColumnHeaderBeanId="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR%>" 
                           separator=">>" 
                           showDefault="Y"
-                          labelMapping="name, Class Name, project.longName Project Name, project.version Project Version, UMLPackageMetadata.subProject.name, Sub Project Name, UMLPackageMetadata.name, Package Name, objectClass.longName, OC Name, objectClass.version, OC Version, objectClass.publicID, OC Public ID "
+                          labelMapping="name, Class Name, project.longName Project Name, project.version Project Version, UMLPackageMetadata.subProject.name, Sub Project Name, UMLPackageMetadata.name, Package Name, objectClass.longName, OC Name, objectClass.version, OC Version, objectClass.publicID, Class Details "
                           defaultText=" (Default) "
                           ascendingText=" [Ascending]"
                           descendingText=" [Descending]"                          
@@ -131,7 +131,7 @@ if(confirm(message)) location.href = url;
 		        <cde:sortableColumnHeader
             sortableColumnHeaderBeanId="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR%>" 
 		       	actionUrl='<%="/umlbrowser/umlSortSearchAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"=sortResult"%>' 
-		   	   	columnHeader="OC Public ID" 
+		   	   	columnHeader="Class Details" 
                                 orderParamId="sortOrder" 
 		   	   	sortFieldId="sortField"
 		   	   	sortFieldValue = "objectClass.publicID"
@@ -218,7 +218,7 @@ if(confirm(message)) location.href = url;
           	<th class="OraTableColumnHeader" nowrap>Package</th>
           	<th class="OraTableColumnHeader" nowrap>Object Class Name</th>
             <th class="OraTableColumnHeader" nowrap>OC Version</th>
-          	<th class="OraTableColumnHeader" nowrap>OC Public ID</th>
+          	<th class="OraTableColumnHeader" nowrap>Class Details</th>
           </tr>
       <tr class="OraTabledata" >
          	<td colspan="8" ><bean:message key="cadsr.umlbrowser.empty.search.results"/></td>
