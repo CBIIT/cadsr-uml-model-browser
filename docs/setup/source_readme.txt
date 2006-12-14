@@ -26,7 +26,7 @@ Building the Application
 
 Pre-requisites
 ---------------
-1.  JBOSS 4.0.2 installed. Available from http://www.jboss.org
+1.  JBOSS 4.0.4 installed. Available from http://www.jboss.org
 2.  JDK 1.5.0_05  installed
 3.  Ant 1.6.2 or above installed. Available from http://ant.apache.org/
 4.  caDSR @cdebrowser.version@ repository installed. Please refer to caDSR installation document
@@ -60,25 +60,36 @@ Deploying Application
 =====================
 Pre-requisites
 ---------------
-1.  JBOSS 4.0.2 installed. Available from http://www.jboss.org
+1.  JBOSS 4.0.4 installed. Available from http://www.jboss.org
 
 Deployment Procedure
 --------------------
 1. Shutdown Jboss instance.
 
+2. Copy  file  <INSTALL_HOME>/config/connections/oracle-ds.xml to directory <JBOSS_HOME> server/default/deploy
+    If file already exists in <JBOSS_HOME> server/default/deploy, then update the file with 
+    datasource defined in <INSTALL_HOME>/config/connections/oracle-ds.xml.
 
-5. Copy umlmodelbrowser.ear from <INSTALL_HOME>/dist to 
+    Note: Please update the following tags in oracle-ds.xml to match your database(caDSR repository) environment.		
+                <connection-url>jdbc:oracle:thin:@hostname:port:SID</connection-url>
+		<user-name>username</user-name>
+		<password>password</password>
+		
+                caDSR installation scripts creates a user called "sbrext" that can be used for this purpose
+
+
+3. Copy umlmodelbrowser.ear from <INSTALL_HOME>/dist to 
 	<JBOSS_HOME>\server\default\deploy
 	
-6. Startup the Jboss instance
+4. Startup the Jboss instance
     
-7. Access the application using url http://<HOST>:<POST>/umlmodelbrowser/
+5. Access the application using url http://<HOST>:<POST>/umlmodelbrowser/
     eg.
     	http://localhost:8080/umlmodelbrowser/
 
 
 
-The source code has been compiled and tested using  JDK 1.5.0_05 , struts 1.1 and JBOSS 4.0.2
+The source code has been compiled and tested using  JDK 1.5.0_05 , struts 1.2.9 and JBOSS 4.0.4
 CDEBrowser @cdebrowser.version@ works with caDSR repository @cdebrowser.version@ and is not 
 compatible with earlier versions of caDSR repository
 
