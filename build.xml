@@ -1,10 +1,10 @@
 <!DOCTYPE project>
 <!--
-  CDEBrowser Ant build 
+  UML Model Browser Ant build 
   =============================================
 
   Author: Shaji Kakkodi
-  @version $Id: build.xml,v 1.28 2006-12-05 23:15:42 jiangj Exp $
+  @version $Id: build.xml,v 1.29 2006-12-15 16:29:08 jiangj Exp $
 
   This build script was created using Ant version 1.6 and Java 1.5
 -->
@@ -29,7 +29,7 @@
    <property name="umlmodelbrowser.build" value="6" />
    
    <!-- used for open source build for file suffix-->
-   <property name="umlmodelbrowser.version.suffix" value="0_5" />
+   <property name="umlmodelbrowser.version.suffix" value="3_2" />
    
    <property name="dev.user.password" value="cdeuser" />
    <property name="qa.user.password" value="cdeuser" />
@@ -56,6 +56,7 @@
   <property name="build.dir" value="${project.home}/build"/>
   <property name="dist.dir" value="${project.home}/dist"/>
   <property name="classes.build.dir" value="${build.dir}/classes"/>
+  <property name="java.lib.dir" value="${project.home}/lib/java"/>
   <property name="run.java.lib.dir" value="${project.home}/lib/java/run"/>
   <property name="compile.java.lib.dir" value="${project.home}/lib/java/compile"/>
  
@@ -629,6 +630,7 @@
          <fileset dir="${config.opensource}">
            <patternset>
              <include name="properties/*.*"/>
+             <include name="connections/*.*"/>
            </patternset>
          </fileset>               
       </copy> 
@@ -643,16 +645,12 @@
   <target name="opensource_unit" depends="opensource_to_accii">
       <!-- copy libs -->
      <copy todir="${open.source.dir}/ascii/${open.source.dir.base.name}/lib/java">      
-         <fileset dir="${run.java.lib.dir}">
+         <fileset dir="${java.lib.dir}">
            <patternset>
-             <include name="**/*.*"/>
+             <include name="compile/*.*"/>
+             <include name="run/*.*"/>
            </patternset>
          </fileset> 
-         <fileset dir="${compile.java.lib.dir}">
-           <patternset>
-             <include name="**/*.*"/>
-           </patternset>
-         </fileset>                        
       </copy>       
      <!-- copy images -->
      <copy todir="${open.source.dir}/ascii/${open.source.dir.base.name}/ui">      
