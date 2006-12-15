@@ -4,7 +4,7 @@
   =============================================
 
   Author: Jane Jiang
-  @version $Id: build.xml,v 1.2 2006-12-14 19:36:40 jiangj Exp $
+  @version $Id: build.xml,v 1.3 2006-12-15 16:51:30 jiangj Exp $
   
 
   This build script was created using Ant version 1.6 and Java 1.5
@@ -26,7 +26,6 @@
   
   <property name="app.name" value="umlmodelbrowser" />
   <property name="web.app.name" value="${app.name}-web" />
-  <property name="ear.name" value="${app.name}" />
   <property name="war.name" value="${app.name}-web" />
 
     
@@ -248,28 +247,15 @@
    
   
 
-  <!-- =========== CREATE EAR FILE ======================= -->
-    <target name="ear_umlmodelbrowser" depends="war_umlmodelbrowser">
-            
-      <!-- Create ear file -->      
-      <ear earfile="${build.dir}/${ear.name}.ear" appxml="${config.home}/META-INF/application.xml">
-        <fileset dir="${build.dir}">
-          <patternset>
-            <include name="*.war"/>
-          </patternset>
-        </fileset>
-      </ear>
-    </target>
-  <!-- =========== END CREATE EAR FILE ======================= -->
 
 
 
 <!-- =========== Copy DISTRIBUTION EAR============== -->
-  <target name="dist_ear_copy" depends="ear_umlmodelbrowser">  
+  <target name="dist_war_copy" depends="war_umlmodelbrowser">  
      <copy todir="${dist.dir}">      
          <fileset dir="${build.dir}">
            <patternset>
-             <include name="${ear.name}.ear"/>
+             <include name="${war.name}.war"/>
            </patternset>
          </fileset>    
       </copy>          
@@ -277,7 +263,7 @@
   <!-- =========== DEV DISTRIBUTION============== -->
   
   <!-- =========== DEV DISTRIBUTION============== -->
-   <target name="dist" depends="clean_build_dir,debug_setting,dev_config,ear_umlmodelbrowser,dist_ear_copy">      
+   <target name="dist" depends="clean_build_dir,debug_setting,dev_config,war_umlmodelbrowser,dist_war_copy">      
    </target>      
   <!-- =========== END DEV DISTRIBUTION ======================= -->
 
