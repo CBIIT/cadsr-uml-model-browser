@@ -114,7 +114,7 @@
   <plug-in className="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.SpringWebContextPlugIn">  
   </plug-in> 
 
-  <plug-in className="gov.nih.nci.ncicb.cadsr.struts.common.ObjectPlugIn">
+  <plug-in className="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.ObjectPlugIn">
     <set-property 
       property="applicationKey" 
       value="ApplicationServiceLocatorClassName"/>

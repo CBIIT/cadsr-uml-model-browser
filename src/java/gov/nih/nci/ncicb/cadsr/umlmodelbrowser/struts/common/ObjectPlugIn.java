@@ -1,4 +1,5 @@
-package gov.nih.nci.ncicb.cadsr.struts.common;
+package gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common;
+
 import gov.nih.nci.ncicb.cadsr.util.ObjectFactory;
 import javax.servlet.ServletException;
 import org.apache.struts.action.ActionServlet;
