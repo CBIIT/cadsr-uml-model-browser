@@ -287,8 +287,7 @@ public class UMLSearchAction extends BaseDispatchAction
         UMLClassMetadata aClass = null;
         if(umlClasses.size()>0)
         {
-          Object[] classArr = umlClasses.toArray();
-          aClass=(UMLClassMetadata)classArr[0];
+          aClass=(UMLClassMetadata)umlClasses.iterator().next();
           BeanPropertyComparator comparator = new BeanPropertyComparator(aClass.getClass());
           comparator.setPrimary("name");
           comparator.setOrder(comparator.ASCENDING);
