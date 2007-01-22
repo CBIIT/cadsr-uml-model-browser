@@ -4,7 +4,7 @@
   =============================================
 
   Author: Shaji Kakkodi
-  @version $Id: build.xml,v 1.30 2006-12-15 16:30:20 jiangj Exp $
+  @version $Id: build.xml,v 1.31 2007-01-22 21:40:28 rokickik Exp $
 
   This build script was created using Ant version 1.6 and Java 1.5
 -->
@@ -347,7 +347,7 @@
           <include name="WEB-INF/jboss-web.xml"/>
           <include name="WEB-INF/umlbrowser/struts-config*.xml"/>
           <include name="WEB-INF/spring/*.xml"/>
-
+		  <exclude name="WEB-INF/web.xml"/>
         </patternset>
       </fileset>
       <fileset dir="${classes.build.dir}">
