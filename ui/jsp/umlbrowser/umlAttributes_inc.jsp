@@ -1,7 +1,7 @@
 
 
 <%
-    String cdeDetailUrl = UMLBrowserParams.getInstance().getCdebrowserURL() +"search?dataElementDetails=9&PageId=DataElementsGroup&queryDE=yes&p_de_idseq=";
+    String cdeDetailUrl = UMLBrowserParams.getInstance().getCdebrowserURL() +"search?dataElementDetails=9&PageId=DataElementsGroup&queryDE=yes&FirstTimer=yes&p_de_idseq=";
 %>   
 <%@ include file="showMessages.jsp" %>
        <jsp:include page="mltitab_inc.jsp" flush="true">
