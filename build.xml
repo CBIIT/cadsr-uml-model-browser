@@ -4,7 +4,7 @@
   =============================================
 
   Author: Shaji Kakkodi
-  @version $Id: build.xml,v 1.33 2007-02-06 20:18:01 aggarwap Exp $
+  @version $Id: build.xml,v 1.34 2007-02-06 20:22:21 aggarwap Exp $
 
   This build script was created using Ant version 1.6 and Java 1.5
 -->
@@ -520,11 +520,11 @@
       <target  name="deploy_stage_start" depends="deploy_stage,jboss_startdebug"> 
    </target>
 
-   <target  name="deploy_umlstage" depends="clean,clean_jboss,debug_setting,umlstage_config,ear_umlmodelbrowser"> 
+   <target  name="deploy_umlstage" depends="clean,clean_jboss,debug_setting,umlstage_config,war_umlmodelbrowser"> 
      <copy todir="${jboss.home}/server/default/deploy">      
          <fileset dir="${build.dir}">
            <patternset>
-             <include name="${ear.name}.ear"/>
+             <include name="${war.name}.war"/>
            </patternset>
          </fileset> 
      </copy> 
