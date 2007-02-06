@@ -4,7 +4,7 @@
   =============================================
 
   Author: Shaji Kakkodi
-  @version $Id: build.xml,v 1.32 2007-02-06 20:15:41 aggarwap Exp $
+  @version $Id: build.xml,v 1.33 2007-02-06 20:18:01 aggarwap Exp $
 
   This build script was created using Ant version 1.6 and Java 1.5
 -->
@@ -584,7 +584,7 @@
   <!-- =========== END STAGE DISTRIBUTION ======================= -->
     
   <!-- =========== UML STAGE/SANDBOX DISTRIBUTION============== -->
-       <target name="dist_umlstage" depends="clean_build_dir,debug_setting,umlstage_config,ear_umlmodelbrowser,dist_ear_copy">  
+       <target name="dist_umlstage" depends="clean_build_dir,debug_setting,umlstage_config,war_umlmodelbrowser,dist_war_copy">  
         </target>      
   <!-- =========== END UML STAGE/SANDBOX DISTRIBUTION ======================= -->
   
