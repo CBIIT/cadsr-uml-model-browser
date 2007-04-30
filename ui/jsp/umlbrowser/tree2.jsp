@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
 <%@ taglib uri="http://myfaces.apache.org/tomahawk" prefix="t"%>
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
 <f:view>
 
 <t:document>
@@ -25,7 +26,10 @@ function classSearchAction(urlParams){
 
 
 <h:form id="umlBrowserTree">
-
+<br>
+ <bean:message key="cadsr.umlbrowser.tree.resultNotFound"/>
+<br/>
+<br/>
     <h:commandLink value="Refresh tree" action="#{treeBacker.refreshTree}"/>
     <br/><br/>
 
@@ -100,7 +104,10 @@ function classSearchAction(urlParams){
             </h:panelGroup>
         </f:facet>
     </t:tree2>
-</h:form>
+                <if you="you" dont="don’t" see="see" a="a" recently="recently"
+                    loaded="loaded" model="model," please="please" click="click"
+                    refresh="“Refresh" tree="tree”"/>
+            </h:form>
 
 
 </t:documentBody>
