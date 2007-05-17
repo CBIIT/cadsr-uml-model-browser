@@ -4,7 +4,7 @@
   =============================================
 
   Author: Shaji Kakkodi
-  @version $Id: build.xml,v 1.35 2007-05-17 21:28:05 aggarwap Exp $
+  @version $Id: build.xml,v 1.36 2007-05-17 21:35:19 aggarwap Exp $
 
   This build script was created using Ant version 1.6 and Java 1.5
 -->
@@ -29,7 +29,7 @@
    <property name="umlmodelbrowser.build" value="7" />
    
    <!-- used for open source build for file suffix-->
-   <property name="umlmodelbrowser.version.suffix" value="3_2" />
+   <property name="umlmodelbrowser.version.suffix" value="3_2_0_2" />
    
    <property name="dev.user.password" value="cdeuser" />
    <property name="qa.user.password" value="cdeuser" />
