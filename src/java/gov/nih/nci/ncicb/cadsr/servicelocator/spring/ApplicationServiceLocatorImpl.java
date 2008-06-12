@@ -8,7 +8,7 @@ import gov.nih.nci.ncicb.cadsr.servicelocator.ObjectLocator;
 import gov.nih.nci.ncicb.cadsr.servicelocator.ServiceLocatorException;
 import gov.nih.nci.ncicb.cadsr.util.UMLBrowserParams;
 import gov.nih.nci.system.applicationservice.ApplicationService;
-import gov.nih.nci.system.applicationservice.ApplicationServiceProvider;
+import gov.nih.nci.system.client.ApplicationServiceProvider;
 
 import javax.sql.DataSource;
 
@@ -24,7 +24,14 @@ public class ApplicationServiceLocatorImpl implements ApplicationServiceLocator 
 
    public ApplicationService findCaCoreAPIService() throws ServiceLocatorException {
       if (cabioAppService == null){
-        cabioAppService = ApplicationServiceProvider.getRemoteInstance(UMLBrowserParams.getInstance().getCadsrURL());
+    	  try{
+    		  System.out.println("-------------UMLBrowserParams, caDSR_URL : "+UMLBrowserParams.getInstance().getCadsrURL());
+    		  cabioAppService = ApplicationServiceProvider.getApplicationServiceFromUrl(UMLBrowserParams.getInstance().getCadsrURL());
+				//ApplicationServiceProvider.getRemoteInstance(UMLBrowserParams.getInstance().getCadsrURL());
+    	  }catch(Exception e){
+    		  e.printStackTrace();
+    	  }
+        
       }
       return cabioAppService;
    }

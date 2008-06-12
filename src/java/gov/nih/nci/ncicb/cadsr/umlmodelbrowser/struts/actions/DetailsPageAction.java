@@ -37,7 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanComparator;
-import org.apache.struts.action.ActionError;
+import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -68,7 +68,7 @@ public class DetailsPageAction extends BaseDispatchAction {
          project.setId(projectIdseq);
          List<Project> projects =queryService.findProject(project);
          if (projects.size() == 0) {             
-             saveError(new ActionError("cadsr.umlbrowser.projectDetails.projectnotfound",projectIdseq),request);
+             saveError(new ActionMessage("cadsr.umlbrowser.projectDetails.projectnotfound",projectIdseq),request);
              return mapping.findForward("failure");             
          }
          setSessionObject(request,UMLBrowserFormConstants.PROJECT_DETAILS, projects.get(0));

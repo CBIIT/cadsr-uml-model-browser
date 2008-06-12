@@ -46,9 +46,9 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
           Context context = new Context();
           UMLBrowserParams params = UMLBrowserParams.getInstance();
           context.setName(params.getTestContext());
-          List<Context> contexts = caCoreService.search(Context.class,context);
+          List contexts = caCoreService.search(Context.class,context);
           if (contexts.size()>0) {
-              testContext = contexts.get(0);
+              testContext = (Context)contexts.get(0);
           }
         }
         catch (Exception e) {
@@ -66,9 +66,9 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
             Context context = new Context();
             UMLBrowserParams params = UMLBrowserParams.getInstance();
             context.setName(params.getTrainingContext());
-            List<Context> contexts = caCoreService.search(Context.class,context);
+            List contexts = caCoreService.search(Context.class,context);
             if (contexts.size()>0) {
-                trainingContext = contexts.get(0);
+                trainingContext = (Context)contexts.get(0);
             }
           }
           catch (Exception e) {
@@ -114,27 +114,28 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
        DetachedCriteria.forClass(Context.class);
      contextCriteria.addOrder(Order.asc("name").ignoreCase());
       ApplicationService caCoreService = getCaCoreAPIService();
-     List results = caCoreService.query(contextCriteria, Context.class.getName());
+     List results = caCoreService.query(contextCriteria); 
+    	 //caCoreService.query(contextCriteria, Context.class.getName());
     return results;
   }
 
-    public List<Context> getAllContexts(SearchPreferences searchPreferences) throws Exception {
-       DetachedCriteria contextCriteria =
-         DetachedCriteria.forClass(Context.class);
-         applyContextSearchPreferences(searchPreferences,contextCriteria);
-       contextCriteria.addOrder(Order.asc("name").ignoreCase());
-        ApplicationService caCoreService = getCaCoreAPIService();
-       List results = caCoreService.query(contextCriteria, Context.class.getName());
-      return results;
-    }
+  public List<Context> getAllContexts(SearchPreferences searchPreferences) throws Exception {
+	  DetachedCriteria contextCriteria = DetachedCriteria.forClass(Context.class);
+	  applyContextSearchPreferences(searchPreferences,contextCriteria);
+	  contextCriteria.addOrder(Order.asc("name").ignoreCase());
+	  ApplicationService caCoreService = getCaCoreAPIService();
+	  List results = caCoreService.query(contextCriteria); 
+		  //caCoreService.query(contextCriteria, Context.class.getName());
+	  return results;
+  }
 
   public List<Project> getAllProjects() throws Exception {
-      ApplicationService caCoreService = getCaCoreAPIService();
-      DetachedCriteria projectCriteria =
-        DetachedCriteria.forClass(Project.class);
-      projectCriteria.addOrder(Order.asc("longName"));
-     List<Project> results = caCoreService.query(projectCriteria, Project.class.getName());;
-    return results;
+	  ApplicationService caCoreService = getCaCoreAPIService();
+	  DetachedCriteria projectCriteria =DetachedCriteria.forClass(Project.class);
+	  projectCriteria.addOrder(Order.asc("longName"));
+	  List results = caCoreService.query(projectCriteria); 
+		  //caCoreService.query(projectCriteria, Project.class.getName());
+	  return results;
   }
 
   public List<Project> getAllProjects(SearchPreferences searchPreferences) throws Exception {
@@ -145,8 +146,8 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
                                              .createCriteria("context");
         applyContextSearchPreferences(searchPreferences, contextCriteria);
         projectCriteria.addOrder(Order.asc("longName").ignoreCase());
-        List<Project> results = caCoreService.query(projectCriteria, Project.class.getName());;
-
+        List results = caCoreService.query(projectCriteria);
+        	//caCoreService.query(projectCriteria, Project.class.getName());;
         return results;
     }
 
@@ -162,7 +163,8 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
         DetachedCriteria contextCri= csCri.createCriteria("context");
         contextCri.add(Expression.eq("id", context.getId()));
      }
-     List<Project> results = caCoreService.query(projectCriteria, Project.class.getName());;
+     List results = caCoreService.query(projectCriteria);
+    	 //caCoreService.query(projectCriteria, Project.class.getName());;
     return results;
   }
     public List<SubProject> getAllSubProjects() throws Exception {
@@ -170,7 +172,8 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
         DetachedCriteria subProjectCriteria =
           DetachedCriteria.forClass(SubProject.class);
         subProjectCriteria.addOrder(Order.asc("name").ignoreCase());
-       List<SubProject> results = caCoreService.query(subProjectCriteria, SubProject.class.getName());;
+       List results = caCoreService.query(subProjectCriteria);
+    	   //caCoreService.query(subProjectCriteria, SubProject.class.getName());;
       return results;
     }
 
@@ -183,7 +186,8 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
                                              .createCriteria("context");
          applyContextSearchPreferences(searchPreferences, contextCriteria);
         subProjectCriteria.addOrder(Order.asc("name").ignoreCase());
-       List<SubProject> results = caCoreService.query(subProjectCriteria, SubProject.class.getName());;
+       List results = caCoreService.query(subProjectCriteria);
+    	   //caCoreService.query(subProjectCriteria, SubProject.class.getName());;
       return results;
     }
 
@@ -192,7 +196,8 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
         DetachedCriteria subPackageCriteria =
           DetachedCriteria.forClass(UMLPackageMetadata.class);
         subPackageCriteria.addOrder(Order.asc("name").ignoreCase());
-       List<UMLPackageMetadata> results = caCoreService.query(subPackageCriteria, UMLPackageMetadata.class.getName());;
+       List results = caCoreService.query(subPackageCriteria);
+    	   //caCoreService.query(subPackageCriteria, UMLPackageMetadata.class.getName());;
       return results;
     }
 
@@ -205,7 +210,8 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
                                              .createCriteria("context");
          applyContextSearchPreferences(searchPreferences, contextCriteria);
         subPackageCriteria.addOrder(Order.asc("name").ignoreCase());
-       List<UMLPackageMetadata> results = caCoreService.query(subPackageCriteria, UMLPackageMetadata.class.getName());;
+       List results = caCoreService.query(subPackageCriteria);
+    	   //caCoreService.query(subPackageCriteria, UMLPackageMetadata.class.getName());;
       return results;
     }
 
@@ -214,7 +220,8 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
         DetachedCriteria umlClassMetadataCriteria =
           DetachedCriteria.forClass(UMLClassMetadata.class);
           umlClassMetadataCriteria.addOrder(Order.asc("name").ignoreCase());
-       List<UMLClassMetadata> results = caCoreService.query(umlClassMetadataCriteria, UMLClassMetadata.class.getName());;
+       List results = caCoreService.query(umlClassMetadataCriteria);
+    	   //caCoreService.query(umlClassMetadataCriteria, UMLClassMetadata.class.getName());;
       return results;
     }
 
@@ -227,7 +234,8 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
                                              .createCriteria("context");
           applyContextSearchPreferences(searchPreferences,contextCriteria);
           umlClassMetadataCriteria.addOrder(Order.asc("name").ignoreCase());
-       List<UMLClassMetadata> results = caCoreService.query(umlClassMetadataCriteria, UMLClassMetadata.class.getName());;
+       List results = caCoreService.query(umlClassMetadataCriteria);
+    	   //caCoreService.query(umlClassMetadataCriteria, UMLClassMetadata.class.getName());;
       return results;
     }
 
@@ -273,7 +281,8 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
            DetachedCriteria contextCri= classCriteria.createCriteria("project").createCriteria("classificationScheme").createCriteria("context");
            contextCri.add(Expression.eq("id", contextId));
         }
-        resultList = getCaCoreAPIService().query(classCriteria, UMLClassMetadata.class.getName());
+        resultList =  getCaCoreAPIService().query(classCriteria);
+        	//getCaCoreAPIService().query(classCriteria, UMLClassMetadata.class.getName());
 
       } catch (Exception e) {
        e.printStackTrace();
@@ -300,9 +309,9 @@ public List findUmlClass(UMLClassMetadata umlClass){
 //first get cs
     ClassificationScheme container = new ClassificationScheme();
     container.setId(csId);
-    List<ClassificationScheme> csResult = getCaCoreAPIService().search(ClassificationScheme.class,container);
+    List csResult = getCaCoreAPIService().search(ClassificationScheme.class,container);
     if (csResult != null)
-        container = csResult.get(0);
+        container = (ClassificationScheme)csResult.get(0);
        List resultList = new ArrayList();
 
        //first get all project under this container
@@ -313,7 +322,8 @@ public List findUmlClass(UMLClassMetadata umlClass){
            DetachedCriteria projectCriteria = classCriteria.createCriteria("project");
 
            projectCriteria.add(Restrictions.in("id", projIds));
-           resultList = getCaCoreAPIService().query(classCriteria, UMLClassMetadata.class.getName());
+           resultList = getCaCoreAPIService().query(classCriteria); 
+        	   //getCaCoreAPIService().query(classCriteria, UMLClassMetadata.class.getName());
        }
        return resultList;
     }
@@ -351,7 +361,8 @@ public List findUmlClass(UMLClassMetadata umlClass, SearchPreferences searchPref
            DetachedCriteria contextCriteria= projectCriteria.createCriteria("classificationScheme")
                                                             .createCriteria("context");
            applyContextSearchPreferences(searchPreferences, contextCriteria);
-           resultList = getCaCoreAPIService().query(classCriteria, UMLClassMetadata.class.getName());
+           resultList = getCaCoreAPIService().query(classCriteria);
+        	   //getCaCoreAPIService().query(classCriteria, UMLClassMetadata.class.getName());
        } catch (Exception e) {
           log.error(e);
           e.printStackTrace();
@@ -414,7 +425,8 @@ public List findUmlClass(UMLClassMetadata umlClass, SearchPreferences searchPref
             }//umlAttribute != null
 
             applyContextSearchPreferences(searchPreferences, contextCriteria);
-            resultList = getCaCoreAPIService().query(attributeCriteria, UMLAttributeMetadata.class.getName());
+            resultList = getCaCoreAPIService().query(attributeCriteria); 
+            	//getCaCoreAPIService().query(attributeCriteria, UMLAttributeMetadata.class.getName());
 
         } catch (Exception e) {
            log.error(e);
@@ -443,7 +455,8 @@ public List findUmlClass(UMLClassMetadata umlClass, SearchPreferences searchPref
         csCriteria.add(Restrictions.eq("workflowStatusName", "RELEASED"));
 
         csCriteria.addOrder(Order.asc("longName").ignoreCase());
-        List<ClassificationScheme> results = getCaCoreAPIService().query(csCriteria, ClassificationScheme.class.getName());
+        List results = getCaCoreAPIService().query(csCriteria); 
+        	//getCaCoreAPIService().query(csCriteria, ClassificationScheme.class.getName());
         return results;
 
     }
