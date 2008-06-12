@@ -2,51 +2,30 @@ package gov.nih.nci.ncicb.cadsr.service.impl;
 
 import gov.nih.nci.cadsr.domain.DataElement;
 import gov.nih.nci.cadsr.umlproject.domain.UMLAttributeMetadata;
-import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
 import gov.nih.nci.ncicb.cadsr.CaDSRConstants;
 import gov.nih.nci.ncicb.cadsr.service.CaDSRQueryService;
-
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.ReferenceDocumentAttachment;
 import gov.nih.nci.ncicb.cadsr.xml.XMLGeneratorBean;
-
 import gov.nih.nci.system.applicationservice.ApplicationService;
+import gov.nih.nci.system.client.ApplicationServiceProvider;
 
-import gov.nih.nci.system.applicationservice.ApplicationServiceProvider;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-import java.sql.Blob;
 import java.sql.Connection;
-
-import java.sql.DriverManager;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
-
 import java.util.Collection;
 import java.util.List;
-
-
 import java.util.Locale;
 import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import oracle.jdbc.OracleConnection;
-
-
 import oracle.jdbc.pool.OracleConnectionPoolDataSource;
-
-import oracle.xml.sql.query.OracleXMLQuery;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.MappingSqlQuery;
-import org.springframework.jdbc.support.nativejdbc.JBossNativeJdbcExtractor;
 
 /**
  * A Oracle JDBC implementation of the CaDSRQueryService
@@ -267,7 +246,7 @@ public class CaDSRQueryServiceImpl implements CaDSRQueryService{
     }
     
     
-    public static void main(String [] args){
+    /*public static void main(String [] args){
      try{
         OracleConnectionPoolDataSource ocpds = new OracleConnectionPoolDataSource();
         ocpds.setURL("jdbc:oracle:thin:@cbiodb2-d.nci.nih.gov:1521:CBDEV");
@@ -277,7 +256,8 @@ public class CaDSRQueryServiceImpl implements CaDSRQueryService{
         ci.setDataSource(ocpds);
         UMLAttributeMetadata ua = new UMLAttributeMetadata();
         ua.setName("b");    
-        ApplicationService as =ApplicationServiceProvider.getRemoteInstance("http://cbiodev104.nci.nih.gov:59080/cacore32/http/remoteService");
+        ApplicationService as =ApplicationServiceProvider.getApplicationServiceFromUrl("http://cbiodev104.nci.nih.gov:59080/cacore32/http/remoteService");
+        	//ApplicationServiceProvider.getRemoteInstance("http://cbiodev104.nci.nih.gov:59080/cacore32/http/remoteService");
         List attributes = as.search(UMLAttributeMetadata.class, ua);
         String xml =ci.getXMLForAttributes((Collection<UMLAttributeMetadata>)attributes);
         System.out.println(xml);
@@ -285,5 +265,5 @@ public class CaDSRQueryServiceImpl implements CaDSRQueryService{
     catch(Exception e){
         e.printStackTrace();
     }
-    }
+    }*/
 }

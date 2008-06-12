@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.Globals;
-import org.apache.struts.action.ActionError;
+import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -137,18 +137,18 @@ public class BaseDispatchAction extends DispatchAction implements CaDSRConstants
       String key,
        HttpServletRequest request) {
     if (key != null) {
-        saveError(new ActionError(key),request);
+        saveError(new ActionMessage(key),request);
     }
   }
   
-  protected void saveError(ActionError errorMessage, HttpServletRequest request) {
+  protected void saveError(ActionMessage errorMessage, HttpServletRequest request) {
         if (errorMessage != null) {
           ActionErrors errorMessages = null;
           errorMessages = (ActionErrors)request.getAttribute(Globals.ERROR_KEY);
           if(errorMessages==null)
             errorMessages = new ActionErrors();
 
-          errorMessages.add(errorMessages.GLOBAL_ERROR, errorMessage);
+          errorMessages.add(ActionMessages.GLOBAL_MESSAGE, errorMessage);
           saveErrors(request,errorMessages);
         }
   }
