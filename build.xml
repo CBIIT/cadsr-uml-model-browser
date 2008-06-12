@@ -4,7 +4,7 @@
   =============================================
 
   Author: Shaji Kakkodi
-  @version $Id: build.xml,v 1.37 2007-06-06 19:35:51 aggarwap Exp $
+  @version $Id: build.xml,v 1.38 2008-06-12 17:53:27 davet Exp $
 
   This build script was created using Ant version 1.6 and Java 1.5
 -->
@@ -19,17 +19,17 @@
   
    <!-- Make sure these are correct for your instance C:\jboss-4.0.2-->
    
-   <property name="jboss.home" value="C:\jboss-4.0.4.GA" /> 
+   <property name="jboss.home" value="C:\Tools\jboss-4.0.5.GA" /> 
    <property name="jboss.start.script.name" value="run.bat" />
    <property name="jboss.start.debug.script.name" value="rundebug.bat" />
    <property name="jboss.stop.script.name" value="shutdown.bat" />
    
-   <property name="cdebrowser.version" value="3.2" />
-   <property name="umlmodelbrowser.version" value="3.2.0.2" />
-   <property name="umlmodelbrowser.build" value="2" />
+   <property name="cdebrowser.version" value="4.0" />
+   <property name="umlmodelbrowser.version" value="4.0.0.0" />
+   <property name="umlmodelbrowser.build" value="1" />
    
    <!-- used for open source build for file suffix-->
-   <property name="umlmodelbrowser.version.suffix" value="3_2_0_2" />
+   <property name="umlmodelbrowser.version.suffix" value="4_0_0_0" />
    
    <property name="dev.user.password" value="cdeuser" />
    <property name="qa.user.password" value="cdeuser" />
@@ -364,7 +364,16 @@
            </patternset>
        </fileset>       
      </copy>
-    
+
+   	<copy todir="${classes.build.dir}/WEB-INF/classes">      
+   	         <fileset dir="${config.home}/WEB-INF/spring">
+   	           <patternset>   	             
+   	           	<include name="application-config-client.xml"/>
+   	         	<include name="CADSR_application-config-client.xml"/>
+   	           </patternset>
+   	         </fileset>      
+   	</copy>
+   	
     <war warfile="${build.dir}/${war.name}.war" webxml="${web.descriptor.home}/web.xml">
        
       <fileset dir="${config.home}">
@@ -373,7 +382,7 @@
           <include name="WEB-INF/*.xml"/>
           <include name="WEB-INF/jboss-web.xml"/>
           <include name="WEB-INF/umlbrowser/struts-config*.xml"/>
-          <include name="WEB-INF/spring/*.xml"/>
+          <include name="WEB-INF/spring/applicationContext-common.xml"/>
 		  <exclude name="WEB-INF/web.xml"/>
         </patternset>
       </fileset>
@@ -463,11 +472,11 @@
   </target>    
    
    <target  name="deploy_dev" depends="clean,clean_jboss,debug_setting,dev_config,war_umlmodelbrowser"> 
-     <copy todir="${jboss.home}/server/default/lib">
+     <!--<copy todir="${jboss.home}/server/default/lib">
            <fileset dir="${compile.java.lib.dir}">
               <include name="ojdbc14.jar" />
            </fileset>
-     </copy>
+     </copy> -->
      <copy todir="${jboss.home}/server/default/deploy">      
          <fileset dir="${build.dir}">
            <patternset>

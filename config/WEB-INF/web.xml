@@ -161,13 +161,10 @@
 	  - If your web container loads listeners first then this will work fine.  Otherwise,
 	    use the SpringContextServlet to load the context.
     	-->
-	<!--listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener-->	
+	<!-- -->
   	<listener>
 	    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-	
+	</listener>	
 	<listener>
 	<listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
 	</listener>
@@ -175,13 +172,13 @@
 	<listener-class>gov.nih.nci.ncicb.cadsr.umlmodelbrowser.servlets.SessionListener</listener-class>
 	</listener>  
 
-	<servlet>
+	<!--<servlet>
 	  <servlet-name>SpringContextServlet</servlet-name>
 	  <servlet-class>org.springframework.web.context.ContextLoaderServlet</servlet-class>	  
 	  <load-on-startup>1</load-on-startup>
 	</servlet>
 	
-  <servlet>
+  --><servlet>
     <servlet-name>action</servlet-name>
     <servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
     <init-param>
