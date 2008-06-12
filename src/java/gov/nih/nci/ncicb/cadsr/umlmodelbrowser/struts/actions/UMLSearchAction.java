@@ -88,7 +88,9 @@ public class UMLSearchAction extends BaseDispatchAction
       ActionForm form,
       HttpServletRequest request,
       HttpServletResponse response) throws IOException, ServletException {
-      removeSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS);
+      removeSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS);      
+      //added for New search method to clear the attributes search result from session
+      //removeSessionObject(request, UMLBrowserFormConstants.CLASS_ATTRIBUTES);
        //Set the lookup values in the session
        setInitLookupValues(request);
        setSessionObject(request,  UMLBrowserFormConstants.SUBPROJECT_OPTIONS,
@@ -143,6 +145,17 @@ public class UMLSearchAction extends BaseDispatchAction
       setupSessionForAttributeResults(umlAttributes, request);
       return mapping.findForward("showAttributes");
     }
+    /*
+     * newSearch method added for newSearch Button.
+     * The method invokes the initSearch method
+     */
+    /*public ActionForward newSearch(
+    		ActionMapping mapping,
+    		ActionForm form,
+    		HttpServletRequest request,
+    		HttpServletResponse response) throws IOException, ServletException {
+    	return initSearch(mapping, form, request, response);
+    }*/
 
    public ActionForward getAttributesForClass(
      ActionMapping mapping,
