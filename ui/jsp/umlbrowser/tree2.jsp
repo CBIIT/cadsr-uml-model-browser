@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
 <%@ taglib uri="http://myfaces.apache.org/tomahawk" prefix="t"%>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
+<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <f:view>
 
 <t:document>
@@ -33,7 +34,7 @@ function classSearchAction(urlParams){
     <h:commandLink value="Refresh tree" action="#{treeBacker.refreshTree}"/>
     <br/><br/>
 
-    <!-- Expand/Collapse Handled By Server -->
+    
     <t:tree2 id="serverTree" value="#{treeBacker.treeModel}" var="node" varNodeToggler="t" clientSideToggle="false" binding="#{treeBacker.tree}">
         <f:facet name="Context Folder">
             <h:panelGroup >
@@ -138,7 +139,7 @@ function classSearchAction(urlParams){
     if (autoScroll != null && !"".equals(autoScroll)) {
         %>
 	    addLoadEvent(function() {
-  			parent.frames['tree'].scrollTo(<%=autoScroll%>);
+  			parent.frames['tree'].scrollTo(<%=StringEscapeUtils.escapeJavaScript(autoScroll)%>);
   		});
         <%
     }
