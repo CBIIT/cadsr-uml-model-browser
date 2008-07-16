@@ -6,8 +6,6 @@ import gov.nih.nci.ncicb.cadsr.CaDSRConstants;
 import gov.nih.nci.ncicb.cadsr.service.CaDSRQueryService;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.ReferenceDocumentAttachment;
 import gov.nih.nci.ncicb.cadsr.xml.XMLGeneratorBean;
-import gov.nih.nci.system.applicationservice.ApplicationService;
-import gov.nih.nci.system.client.ApplicationServiceProvider;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,8 +17,6 @@ import java.util.Locale;
 import java.util.Properties;
 
 import javax.sql.DataSource;
-
-import oracle.jdbc.pool.OracleConnectionPoolDataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -64,7 +60,8 @@ public class CaDSRQueryServiceImpl implements CaDSRQueryService{
      * @return CDE XML for data elements associated with the attributes
      */
     public String getXMLForAttributes(Collection<UMLAttributeMetadata> attributes) throws Exception {
-        try {
+    	XMLGeneratorBean cdeXmlGenerator = new XMLGeneratorBean();
+    	try {
             Connection conn = dataSource.getConnection();
             //Get the OracleConnection
             Connection oracleConn = conn.getMetaData().getConnection();
@@ -79,7 +76,7 @@ public class CaDSRQueryServiceImpl implements CaDSRQueryService{
                 where.append(",'"+de.getId()+"'");
             }
             where.append(")");
-            XMLGeneratorBean cdeXmlGenerator = new XMLGeneratorBean();
+            
             cdeXmlGenerator.setConnection(oracleConn);
             cdeXmlGenerator.setQuery(cdeXMLQuery);
             cdeXmlGenerator.setWhereClause(where.toString());
@@ -92,6 +89,8 @@ public class CaDSRQueryServiceImpl implements CaDSRQueryService{
         catch (Exception e) {
             log.error("Error getting CDE Xml.",e);
             throw e;
+        }finally{
+        	cdeXmlGenerator.closeResources();
         }
     }
     
