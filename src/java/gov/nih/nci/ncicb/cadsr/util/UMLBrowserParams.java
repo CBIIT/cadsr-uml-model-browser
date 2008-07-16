@@ -27,6 +27,7 @@ public class UMLBrowserParams
     String trainingContext="Training";
 
     String curationToolUrl = "";
+    String formbuilderToolUrl = "";
     String nciMetathesaurusUrl="";
     String nciTerminologyServerUrl="";
     String sentinelToolUrl="";
@@ -132,7 +133,17 @@ public class UMLBrowserParams
   {
     return curationToolUrl;
   }
-
+  
+  public void setFormBuilderToolUrl(String formbuilderToolUrl)
+  {
+	  this.formbuilderToolUrl = formbuilderToolUrl;
+  }
+  
+  public String getFormBuilderToolUrl()
+  {
+	  return formbuilderToolUrl;
+  }
+  
 
   public void setNciMetathesaurusUrl(String nciMetathesaurusUrl)
   {
@@ -215,6 +226,8 @@ public class UMLBrowserParams
             nciTerminologyServerUrl = properties.getProperty("NCI_TERMINOLOGY_SERVER_URL");
             index++;
             sentinelToolUrl = properties.getProperty("SENTINEL_TOOL_URL");
+            index++;
+            formbuilderToolUrl = properties.getProperty("FORMBUILDER_TOOL_URL");
             index++;
             propertyValue = properties.getProperty("CACORE_URL");
             if (propertyValue != null)
