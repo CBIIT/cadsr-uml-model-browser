@@ -30,7 +30,7 @@ import org.apache.myfaces.custom.tree2.TreeState;
 
 /**
  * @author Jane Jiang
- * @version: $Id: TreeBacker.java,v 1.2 2006-10-18 20:45:25 jiangj Exp $
+ * @version: $Id: TreeBacker.java,v 1.3 2008-07-16 14:23:46 davet Exp $
  */
 
 public class TreeBacker implements Serializable {
@@ -45,7 +45,7 @@ public class TreeBacker implements Serializable {
    private String selectedNode;
    private TreeState treeState;
 
-   private static UMLBrowserTreeData treeData = null;
+   private /*static*/ UMLBrowserTreeData treeData = new UMLBrowserTreeData();//null;
 
    public TreeBacker() {
       // Initialize the tree with the root node
@@ -57,7 +57,7 @@ public class TreeBacker implements Serializable {
    public TreeModel getTreeModel() {
       if (_treeModel == null) {
           SearchPreferences searchPreferences = this.getSearchPreferences();
-         _treeModel = new TreeModelBase(UMLBrowserTreeData.getTreeData(
+         _treeModel = new TreeModelBase(treeData.getTreeData(
           searchPreferences.isExcludeTestContext(),
           searchPreferences.isExcludeTrainingContext()));
          _treeModel.getTreeState().toggleExpanded("0");
@@ -67,7 +67,7 @@ public class TreeBacker implements Serializable {
       return _treeModel;
    }
     public void updateModel(boolean excludeTest, boolean excludeTraining) {
-        _treeModel = new TreeModelBase(UMLBrowserTreeData.getTreeData(
+        _treeModel = new TreeModelBase(treeData.getTreeData(
         excludeTest, excludeTraining));
         _treeModel.getTreeState().toggleExpanded("0");
         _treeModel.getTreeState().setTransient(true);
