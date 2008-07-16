@@ -205,8 +205,8 @@ public class UMLBrowserParams
             if (propertyValue != null)
                 trainingContext = propertyValue;
             index++;
-
-            adminToolUrl = properties.getProperty("ADMIN_TOOL_URL");
+            //Temporary Page for Admin Tool
+            adminToolUrl = "/umlmodelbrowser/common/adminRedirection.html";//properties.getProperty("ADMIN_TOOL_URL");
             index++;
             curationToolUrl = properties.getProperty("CURATION_TOOL_URL");
             index++;
