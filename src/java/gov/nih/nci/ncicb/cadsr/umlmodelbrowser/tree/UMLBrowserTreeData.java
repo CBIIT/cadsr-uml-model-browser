@@ -175,7 +175,7 @@ public class UMLBrowserTreeData implements Serializable {
 	private /*static*/ void addProject(Project project, LazyActionTreeNode pNode) {
 		if (project == null)
 			return;
-		if (project.getClassificationScheme().getLatestVersionIndicator().equalsIgnoreCase("YES")) {
+	//	if (project.getClassificationScheme().getLatestVersionIndicator().equalsIgnoreCase("YES")) {
 			Collection<SubProject> subProjects = project.getSubProjectCollection();
 			Collection<UMLPackageMetadata> pkgs = project.getUMLPackageMetadataCollection();
 			Context projContext = project.getClassificationScheme().getContext();
@@ -207,7 +207,7 @@ public class UMLBrowserTreeData implements Serializable {
 			}
 			// then build package nodes directly under project
 			addPackageNodes(pkgs, projectNode);
-		}
+	//	}
 	}
 
 	private /*static*/ void addContainer(ClassificationScheme container,
