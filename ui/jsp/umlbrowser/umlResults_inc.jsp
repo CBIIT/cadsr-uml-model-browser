@@ -8,7 +8,7 @@ if(confirm(message)) location.href = url;
 <%@ include file="showMessages.jsp" %>
 <%
     String attributeurl = request.getContextPath()+"/umlbrowser/umlSearchAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"="+UMLBrowserNavigationConstants.SHOW_ATTRIBUTE_SEARCH_METHOD;
-    String ocbrowserurl = UMLBrowserParams.getInstance().getCdebrowserURL() +"ocbrowser/ocrDetailsAction.do?FirstTimer=0&method=getObjectClassRelationships&resetCrumbs=false&objectClassIdseq=";
+    String ocbrowserurl = UMLBrowserParams.getInstance().getCdebrowserURL() +"CDEBrowser/ocbrowser/ocrDetailsAction.do?FirstTimer=0&method=getObjectClassRelationships&resetCrumbs=false&objectClassIdseq=";
 %>   
    <logic:notEmpty name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>">
        <jsp:include page="mltitab_inc.jsp" flush="true">
@@ -180,14 +180,14 @@ if(confirm(message)) location.href = url;
           	<td class="OraFieldText">
           		<bean:write name="umlClass" property="UMLPackageMetadata.name"/><br>
           	</td>   
-          	<!--
-          	<td class="OraFieldText">
-                     <a href="javascript:newBrowserWin('<%=ocbrowserurl%>='<%=umlClass.getObjectClass().getId()%>','OCDetails',800,600)">
+          	
+          	<%--<td class="OraFieldText">
+                     <a href="javascript:newBrowserWin('<%=ocbrowserurl%>='<%=umlClass.getObjectClass().getId()%>'&pkgId='<%=umlClass.getUMLPackageMetadata().getId()%>','OCDetails',800,600)">
                      <bean:write name="umlClass" property="objectClass.longName"/></a>
                 <br>
-          	</td>   -->            
-          	<td class="OraFieldText">
-          <html:link href='<%=ocbrowserurl+umlClass.getObjectClass().getId()%>' target="ocBrowser">
+          	</td>               
+          	--%><td class="OraFieldText">
+          <html:link href='<%=ocbrowserurl+umlClass.getObjectClass().getId()+"&cscsiId="+umlClass.getUMLPackageMetadata().getClassSchemeClassSchemeItem().getId()%>' target="ocBrowser">
     		                     <bean:write name="umlClass" property="objectClass.publicID"/></a>
           		<br></html:link>
           	</td>               
