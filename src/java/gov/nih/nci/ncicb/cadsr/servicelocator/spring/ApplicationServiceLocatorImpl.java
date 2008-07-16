@@ -24,8 +24,7 @@ public class ApplicationServiceLocatorImpl implements ApplicationServiceLocator 
 
    public ApplicationService findCaCoreAPIService() throws ServiceLocatorException {
       if (cabioAppService == null){
-    	  try{
-    		  System.out.println("-------------UMLBrowserParams, caDSR_URL : "+UMLBrowserParams.getInstance().getCadsrURL());
+    	  try{    		  
     		  cabioAppService = ApplicationServiceProvider.getApplicationServiceFromUrl(UMLBrowserParams.getInstance().getCadsrURL());
 				//ApplicationServiceProvider.getRemoteInstance(UMLBrowserParams.getInstance().getCadsrURL());
     	  }catch(Exception e){
