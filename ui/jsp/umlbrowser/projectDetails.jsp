@@ -28,7 +28,7 @@
       <TABLE Cellpadding=0 Cellspacing=0 border=0 >
         <TR>
           <TD valign="TOP" align="CENTER" width="1%" colspan=1><a href="javascript:window.close()" target="_top"><html:img page="/i/icon_return.gif" alt="Back" border="0"  width="32" height="32"/></a><br><font color=brown face=verdana size=1>&nbsp;Home&nbsp;</font></TD>
-          <TD valign="TOP" align="CENTER" width="1%" colspan=1><A HREF="javascript:newBrowserWin('<%=request.getContextPath()%>/common/help/UMLModelBrowserHelp.html','helpWin',700,600)"><html:img page="/i/icon_help.gif" alt="Task Help" border="0"  width="32" height="32" /></A><br><font color=brown face=verdana size=1>&nbsp;Help&nbsp;</font></TD>
+          <TD valign="TOP" align="CENTER" width="1%" colspan=1><A HREF="javascript:newBrowserWin('/help/','helpWin',700,600)"><html:img page="/i/icon_help.gif" alt="Task Help" border="0"  width="32" height="32" /></A><br><font color=brown face=verdana size=1>&nbsp;Help&nbsp;</font></TD>
         </TR>
       </TABLE>
     </td>
