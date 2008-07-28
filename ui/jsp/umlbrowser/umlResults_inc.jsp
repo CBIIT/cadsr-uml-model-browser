@@ -85,7 +85,7 @@ if(confirm(message)) location.href = url;
 		        <cde:sortableColumnHeader
             sortableColumnHeaderBeanId="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULT_COMPARATOR%>" 
 		       	actionUrl='<%="/umlbrowser/umlSortSearchAction.do?"+UMLBrowserNavigationConstants.METHOD_PARAM+"=sortResult"%>' 
-		   	   	columnHeader="Project Workflow Stauts" 
+		   	   	columnHeader="Project Workflow Status" 
                                 orderParamId="sortOrder" 
 		   	   	sortFieldId="sortField"
 		   	   	sortFieldValue = "classificationScheme.workflowStatusName"
