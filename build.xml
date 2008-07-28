@@ -4,7 +4,7 @@
   =============================================
 
   Author: Shaji Kakkodi
-  @version $Id: build.xml,v 1.39 2008-07-21 16:31:33 davet Exp $
+  @version $Id: build.xml,v 1.40 2008-07-28 15:03:00 davet Exp $
 
   This build script was created using Ant version 1.6 and Java 1.5
 -->
@@ -24,7 +24,7 @@
    <property name="jboss.start.debug.script.name" value="rundebug.bat" />
    <property name="jboss.stop.script.name" value="shutdown.bat" />
    
-   <property name="cdebrowser.version" value="4.0" />
+   <property name="cdebrowser.version" value="4.0.0.0" />
    <property name="umlmodelbrowser.version" value="4.0.0.0" />
    <property name="umlmodelbrowser.build" value="2" />
    
