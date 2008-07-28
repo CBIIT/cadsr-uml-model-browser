@@ -1,12 +1,8 @@
 package gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions;
 
-import gov.nih.nci.cadsr.domain.ClassificationScheme;
-import gov.nih.nci.cadsr.domain.Context;
-import gov.nih.nci.cadsr.domain.ObjectClass;
 import gov.nih.nci.cadsr.umlproject.domain.Project;
 import gov.nih.nci.cadsr.umlproject.domain.SemanticMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.SubProject;
-import gov.nih.nci.cadsr.umlproject.domain.UMLAssociationMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLAttributeMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLClassMetadata;
 import gov.nih.nci.cadsr.umlproject.domain.UMLPackageMetadata;
@@ -14,13 +10,10 @@ import gov.nih.nci.ncicb.cadsr.jsp.bean.PaginationBean;
 import gov.nih.nci.ncicb.cadsr.service.UMLBrowserQueryService;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.SearchPreferences;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConstants;
-import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.TreeConstants;
 import gov.nih.nci.ncicb.cadsr.util.BeanPropertyComparator;
-
 import gov.nih.nci.ncicb.cadsr.util.UMLBrowserParams;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -166,7 +159,14 @@ public class UMLSearchAction extends BaseDispatchAction
      String breadCrumb = "";
      int selectedClassIndex = Integer.parseInt(request.getParameter("selectedClassIndex"));
      Collection umlClasses = (Collection) getSessionObject(request,  UMLBrowserFormConstants.CLASS_SEARCH_RESULTS);
-     UMLClassMetadata umlClass =(UMLClassMetadata) umlClasses.toArray()[selectedClassIndex];
+     Iterator it = umlClasses.iterator();
+     int umlClassesCounter = 0;
+     UMLClassMetadata umlClass = null;
+     while(it.hasNext() && (umlClassesCounter <= selectedClassIndex)){    	 
+    	 umlClass = (UMLClassMetadata)it.next();    	    	 
+    	 umlClassesCounter++;    	 
+     }     
+     //UMLClassMetadata umlClass =(UMLClassMetadata) umlClasses.toArray()[selectedClassIndex];     
      breadCrumb = umlClass.getObjectClass().getContext().getName() + ">>"
       + umlClass.getProject().getLongName() + ">>"
       + umlClass.getUMLPackageMetadata().getName() + ">>"
