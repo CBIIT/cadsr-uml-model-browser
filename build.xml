@@ -4,7 +4,7 @@
   =============================================
 
   Author: Shaji Kakkodi
-  @version $Id: build.xml,v 1.40 2008-07-28 15:03:00 davet Exp $
+  @version $Id: build.xml,v 1.41 2008-07-31 14:53:43 davet Exp $
 
   This build script was created using Ant version 1.6 and Java 1.5
 -->
@@ -26,7 +26,7 @@
    
    <property name="cdebrowser.version" value="4.0.0.0" />
    <property name="umlmodelbrowser.version" value="4.0.0.0" />
-   <property name="umlmodelbrowser.build" value="2" />
+   <property name="umlmodelbrowser.build" value="3" />
    
    <!-- used for open source build for file suffix-->
    <property name="umlmodelbrowser.version.suffix" value="4_0_0_0" />
@@ -492,11 +492,11 @@
    
   
    <target  name="deploy_qa" depends="clean,clean_jboss,debug_setting,qa_config,war_umlmodelbrowser"> 
-     <copy todir="${jboss.home}/server/default/lib">
+   	<!-- <copy todir="${jboss.home}/server/default/lib">
            <fileset dir="${compile.java.lib.dir}">
               <include name="ojdbc14.jar" />
            </fileset>
-     </copy>
+     </copy>-->
      <copy todir="${jboss.home}/server/default/deploy">      
          <fileset dir="${build.dir}">
            <patternset>
@@ -511,11 +511,11 @@
       </target>
 
    <target  name="deploy_stage" depends="clean,clean_jboss,debug_setting,stage_config,war_umlmodelbrowser"> 
-     <copy todir="${jboss.home}/server/default/lib">
+     <!--<copy todir="${jboss.home}/server/default/lib">
         <fileset dir="${compile.java.lib.dir}">
            <include name="ojdbc14.jar" />
         </fileset>
-     </copy>   
+     </copy>   -->
      <copy todir="${jboss.home}/server/default/deploy">      
          <fileset dir="${build.dir}">
            <patternset>
@@ -544,11 +544,11 @@
    </target>
    
    <target  name="deploy_prod" depends="clean,clean_jboss,debug_setting,prod_config, war_umlmodelbrowser"> 
-     <copy todir="${jboss.home}/server/default/lib">
+   <!--  <copy todir="${jboss.home}/server/default/lib">
         <fileset dir="${compile.java.lib.dir}">
            <include name="ojdbc14.jar" />
         </fileset>
-     </copy>   
+     </copy> -->   
      <copy todir="${jboss.home}/server/default/deploy">      
          <fileset dir="${build.dir}">
            <patternset>
