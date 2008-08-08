@@ -13,6 +13,7 @@ import gov.nih.nci.ncicb.cadsr.servicelocator.ApplicationServiceLocator;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.SearchPreferences;
 import gov.nih.nci.ncicb.cadsr.util.UMLBrowserParams;
 import gov.nih.nci.system.applicationservice.ApplicationService;
+import gov.nih.nci.system.query.hibernate.HQLCriteria;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -385,6 +386,7 @@ public List findUmlClass(UMLClassMetadata umlClass, SearchPreferences searchPref
     public List findUmlAttributes(UMLAttributeMetadata umlAttribute, SearchPreferences searchPreferences) throws Exception
     {
        List resultList = null;
+       List subresultList = null;
         try {
            DetachedCriteria attributeCriteria = DetachedCriteria.forClass(UMLAttributeMetadata.class);
            DetachedCriteria projectCriteria = attributeCriteria.createCriteria("project");
@@ -400,8 +402,20 @@ public List findUmlClass(UMLClassMetadata umlClass, SearchPreferences searchPref
                    attributeCriteria.add(Restrictions.ilike("name", umlAttribute.getName()));
                }
                if ((umlClass != null)&&(umlClass.getName() != null)) {
-                   classCriteria = attributeCriteria.createCriteria("UMLClassMetadata");
-                   classCriteria.add(Restrictions.ilike("name",umlClass.getName()));
+            	   //Fix for GF 15450, When API is fixed this code can be removed to use DetachedCriteria
+            	   String hqlQuery = "";
+            	   hqlQuery = "from gov.nih.nci.cadsr.umlproject.domain.UMLAttributeMetadata att where Lower(att.UMLClassMetadata.name) like Lower('"+umlClass.getName()+"')";    	
+            	   HQLCriteria attributeHQLCriteria = new HQLCriteria(hqlQuery);
+            	   try{
+            		   subresultList = getCaCoreAPIService().query(attributeHQLCriteria);
+            	   }catch (Exception e) {
+            		   log.error(e);
+            		   throw e;
+            	   }
+            	   return subresultList;
+            	   //End of GF15450 fix
+            	   /* classCriteria = attributeCriteria.createCriteria("UMLClassMetadata");
+                   classCriteria.add(Restrictions.ilike("name",umlClass.getName()));*/
                }
                if ((umlClass != null)&&(umlClass.getProject() != null))
                {
