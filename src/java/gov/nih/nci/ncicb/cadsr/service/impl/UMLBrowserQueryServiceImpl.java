@@ -130,14 +130,26 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
 	  return results;
   }
 
-  public List<Project> getAllProjects() throws Exception {
-	  ApplicationService caCoreService = getCaCoreAPIService();
-	  DetachedCriteria projectCriteria =DetachedCriteria.forClass(Project.class);
-	  projectCriteria.addOrder(Order.asc("longName"));
-	  List results = caCoreService.query(projectCriteria); 
-		  //caCoreService.query(projectCriteria, Project.class.getName());
-	  return results;
-  }
+  public List<Project> getAllProjects() {
+
+	   DetachedCriteria projectCriteria = DetachedCriteria.forClass(Project.class);
+       projectCriteria.addOrder(Order.asc("longName").ignoreCase());
+       DetachedCriteria csCriteria = projectCriteria.createCriteria("classificationScheme");
+       csCriteria.add(Expression.eq("workflowStatusName", "RELEASED"));
+	  
+       List results = null;
+       
+	    try {
+	       results = service.query(projectCriteria);
+	    } catch (Exception e) {
+	    	System.out.println("Exception in getAllProjects.");
+	    	e.printStackTrace();
+	    	
+	    } // end of try-catch
+
+	    return results;
+
+	  }
 
   public List<Project> getAllProjects(SearchPreferences searchPreferences) throws Exception {
         ApplicationService caCoreService = getCaCoreAPIService();
