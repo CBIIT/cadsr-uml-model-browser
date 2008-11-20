@@ -1,5 +1,5 @@
 <!-- Copyright ScenPro, Inc. 2005
-    $Header: /cvsshare/content/cvsroot/umlmodelbrowser/build.xml,v 1.42 2008-11-20 20:59:43 novakb Exp $
+    $Header: /cvsshare/content/cvsroot/umlmodelbrowser/build.xml,v 1.43 2008-11-20 21:03:31 novakb Exp $
     $Name: not supported by cvs2svn $
 -->
 <project name="Form Builder Tool" default="init" basedir=".">
@@ -7,7 +7,7 @@
         Build and deploy the caDSR Form Builder Tool
     </description>
 	<!-- set global properties for this build -->   <!-- dev.build.properties -->
-	<property name="PROP.FILE" location="local.build.properties"/>   
+	<property name="PROP.FILE" location="template.build.properties"/>   
 	<property file="${PROP.FILE}" />
 	<echo>
         PROP.FILE = ${PROP.FILE}
