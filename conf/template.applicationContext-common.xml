@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+
+<beans>
+
+  <bean id="appServiceLocator" class="gov.nih.nci.ncicb.cadsr.servicelocator.spring.ApplicationServiceLocatorImpl">
+  </bean>
+  <bean id="umlBrowserQueryService" class="gov.nih.nci.ncicb.cadsr.service.impl.UMLBrowserQueryServiceImpl">
+     <property name="serviceLocator"><ref local="appServiceLocator"/></property>
+  </bean>
+  <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+     <property name="jndiName" value="java:/jdbc/@Tool.ds.jndi.Name@"/>
+  </bean>  
+  <bean id="caDSRQueryService" class="gov.nih.nci.ncicb.cadsr.service.impl.CaDSRQueryServiceImpl">
+     <property name="dataSource"><ref local="dataSource"/></property>
+  </bean>  
+  <bean id="structsAction" class="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.BaseDispatchAction">
+    <property name="appServiceLocator"><ref local="appServiceLocator"/></property>
+  </bean>
+  <bean id="treeData" class="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.UMLBrowserTreeData">
+    <property name="appServiceLocator"><ref local="appServiceLocator"/></property>
+  </bean>
+
+  <bean id="treeModel" class="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.TreeBacker">
+    <property name="treeData"><ref local="treeData"/></property>
+  </bean>
+
+
+</beans>
