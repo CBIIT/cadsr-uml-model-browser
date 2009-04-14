@@ -62,7 +62,7 @@ public class Pagination extends TagSupport implements CaDSRConstants
         
         if(pageBean.getPreviousPageIndex()!=-1)
         {
-          out.print("<a href=\"javascript:"+name+"previous()\"><img src=\""+urlPrefix+previousOnImage+"\" border=\"0\" alt=\"Previous Page\">&nbsp;Previous&nbsp"+pageSize+"<%=pageSize%></a>&nbsp;");
+          out.print("<a href=\"javascript:"+name+"previous()\"><img src=\""+urlPrefix+previousOnImage+"\" border=\"0\" alt=\"Previous Page\">&nbsp;Previous&nbsp;"+pageSize+"</a>&nbsp;");
         }
         else
         {
