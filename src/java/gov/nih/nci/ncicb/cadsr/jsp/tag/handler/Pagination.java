@@ -19,7 +19,7 @@ import javax.servlet.jsp.JspWriter;
  * "beanId" attribute is the key for the pagenation bean in the session.
  * Struts iterate tag uses the offset and the length specified in the PagenationBean in the session
  *  Ex.
- *  <cde:pagenation name="bottom" textClassName="OraFieldText" selectClassName="LOVField" formIndex="0" pageSize="40" 
+ *  <cde:pagenation name="bottom" textClassName="OraFieldText" selectClassName="LOVField" formIndex="0" pageSize="100" 
  *                    beanId = "aBeanId" 
  *                    actionURL="/cdebrowser/pageAction.do"/>        
  *
