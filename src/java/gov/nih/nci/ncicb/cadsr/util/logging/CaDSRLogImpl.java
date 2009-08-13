@@ -7,9 +7,9 @@
  * performed before incurring the overhead of the logging method call 
  *
  * @release 3.0
- * @author: <a href=”mailto:jane.jiang@oracle.com”>Jane Jiang</a>
+ * @author: Jane Jiang
  * @date: 8/16/2005
- * @version: $Id: CaDSRLogImpl.java,v 1.1.1.1 2005-11-23 14:43:07 jiangj Exp $
+ * @version: $Id: CaDSRLogImpl.java,v 1.2 2009-08-13 17:08:48 davet Exp $
  */
  
 package gov.nih.nci.ncicb.cadsr.util.logging;
