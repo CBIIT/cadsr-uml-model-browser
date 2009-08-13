@@ -4,7 +4,7 @@
   =============================================
 
   Author: Shaji Kakkodi
-  @version $Id: build.xml,v 1.45 2009-04-14 20:17:22 davet Exp $
+  @version $Id: build.xml,v 1.46 2009-08-13 17:32:58 davet Exp $
 
   This build script was created using Ant version 1.6 and Java 1.5
 -->
@@ -24,12 +24,12 @@
    <property name="jboss.start.debug.script.name" value="rundebug.bat" />
    <property name="jboss.stop.script.name" value="shutdown.bat" />
    
-   <property name="cdebrowser.version" value="4.0.1" />
-   <property name="umlmodelbrowser.version" value="4.0.1" />
-   <property name="umlmodelbrowser.build" value="2" />
+   <property name="cdebrowser.version" value="4.0.2" />
+   <property name="umlmodelbrowser.version" value="4.0.2" />
+   <property name="umlmodelbrowser.build" value="1" />
    
    <!-- used for open source build for file suffix-->
-   <property name="umlmodelbrowser.version.suffix" value="4_0_1" />
+   <property name="umlmodelbrowser.version.suffix" value="4_0_2" />
    <property name="CADSR.DS.USER" value="${CADSR.DS.USER}" />
    <property name="CADSR.DS.PSWD" value="${CADSR.DS.PSWD}" />   
    <property name="opensource.CADSR.DS.PSWD" value="${CADSR.DS.PSWD}" />
