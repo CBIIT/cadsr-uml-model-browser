@@ -34,7 +34,7 @@ public class UMLBrowserParams
     String adminToolUrl="";
     String cadsrURL="";
     String cdebrowserURL="";
-    int itemPerPage=40;
+    int itemPerPage=100;
     String cdebrowserToolURL="";
     
     Map evsUrlMap = new HashMap();
