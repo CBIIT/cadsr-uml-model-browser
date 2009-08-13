@@ -133,7 +133,10 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
   public List<Project> getAllProjects() throws Exception {
 	  ApplicationService caCoreService = getCaCoreAPIService();
 	  DetachedCriteria projectCriteria =DetachedCriteria.forClass(Project.class);
-	  projectCriteria.addOrder(Order.asc("longName"));
+	  projectCriteria.addOrder(Order.asc("longName").ignoreCase());
+	  /*DetachedCriteria csCriteria = projectCriteria.createCriteria("classificationScheme");
+      csCriteria.add(Expression.eq("workflowStatusName", "RELEASED"));*/
+	  
 	  List results = caCoreService.query(projectCriteria); 
 		  //caCoreService.query(projectCriteria, Project.class.getName());
 	  return results;
@@ -141,9 +144,8 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
 
   public List<Project> getAllProjects(SearchPreferences searchPreferences) throws Exception {
         ApplicationService caCoreService = getCaCoreAPIService();
-        DetachedCriteria projectCriteria =
-          DetachedCriteria.forClass(Project.class);
-          DetachedCriteria contextCriteria = projectCriteria.createCriteria("classificationScheme")
+        DetachedCriteria projectCriteria = DetachedCriteria.forClass(Project.class);
+        DetachedCriteria contextCriteria = projectCriteria.createCriteria("classificationScheme")
                                              .createCriteria("context");
         applyContextSearchPreferences(searchPreferences, contextCriteria);
         projectCriteria.addOrder(Order.asc("longName").ignoreCase());
@@ -275,8 +277,7 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
    public List<UMLClassMetadata> getClassesForContext(String contextId){
       List resultList =null;
       try {
-        DetachedCriteria classCriteria = DetachedCriteria.forClass(UMLClassMetadata.class);
- //        classCriteria.addOrder( Order.asc("name").ignoreCase() );
+        DetachedCriteria classCriteria = DetachedCriteria.forClass(UMLClassMetadata.class); 
         classCriteria.addOrder( Order.asc("name").ignoreCase());
         if (contextId != null && contextId.length() >0) {
            DetachedCriteria contextCri= classCriteria.createCriteria("project").createCriteria("classificationScheme").createCriteria("context");
