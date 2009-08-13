@@ -96,21 +96,21 @@ public class UMLSearchAction extends BaseDispatchAction
     }
 
     public ActionForward classSearch(
-      ActionMapping mapping,
-      ActionForm form,
-      HttpServletRequest request,
-      HttpServletResponse response) throws Exception {
+    	ActionMapping mapping,
+    	ActionForm form,
+    	HttpServletRequest request,
+    	HttpServletResponse response) throws Exception {
 
 
-      DynaActionForm dynaForm = (DynaActionForm) form;
-      String resetCrumbs = (String) dynaForm.get(UMLBrowserFormConstants.RESET_CRUMBS);
+    	DynaActionForm dynaForm = (DynaActionForm) form;
+    	String resetCrumbs = (String) dynaForm.get(UMLBrowserFormConstants.RESET_CRUMBS);
 
-      UMLClassMetadata umlClass = this.populateClassFromForm(dynaForm);
-      SearchPreferences searchPreferences = (SearchPreferences)getSessionObject(request,UMLBrowserFormConstants.SEARCH_PREFERENCES);
+    	UMLClassMetadata umlClass = this.populateClassFromForm(dynaForm);
+    	SearchPreferences searchPreferences = (SearchPreferences)getSessionObject(request,UMLBrowserFormConstants.SEARCH_PREFERENCES);
+    	setSessionObject(request,UMLBrowserFormConstants.CLASS_NAME,dynaForm.getString(UMLBrowserFormConstants.CLASS_NAME));
+    	this.findClassesLike(umlClass, searchPreferences, request);
 
-      this.findClassesLike(umlClass, searchPreferences, request);
-
-      return mapping.findForward("umlSearch");
+    	return mapping.findForward("umlSearch");
     }
 
     public ActionForward attributeSearch(
@@ -174,7 +174,9 @@ public class UMLSearchAction extends BaseDispatchAction
      DynaActionForm dynaForm = (DynaActionForm) form;
      Collection<UMLAttributeMetadata> umlAttributes= umlClass.getUMLAttributeMetadataCollection();
      this.setupSessionForAttributeResults(umlAttributes, request);
-     dynaForm.set("className", umlClass.getName());
+     String cName = (String) getSessionObject(request,UMLBrowserFormConstants.CLASS_NAME);
+     //dynaForm.set("className", umlClass.getName());
+     dynaForm.set("className", cName);
      request.setAttribute(UMLBrowserFormConstants.ATTRIBUTE_CRUMB, breadCrumb);
 
      return mapping.findForward("showAttributes");
@@ -547,8 +549,7 @@ public class UMLSearchAction extends BaseDispatchAction
           UMLClassMetadata returnedClass = (UMLClassMetadata) resultsIterator.next();
               for (Iterator mdIterator = returnedClass.getSemanticMetadataCollection().iterator();
                       mdIterator.hasNext();) {
-                      SemanticMetadata metaData = (SemanticMetadata) mdIterator.next();
-                      System.out.println("concept Name: " + metaData.getConceptName());
+                      SemanticMetadata metaData = (SemanticMetadata) mdIterator.next();                      
                       }
               }
           ++count;
