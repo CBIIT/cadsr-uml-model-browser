@@ -36,7 +36,7 @@ if(confirm(message)) location.href = url;
         
         <bean:define id="pageBean" name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS_PAGINATION%>" 
         	type="gov.nih.nci.ncicb.cadsr.jsp.bean.PaginationBean"/>
-        <cde:pagination name="top" textClassName="OraFieldText" selectClassName="LOVField" formIndex="0" pageSize="40" 
+        <cde:pagination name="top" textClassName="OraFieldText" selectClassName="LOVField" formIndex="0" pageSize="100" 
                      beanId = "<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS_PAGINATION%>" 
                      actionURL="pageAction.do"
         	     previousOnImage="i/prev_on.gif"
@@ -197,7 +197,7 @@ if(confirm(message)) location.href = url;
             </tr>
           </logic:iterate>
         </table>
-        <cde:pagination name="bottom" textClassName="OraFieldText" selectClassName="LOVField" formIndex="0" pageSize="40" 
+        <cde:pagination name="bottom" textClassName="OraFieldText" selectClassName="LOVField" formIndex="0" pageSize="100" 
                      beanId = "<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS_PAGINATION%>"
                      actionURL="pageAction.do"
         	     previousOnImage="i/prev_on.gif"
