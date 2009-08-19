@@ -102,7 +102,7 @@
  </tr>
  <tr class="OraTabledata">
     <td class="TableRowPromptText">Workflow Status:</td>
-    <td class="OraFieldText"><bean:write name="classificationScheme" property="workflowStatusDescription" /></td>
+    <td class="OraFieldText"><bean:write name="classificationScheme" property="workflowStatusName" /></td>
  </tr>
 
  <tr class="OraTabledata">
