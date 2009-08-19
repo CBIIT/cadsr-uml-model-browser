@@ -3,11 +3,71 @@
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
 <%@ taglib uri="http://myfaces.apache.org/tomahawk" prefix="t"%>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="org.owasp.esapi.*" %>
+<%@ page import="java.util.regex.Pattern" %>
+
+<%!     
+      private static final Pattern AUTOSCROLL_PATTERN = Pattern.compile("[0-9]*[,][0-9]*");
+      private static final Pattern NAVCMD_PATTERN = Pattern.compile("[0-9:]*");
+      private static final Pattern INT_PATTERN = Pattern.compile("[0-9]*");
+      private static final Pattern LINK_HIDDEN_PATTERN = Pattern.compile("[umlBrowserTree:]*[serverTree:]*([[0-9]*[:]]*(t2g|_idJsp[0-9]))");
+      private static final Pattern TREE_PARAMS_PATTERN = Pattern.compile("[[a-zA-Z0-9]*[;]?[:]?[a-zA-Z0-9]*]*");
+      private static final Pattern DOC_NUM_PATTERN = Pattern.compile("[[a-fA-F0-9]*[-]]*");
+      																	
+      private void filterHiddenVariables(HttpServletRequest request, HttpServletResponse response) throws java.io.IOException{
+            boolean valid = true;
+            
+            String autoScroll = request.getParameter("autoScroll");
+            String jsfSeq = request.getParameter("jsf_sequence");
+            String linkHidden = request.getParameter("umlBrowserTree:_link_hidden_");
+            String navCmd = request.getParameter("serverTree:org.apache.myfaces.tree.NAV_COMMAND");
+            String submit = request.getParameter("umlBrowserTree_SUBMIT");
+            String treeParams = request.getParameter("treeParams");
+            String docNum = request.getParameter("docNum");
+            
+            if (autoScroll != null && !AUTOSCROLL_PATTERN.matcher(autoScroll).matches()) {
+                  System.out.println("Auto Scroll:"+autoScroll);
+            	  valid = false;
+      		}
+            if (jsfSeq != null && valid && !INT_PATTERN.matcher(jsfSeq).matches()) {
+                  System.out.println("JSF Seq:"+jsfSeq);
+                  valid = false;
+            }
+            if (linkHidden != null && valid && !LINK_HIDDEN_PATTERN.matcher(linkHidden).matches()) {
+                  System.out.println("Link Hidden:"+linkHidden);
+                  valid = false;
+            }
+            if (navCmd != null && valid && !NAVCMD_PATTERN.matcher(navCmd).matches()) {
+                  System.out.println("Nav Cmd:"+navCmd);
+                  valid = false;
+            }
+            if (submit != null && valid && !INT_PATTERN.matcher(submit).matches()) {
+                  System.out.println("Submit:"+submit);
+                  valid = false;
+            }
+            if (treeParams != null && valid && !TREE_PARAMS_PATTERN.matcher(treeParams).matches()) {
+                  System.out.println("Tree params:"+treeParams);
+                  valid = false;
+            }
+            if (docNum != null && valid && !DOC_NUM_PATTERN.matcher(docNum).matches()) {
+                  System.out.println("docNum:"+docNum);
+                  valid = false;
+            }
+            
+            if (!valid) {
+                  response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+            }
+      }     
+
+%>
+
+
 <f:view>
 
 <t:document>
 <t:documentHead>
+<% filterHiddenVariables(request, response); %>	
+
 <LINK rel="stylesheet" TYPE="text/css" HREF="../css/TreeBrowser.css"/>
   <script language="JavaScript1.2" src="../jsLib/JavaScript.js"></script>
   <script language="JavaScript1.2">
@@ -16,7 +76,7 @@ function classSearchAction(urlParams){
     var frm = findFrameByName('body');
     document.body.style.cursor = "wait";
     frm.document.body.style.cursor = "wait";
-    frm.document.location = "<%=request.getContextPath()%>/umlbrowser/umlSearchAction.do?method=treeClassSearch&"+urlParams;
+    frm.document.location = "<%=ESAPI.encoder().encodeForJavaScript(request.getContextPath())%>/umlbrowser/umlSearchAction.do?method=treeClassSearch&"+urlParams;
 }
   //-->
   </script>
@@ -34,7 +94,7 @@ function classSearchAction(urlParams){
     <h:commandLink value="Refresh tree" action="#{treeBacker.refreshTree}"/>
     <br/><br/>
 
-    
+
     <t:tree2 id="serverTree" value="#{treeBacker.treeModel}" var="node" varNodeToggler="t" clientSideToggle="false" binding="#{treeBacker.tree}">
         <f:facet name="Context Folder">
             <h:panelGroup >
@@ -53,7 +113,7 @@ function classSearchAction(urlParams){
                     <t:graphicImage value="/i/yellow-folder-closed.png"
                                     border="0"/>
                     <f:param name="docNum"
-                             value="#{node.identifier}"/>
+                    		 value="#{node.identifier}"/>
                 </h:commandLink>
                 <h:outputLink 
                               value="#{node.action}">
@@ -110,7 +170,6 @@ function classSearchAction(urlParams){
                     refresh="“Refresh" tree="tree”"/>
             </h:form>
 
-
 </t:documentBody>
 
 </t:document>
@@ -135,11 +194,11 @@ function classSearchAction(urlParams){
 
   // Fix autoscroll for frame
   <%
-    String autoScroll = request.getParameter("autoScroll");
+    String autoScroll = ESAPI.encoder().encodeForJavaScript(request.getParameter("autoScroll"));
     if (autoScroll != null && !"".equals(autoScroll)) {
         %>
 	    addLoadEvent(function() {
-  			parent.frames['tree'].scrollTo(<%=StringEscapeUtils.escapeJavaScript(autoScroll)%>);
+  			parent.frames['tree'].scrollTo(<%=autoScroll%>);
   		});
         <%
     }

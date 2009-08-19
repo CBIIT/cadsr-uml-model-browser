@@ -34,7 +34,7 @@ public class UMLBrowserParams
     String adminToolUrl="";
     String cadsrURL="";
     String cdebrowserURL="";
-    int itemPerPage=40;
+    int itemPerPage=100;
     String cdebrowserToolURL="";
     
     Map evsUrlMap = new HashMap();
@@ -217,7 +217,7 @@ public class UMLBrowserParams
                 trainingContext = propertyValue;
             index++;
             //Temporary Page for Admin Tool
-            adminToolUrl = "/umlmodelbrowser/common/adminRedirection.html";//properties.getProperty("ADMIN_TOOL_URL");
+            adminToolUrl = properties.getProperty("ADMIN_TOOL_URL");
             index++;
             curationToolUrl = properties.getProperty("CURATION_TOOL_URL");
             index++;

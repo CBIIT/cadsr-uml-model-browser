@@ -19,7 +19,7 @@ import javax.servlet.jsp.JspWriter;
  * "beanId" attribute is the key for the pagenation bean in the session.
  * Struts iterate tag uses the offset and the length specified in the PagenationBean in the session
  *  Ex.
- *  <cde:pagenation name="bottom" textClassName="OraFieldText" selectClassName="LOVField" formIndex="0" pageSize="40" 
+ *  <cde:pagenation name="bottom" textClassName="OraFieldText" selectClassName="LOVField" formIndex="0" pageSize="100" 
  *                    beanId = "aBeanId" 
  *                    actionURL="/cdebrowser/pageAction.do"/>        
  *
@@ -62,7 +62,7 @@ public class Pagination extends TagSupport implements CaDSRConstants
         
         if(pageBean.getPreviousPageIndex()!=-1)
         {
-          out.print("<a href=\"javascript:"+name+"previous()\"><img src=\""+urlPrefix+previousOnImage+"\" border=\"0\" alt=\"Previous Page\">&nbsp;Previous&nbsp"+pageSize+"<%=pageSize%></a>&nbsp;");
+          out.print("<a href=\"javascript:"+name+"previous()\"><img src=\""+urlPrefix+previousOnImage+"\" border=\"0\" alt=\"Previous Page\">&nbsp;Previous&nbsp;"+pageSize+"</a>&nbsp;");
         }
         else
         {

@@ -39,7 +39,7 @@
 		name="<%=UMLBrowserFormConstants.ATTRIBUTE_SEARCH_RESULTS_PAGINATION%>"
 		type="gov.nih.nci.ncicb.cadsr.jsp.bean.PaginationBean" />
 	<cde:pagination name="top" textClassName="OraFieldText"
-		selectClassName="LOVField" formIndex="0" pageSize="40"
+		selectClassName="LOVField" formIndex="0" pageSize="100"
 		beanId="<%=UMLBrowserFormConstants.ATTRIBUTE_SEARCH_RESULTS_PAGINATION%>"
 		actionURL="AttributePageAction.do" previousOnImage="i/prev_on.gif"
 		previousOffImage="i/prev_off.gif" nextOnImage="i/next_on.gif"
@@ -199,7 +199,7 @@
 		</logic:iterate>
 	</table>
 	<cde:pagination name="bottom" textClassName="OraFieldText"
-		selectClassName="LOVField" formIndex="0" pageSize="40"
+		selectClassName="LOVField" formIndex="0" pageSize="100"
 		beanId="<%=UMLBrowserFormConstants.ATTRIBUTE_SEARCH_RESULTS_PAGINATION%>"
 		actionURL="AttributePageAction.do" previousOnImage="i/prev_on.gif"
 		previousOffImage="i/prev_off.gif" nextOnImage="i/next_on.gif"

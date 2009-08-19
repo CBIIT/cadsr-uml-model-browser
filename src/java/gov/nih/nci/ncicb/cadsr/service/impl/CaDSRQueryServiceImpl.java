@@ -61,10 +61,12 @@ public class CaDSRQueryServiceImpl implements CaDSRQueryService{
      */
     public String getXMLForAttributes(Collection<UMLAttributeMetadata> attributes) throws Exception {
     	XMLGeneratorBean cdeXmlGenerator = new XMLGeneratorBean();
+    	Connection conn = null;
+    	Connection oracleConn = null;
     	try {
-            Connection conn = dataSource.getConnection();
+    		conn = dataSource.getConnection();
             //Get the OracleConnection
-            Connection oracleConn = conn.getMetaData().getConnection();
+            oracleConn = conn.getMetaData().getConnection();
             if (!(oracleConn instanceof oracle.jdbc.driver.OracleConnection)){
                 log.error("DataElement XML download can work with OracleConnection only.");
                 throw new Exception("DataElement XML download can work with OracleConnection only.");
@@ -91,6 +93,12 @@ public class CaDSRQueryServiceImpl implements CaDSRQueryService{
             throw e;
         }finally{
         	cdeXmlGenerator.closeResources();
+        	if(conn != null){
+        		conn.close();
+        	}
+        	if(oracleConn != null){
+        		oracleConn.close();
+        	}
         }
     }
     
