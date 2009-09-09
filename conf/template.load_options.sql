@@ -6,11 +6,10 @@
    Author: Tejas Dave
 
    This script loads the Tool Options table with required and optional values
-   for the CDEBrowser Tool.
+   for the UMLModelBrowser Tool.
 
    Each is described briefly below. A full description of each can be found in
-   the Sentinel Tool Installation Guide (file:
-   distrib/doc/Installation Guide.doc). These values must be reviewed and
+   the Tool Installation Guide. These values must be reviewed and
    changed as needed per the local installation and database instance.  
 
 */
@@ -26,30 +25,11 @@ whenever sqlerror exit sql.sqlcode rollback;
 */
 
 MERGE INTO SBREXT.TOOL_OPTIONS_VIEW_EXT S
-USING (SELECT 'CDEBrowser' AS TOOL_NAME, 'URL' AS PROPERTY, 'http://cdebrowser@TIER@.nci.nih.gov' AS VALUE, 'The URL for the CDEBrowser Tool connected this caDSR database.' AS DESCRIPTION, 'US' AS LOCALE FROM DUAL
-UNION SELECT 'CDEBrowser' AS TOOL_NAME, 'XML_DOWNLOAD_DIR' AS PROPERTY, '/local/content/cdebrowser/output' AS VALUE, 'Download directory for the CDEBrowser Tool.' AS DESCRIPTION, 'US' AS LOCALE FROM DUAL
+	USING (SELECT 'UMLBrowser' AS TOOL_NAME, 'PRIVACY_URL' AS PROPERTY, 'https://wiki.nci.nih.gov/x/qxEhAQ' AS VALUE, 'caDSR Privacy Policy Statement' AS DESCRIPTION, 'US' AS LOCALE FROM DUAL
 ) T
 ON (S.TOOL_NAME = T.TOOL_NAME AND S.PROPERTY = T.PROPERTY)
 WHEN MATCHED THEN UPDATE SET S.VALUE = S.VALUE, S.DESCRIPTION = T.DESCRIPTION, S.LOCALE = T.LOCALE
 WHEN NOT MATCHED THEN INSERT (TOOL_NAME, PROPERTY, VALUE, DESCRIPTION, LOCALE) VALUES (T.TOOL_NAME, T.PROPERTY, T.VALUE, T.DESCRIPTION, T.LOCALE);
-
-/*
-   EVS browser url, evs api url and object cart api in case if it was not added before.  don't need to do this.
-
-
-MERGE INTO SBREXT.TOOL_OPTIONS_VIEW_EXT S
-USING (SELECT 'EVSBrowser' AS TOOL_NAME, 'URL' AS PROPERTY, 'http://bioportal.nci.nih.gov/ncbo/faces/pages/advanced_search.xhtml' AS VALUE, 'The URL for EVS Bioportal Browser.' AS DESCRIPTION, 'US' AS LOCALE FROM DUAL
-UNION SELECT 'EVSAPI' AS TOOL_NAME, 'URL' AS PROPERTY, 'http://evsapi@TIER@.nci.nih.gov:19080/evsapi41' AS VALUE, 'The URL for EVS API access used in cadsr tools.' AS DESCRIPTION, 'US' AS LOCALE FROM DUAL
-UNION SELECT 'ObjectCartAPI' AS TOOL_NAME, 'URL' AS PROPERTY, 'http://cbvapp-d1008.nci.nih.gov:19080/objectCart' AS VALUE, 'The URL for Object Cart API access used in cadsr tools.' AS DESCRIPTION, 'US' AS LOCALE FROM DUAL
-) T
-ON (S.TOOL_NAME = T.TOOL_NAME AND S.PROPERTY = T.PROPERTY)
-WHEN MATCHED THEN UPDATE SET S.VALUE = S.VALUE, S.DESCRIPTION = T.DESCRIPTION, S.LOCALE = T.LOCALE
-WHEN NOT MATCHED THEN INSERT (TOOL_NAME, PROPERTY, VALUE, DESCRIPTION, LOCALE) VALUES (T.TOOL_NAME, T.PROPERTY, T.VALUE, T.DESCRIPTION, T.LOCALE);
-
-*/
-/*
-   Commit Settings.
-*/
 
 commit;
 
