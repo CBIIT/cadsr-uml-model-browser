@@ -36,6 +36,7 @@ public class UMLBrowserParams
     String cdebrowserURL="";
     int itemPerPage=100;
     String cdebrowserToolURL="";
+    String privacyURL = "";
     
     Map evsUrlMap = new HashMap();
 
@@ -191,6 +192,14 @@ public class UMLBrowserParams
   {
     return adminToolUrl;
   }
+  
+  public String getPrivacyURL() {
+	return privacyURL;
+  }
+
+  public void setPrivacyURL(String privacyURL) {
+	this.privacyURL = privacyURL;
+  }
 
   private void initAttributesFromProperties(Properties properties)
   {
@@ -236,6 +245,8 @@ public class UMLBrowserParams
             cdebrowserURL = properties.getProperty("CDEBROWSER_URL");
             index++;
             cdebrowserToolURL = properties.getProperty("CDEBROWSER_TOOL_URL");
+            index++;
+            privacyURL = properties.getProperty("PRIVACY_URL");
             index++;
             String itemPerPageStr =properties.getProperty("ITEM_PER_PAGE");
             if (itemPerPageStr !=null)
