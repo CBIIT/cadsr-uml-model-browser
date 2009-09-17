@@ -65,8 +65,12 @@ function fileDownloadWin(url,windowName,nwidth,nheight)
 <html:form action="/umlbrowser/umlSearchAction.do">
  <%@ include  file="/umlbrowser/umlSearch_inc.jsp" %>
   <P>
-     
-<logic:present name="<%=UMLBrowserFormConstants.CLASS_ATTRIBUTES%>">  
+<%      org.apache.struts.action.DynaActionForm dynaForm = (org.apache.struts.action.DynaActionForm) request.getAttribute("umlSearchForm");
+        if(dynaForm.get("className") == null){
+                	dynaForm.set("className",(String)session.getAttribute("className"));
+        }
+%>     
+<logic:present name="<%=UMLBrowserFormConstants.CLASS_ATTRIBUTES%>">    
   <%@ include  file="/umlbrowser/umlAttributes_inc.jsp" %>
 </logic:present> 
 <logic:notPresent name="<%=UMLBrowserFormConstants.CLASS_ATTRIBUTES%>">  

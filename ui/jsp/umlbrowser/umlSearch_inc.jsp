@@ -61,22 +61,20 @@ function resetSubProjPackage() {
 <table width="100%" >
  
  <tr align="left">
- <!--
+ <%--
     <td class="OraHeaderSubSub" width="60%" align="left" nowrap>Search For Classes</td>
- -->
-   <td valign="top" class="CDEBrowserPageContext">
-     <%=pageContextInfo%>
-   </td >
-  <!--
-  <td align="right" width="20%" nowrap>
-         <a href="">
-           Advanced search</a>
-    </td>
-     -->
-
-    <logic:equal name="<%=UMLBrowserFormConstants.CLASS_VIEW%>" value="true"> 
-     <logic:present name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>" >
-     <bean:size id="listSize" name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>" />
+ --%>
+   <td valign="top" class="CDEBrowserPageContext"><%=pageContextInfo%></td >
+  <%--
+  <td align="right" width="20%" nowrap><a href="">Advanced search</a></td>
+  --%>
+    
+    <logic:equal name="<%=UMLBrowserFormConstants.CLASS_VIEW%>" value="true">
+     <% org.apache.struts.action.DynaActionForm dynaForm = (org.apache.struts.action.DynaActionForm) request.getAttribute("umlSearchForm");
+         dynaForm.set("className",(String)session.getAttribute("className"));
+     %> 
+     <logic:present name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>" >      
+     <bean:size id="listSize" name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>" />     
      <logic:notEmpty name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>">
          <a class="link" href="#results"><%=listSize%>  Matches</a>
      </logic:notEmpty>
@@ -87,7 +85,10 @@ function resetSubProjPackage() {
     </logic:equal>
      
     <logic:notEqual name="<%=UMLBrowserFormConstants.CLASS_VIEW%>" value="true">
-     <logic:present name="<%=UMLBrowserFormConstants.CLASS_ATTRIBUTES%>" >
+    <% org.apache.struts.action.DynaActionForm dynaForm = (org.apache.struts.action.DynaActionForm) request.getAttribute("umlSearchForm");
+       dynaForm.set("className",(String)session.getAttribute("className"));
+     %>
+     <logic:present name="<%=UMLBrowserFormConstants.CLASS_ATTRIBUTES%>" >     
      <bean:size id="listSize" name="<%=UMLBrowserFormConstants.CLASS_ATTRIBUTES%>" />
      <logic:notEmpty name="<%=UMLBrowserFormConstants.CLASS_ATTRIBUTES%>">
          <a class="link" href="#results"><%=listSize%>  Matches</a>
