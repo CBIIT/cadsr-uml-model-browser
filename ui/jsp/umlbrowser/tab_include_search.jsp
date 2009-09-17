@@ -33,31 +33,21 @@
           <tr>
            <td  valign="bottom" align="center" width="15%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
                <a href="<%=params.getCdebrowserToolURL()%>" target="_blank" >CDEBrowser&nbsp;</a> </span></td>          
-             <td  valign="bottom" align="center" width="15%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
+           <td  valign="bottom" align="center" width="15%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
                <a href="<%=params.getFormBuilderToolUrl()%>" target="_blank" >FormBuilder Tool&nbsp;</a> </span></td>          
-           
            <td  valign="bottom" align="center" width="15%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
                <a href="<%=params.getAdminToolUrl()%>" target="_blank" >Admin Tool&nbsp;</a> </span></td>
-
-           <td  align="left" width="15%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
-                <a href="<%=params.getCurationToolUrl()%>" target="_blank">
-                      Curation Tool&nbsp;</a></span>
-            </td>
-           <td  align="center"  width="22%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
-                <a href="<%=params.getNciMetathesaurusUrl()%>" target="_blank" >
-                      NCI Metathesaurus&nbsp;</a></span>
-            </td>
-           <td  align="center" width="28%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
-                <a href="<%=params.getNciTerminologyServerUrl()%>" target="_blank">
-                      NCI Terminology Server&nbsp;</a></span>
-            </td>
-           <td  align="center" width="15%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
-                <a href="<%=params.getSentinelToolUrl()%>" target="_blank">
-                      Sentinel Tool&nbsp;</a></span>
-            </td>            
-        </tr>
-      </table>
-     </td>
+           <td  valign="bottom" align="center" width="15%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
+                <a href="<%=params.getCurationToolUrl()%>" target="_blank">Curation Tool&nbsp;</a> </span></td>
+           <td  valign="bottom" align="center"  width="25%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
+                <a href="<%=params.getNciMetathesaurusUrl()%>" target="_blank" >NCI Metathesaurus&nbsp;</a> </span></td>
+           <td  valign="bottom" align="center" width="35%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
+                <a href="<%=params.getNciTerminologyServerUrl()%>" target="_blank">NCI Terminology Server&nbsp;</a> </span></td>
+           <td  valign="bottom" align="right" width="15%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
+                <a href="<%=params.getSentinelToolUrl()%>" target="_blank"> Sentinel Tool&nbsp;</a> </span></td>            
+          </tr>
+    </table>
+    </td>
   </tr>
   </tabel>
   <table>
