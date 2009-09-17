@@ -67,22 +67,20 @@
     </action>     
         
     
-    <action name="umlSearchForm" path="/umlbrowser/sortAttributesAction" parameter="method"
-      scope="session"
+    <action name="umlSearchForm" path="/umlbrowser/sortAttributesAction" parameter="method" scope="session"
       type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.UMLSearchAction"
       validate="false">
-      <forward name="success" path="/umlbrowser/umlAttributes.jsp"
-      redirect="false"/>  
+      <forward name="success" path="/umlbrowser/umlAttributes.jsp" redirect="false"/>  
     </action>      
    
     
-    <action path="/umlbrowser/pageAction" parameter="method" scope="session"
+    <action name="umlSearchForm" path="/umlbrowser/pageAction" parameter="method" scope="session"
       type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.PaginationAction"
       validate="false">
       <forward name="success" path="/umlbrowser/umlSearch.jsp"/>
     </action>
 
-    <action path="/umlbrowser/AttributePageAction" parameter="method" scope="session"
+    <action name="umlSearchForm" path="/umlbrowser/AttributePageAction" parameter="method" scope="session"
       type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.AttributePaginationAction"
       validate="false">
       <forward name="success" path="/umlbrowser/umlAttributes.jsp"/>
@@ -96,8 +94,7 @@
     </action>
     
     <action name="viewRefDocAttachmentForm" path="/umlbrowser/viewRefDocAttachment" parameter="method" scope="session"
-        type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.DetailsPageAction"
-        validate="false">
+        type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.DetailsPageAction" validate="false">
     </action>
     
     <action path="/umlbrowser/xmlDownloadAction" parameter="method" scope="session"
