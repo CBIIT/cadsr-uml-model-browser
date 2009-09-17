@@ -7,7 +7,9 @@
 <%@page import="gov.nih.nci.ncicb.cadsr.CaDSRConstants" %>
 <%@page import="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConstants" %>
 <%@page import="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserNavigationConstants" %>
-
+<%
+  UMLBrowserParams params = UMLBrowserParams.getInstance();
+%>
 <HEAD>
 <TITLE>Project Details..</TITLE>
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
