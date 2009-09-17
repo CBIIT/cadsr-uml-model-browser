@@ -7,7 +7,9 @@
 <%@page import="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConstants" %>
 <%@page import="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserNavigationConstants" %>
 <%@page import="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.TreeConstants" %>
-
+<%
+	UMLBrowserParams params = UMLBrowserParams.getInstance(); 
+%>
 <html>
 <head>
 <title>UML Model Browser Search Preferences</title>
