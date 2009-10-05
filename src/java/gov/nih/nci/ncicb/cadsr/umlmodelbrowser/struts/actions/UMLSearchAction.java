@@ -10,6 +10,7 @@ import gov.nih.nci.ncicb.cadsr.jsp.bean.PaginationBean;
 import gov.nih.nci.ncicb.cadsr.service.UMLBrowserQueryService;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.dto.SearchPreferences;
 import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConstants;
+import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.tree.TreeConstants;
 import gov.nih.nci.ncicb.cadsr.util.BeanPropertyComparator;
 import gov.nih.nci.ncicb.cadsr.util.UMLBrowserParams;
 
@@ -64,7 +65,7 @@ public class UMLSearchAction extends BaseDispatchAction
   }
 
     /**
-     * This Action forwards to the default umplbrowser home.
+     * This Action forwards to the default umlbrowser home.
      *
      * @param mapping The ActionMapping used to select this instance.
      * @param form The optional ActionForm bean for this request.
@@ -76,39 +77,42 @@ public class UMLSearchAction extends BaseDispatchAction
      * @throws IOException
      * @throws ServletException
      */
-    public ActionForward initSearch(
-      ActionMapping mapping,
-      ActionForm form,
-      HttpServletRequest request,
-      HttpServletResponse response) throws IOException, ServletException {
-      removeSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS);      
-      //added for New search method to clear the attributes search result from session
-      //removeSessionObject(request, UMLBrowserFormConstants.CLASS_ATTRIBUTES);
-       //Set the lookup values in the session
-       setInitLookupValues(request);
-       setSessionObject(request,  UMLBrowserFormConstants.SUBPROJECT_OPTIONS,
-              getSessionObject(request, UMLBrowserFormConstants.ALL_SUBPROJECTS ),true);
-       setSessionObject(request,  UMLBrowserFormConstants.PACKAGE_OPTIONS,
-          getSessionObject(request, UMLBrowserFormConstants.ALL_PACKAGES ),true);
+  public ActionForward initSearch(
+		  ActionMapping mapping,
+		  ActionForm form,
+		  HttpServletRequest request,
+		  HttpServletResponse response) throws IOException, ServletException {
+	  removeSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS);      
+	  //added for New search method to clear the attributes search result from session
+	  removeSessionObject(request, UMLBrowserFormConstants.CLASS_NAME);
+	  removeSessionObject(request, UMLBrowserFormConstants.ATTRIBUT_NAME);
+	  removeSessionObject(request, UMLBrowserFormConstants.PROJECT_IDSEQ);
+	  removeSessionObject(request, UMLBrowserFormConstants.PROJECT_VERSION);
+	  removeSessionObject(request, UMLBrowserFormConstants.SUB_PROJECT_IDSEQ);
+	  removeSessionObject(request, UMLBrowserFormConstants.PACKAGE_IDSEQ);
+	  //removeSessionObject(request, "TreeContext");
+	  //Set the lookup values in the session
+	  setInitLookupValues(request);
+	  setSessionObject(request,  UMLBrowserFormConstants.SUBPROJECT_OPTIONS,
+			  getSessionObject(request, UMLBrowserFormConstants.ALL_SUBPROJECTS ),true);
+	  setSessionObject(request,  UMLBrowserFormConstants.PACKAGE_OPTIONS,
+			  getSessionObject(request, UMLBrowserFormConstants.ALL_PACKAGES ),true);
 
-       
-      return mapping.findForward("umlSearch");
-    }
+	  return mapping.findForward("umlSearch");
+  }
 
     public ActionForward classSearch(
     	ActionMapping mapping,
     	ActionForm form,
     	HttpServletRequest request,
     	HttpServletResponse response) throws Exception {
-
-
+    	
     	DynaActionForm dynaForm = (DynaActionForm) form;
     	String resetCrumbs = (String) dynaForm.get(UMLBrowserFormConstants.RESET_CRUMBS);
 
-    	UMLClassMetadata umlClass = this.populateClassFromForm(dynaForm);
-    	SearchPreferences searchPreferences = (SearchPreferences)getSessionObject(request,UMLBrowserFormConstants.SEARCH_PREFERENCES);
-    	setSessionObject(request,UMLBrowserFormConstants.CLASS_NAME,dynaForm.getString(UMLBrowserFormConstants.CLASS_NAME));
-    	this.findClassesLike(umlClass, searchPreferences, request);
+    	UMLClassMetadata umlClass = this.populateClassFromForm(request,dynaForm);
+    	SearchPreferences searchPreferences = (SearchPreferences)getSessionObject(request,UMLBrowserFormConstants.SEARCH_PREFERENCES);    	
+    	this.findClassesLike(umlClass, searchPreferences, request);    	
 
     	return mapping.findForward("umlSearch");
     }
@@ -129,7 +133,7 @@ public class UMLSearchAction extends BaseDispatchAction
       String attName = ((String) dynaForm.get("attributeName")).trim();
       if (attName !=null && attName.length()>0)
          umlAtt.setName(attName.replace('*','%') );
-      UMLClassMetadata umlClass = this.populateClassFromForm(dynaForm);
+      UMLClassMetadata umlClass = this.populateClassFromForm(request,dynaForm);
       if (umlClass != null)
          umlAtt.setUMLClassMetadata(umlClass);
       SearchPreferences searchPreferences = (SearchPreferences)getSessionObject(request, UMLBrowserFormConstants.SEARCH_PREFERENCES);
@@ -174,9 +178,10 @@ public class UMLSearchAction extends BaseDispatchAction
      DynaActionForm dynaForm = (DynaActionForm) form;
      Collection<UMLAttributeMetadata> umlAttributes= umlClass.getUMLAttributeMetadataCollection();
      this.setupSessionForAttributeResults(umlAttributes, request);
-     String cName = (String) getSessionObject(request,UMLBrowserFormConstants.CLASS_NAME);
+     setFormValues(request,dynaForm); //GF 2579
+     //String cName = (String) getSessionObject(request,UMLBrowserFormConstants.CLASS_NAME);
      //dynaForm.set("className", umlClass.getName());
-     dynaForm.set("className", cName);
+     //dynaForm.set("className", cName);
      request.setAttribute(UMLBrowserFormConstants.ATTRIBUTE_CRUMB, breadCrumb);
 
      return mapping.findForward("showAttributes");
@@ -215,9 +220,13 @@ public class UMLSearchAction extends BaseDispatchAction
    if (umlClasses != null) {
      pb.setListSize(umlClasses.size());
    }
-   Collections.sort(umlClasses,comparator);
+   Collections.sort(umlClasses,comparator);   
+   //GF 2579
+   setFormValues(request,searchForm);
+     
    setSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS_PAGINATION, pb,true);
    setSessionObject(request, ANCHOR, "results",true);
+   
    return mapping.findForward(SUCCESS);
    }
 
@@ -253,6 +262,9 @@ public class UMLSearchAction extends BaseDispatchAction
      pb.setListSize(umlClasses.size());
    }
    Collections.sort(umlClasses, comparator);
+   //GF 2579   
+   setFormValues(request,searchForm);
+   
    setSessionObject(request, UMLBrowserFormConstants.ATTRIBUTE_SEARCH_RESULTS_PAGINATION, pb,true);
    setSessionObject(request, ANCHOR, "results",true);
    return mapping.findForward(SUCCESS);
@@ -315,7 +327,7 @@ public class UMLSearchAction extends BaseDispatchAction
 
    }
 
-   private UMLClassMetadata populateClassFromForm(DynaActionForm dynaForm) {
+   private UMLClassMetadata populateClassFromForm(HttpServletRequest request,DynaActionForm dynaForm) {
       UMLClassMetadata umlClass = null;
       Project project = null;
 
@@ -325,15 +337,22 @@ public class UMLSearchAction extends BaseDispatchAction
          className = className.replace('*','%');
          umlClass.setName(className);
       }
-       String projectId = ((String) dynaForm.get(UMLBrowserFormConstants.PROJECT_IDSEQ)).trim();
-       if (projectId != null && projectId.length() >0) {
+      setSessionObject(request,UMLBrowserFormConstants.CLASS_NAME,dynaForm.getString(UMLBrowserFormConstants.CLASS_NAME));
+      
+      String attributeName = ((String) dynaForm.get("attributeName")).trim();
+      setSessionObject(request,UMLBrowserFormConstants.ATTRIBUT_NAME,dynaForm.getString(UMLBrowserFormConstants.ATTRIBUT_NAME));
+      
+      String projectId = ((String) dynaForm.get(UMLBrowserFormConstants.PROJECT_IDSEQ)).trim();
+      if (projectId != null && projectId.length() >0) {
          if (umlClass == null)
             umlClass = new UMLClassMetadata();
 
          project = new Project();
          project.setId(projectId);
          umlClass.setProject(project);
-       }
+      }
+      setSessionObject(request,UMLBrowserFormConstants.PROJECT_IDSEQ,dynaForm.getString(UMLBrowserFormConstants.PROJECT_IDSEQ));
+       
       String projectVersion = ((String) dynaForm.get(UMLBrowserFormConstants.PROJECT_VERSION)).trim();
       if (projectVersion != null && projectVersion.length() >0) {
         if (umlClass == null)
@@ -345,32 +364,57 @@ public class UMLSearchAction extends BaseDispatchAction
         projectVersion = projectVersion.replace('*','%');
         project.setVersion(projectVersion);
       }
+      setSessionObject(request,UMLBrowserFormConstants.PROJECT_VERSION,dynaForm.getString(UMLBrowserFormConstants.PROJECT_VERSION));
 
       UMLPackageMetadata packageMetadata = null;
-
-       String subprojectId = ((String) dynaForm.get(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ)).trim();
-       if (projectId != null && subprojectId.length() >0) {
-          if (umlClass == null)
+      String subprojectId = ((String) dynaForm.get(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ)).trim();
+      if (projectId != null && subprojectId.length() >0) {
+         if (umlClass == null)
              umlClass = new UMLClassMetadata();
          SubProject subproject = new SubProject();
          subproject.setId(subprojectId);
          packageMetadata = new UMLPackageMetadata();
          packageMetadata.setSubProject(subproject);
-       }
+      }
+      setSessionObject(request,UMLBrowserFormConstants.SUB_PROJECT_IDSEQ,dynaForm.getString(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ));
 
-       String packageId = ((String) dynaForm.get(UMLBrowserFormConstants.PACKAGE_IDSEQ)).trim();
-       if (packageId != null && packageId.length() >0) {
+      String packageId = ((String) dynaForm.get(UMLBrowserFormConstants.PACKAGE_IDSEQ)).trim();
+      if (packageId != null && packageId.length() >0) {
          if (umlClass == null)
              umlClass = new UMLClassMetadata();
 
          if (packageMetadata == null)
             packageMetadata = new UMLPackageMetadata();
          packageMetadata.setId(packageId);
-       }
+      }
+      setSessionObject(request,UMLBrowserFormConstants.PACKAGE_IDSEQ,dynaForm.getString(UMLBrowserFormConstants.PACKAGE_IDSEQ));
 
-       if (packageMetadata != null)
+      if (packageMetadata != null)
           umlClass.setUMLPackageMetadata(packageMetadata);
       return umlClass;
+   }
+   
+   private void setFormValues(HttpServletRequest request, DynaActionForm form){
+	      
+	   form.set(UMLBrowserFormConstants.CLASS_NAME,(String)getSessionObject(request,UMLBrowserFormConstants.CLASS_NAME) );
+	   form.set(UMLBrowserFormConstants.ATTRIBUT_NAME, (String) getSessionObject(request,UMLBrowserFormConstants.ATTRIBUT_NAME));
+	   form.set(UMLBrowserFormConstants.PROJECT_IDSEQ,(String) getSessionObject(request,UMLBrowserFormConstants.PROJECT_IDSEQ));
+	   form.set(UMLBrowserFormConstants.PROJECT_VERSION,(String) getSessionObject(request,UMLBrowserFormConstants.PROJECT_VERSION));
+	   form.set(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ,(String) getSessionObject(request,UMLBrowserFormConstants.SUB_PROJECT_IDSEQ));
+	   form.set(UMLBrowserFormConstants.PACKAGE_IDSEQ,(String) getSessionObject(request,UMLBrowserFormConstants.PACKAGE_IDSEQ));
+	   
+	   return;
+   }
+   
+   private void reSetFormValues(HttpServletRequest request, DynaActionForm form){
+	      
+	   form.set(UMLBrowserFormConstants.CLASS_NAME, "" );
+	   form.set(UMLBrowserFormConstants.ATTRIBUT_NAME,"");
+	   form.set(UMLBrowserFormConstants.PROJECT_IDSEQ,"");
+	   form.set(UMLBrowserFormConstants.PROJECT_VERSION,"");
+	   form.set(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ,"");
+	   form.set(UMLBrowserFormConstants.PACKAGE_IDSEQ,"");	   
+	   return;
    }
 
 
@@ -470,73 +514,153 @@ public class UMLSearchAction extends BaseDispatchAction
 
      }
 
-   public ActionForward treeClassSearch(
-     ActionMapping mapping,
-     ActionForm form,
-     HttpServletRequest request,
-     HttpServletResponse response) throws IOException, ServletException {
+     public ActionForward treeClassSearch(
+    		 ActionMapping mapping,
+    		 ActionForm form,
+    		 HttpServletRequest request,
+    		 HttpServletResponse response) throws IOException, ServletException {
 
-    try {
-     String searchType = request.getParameter("P_PARAM_TYPE");
-     String searchId = request.getParameter("P_IDSEQ");
-     UMLBrowserQueryService queryService = getAppServiceLocator().findQuerySerivce();
-     Collection umlClasses = null;
+    	 try {
+    		 String searchType = request.getParameter("P_PARAM_TYPE");
+    		 String searchId = request.getParameter("P_IDSEQ");    		 
+    		 UMLBrowserQueryService queryService = getAppServiceLocator().findQuerySerivce();
+    		 Collection umlClasses = null;
+    		 //GF: 2579    		 
+    		 DynaActionForm dynaForm = (DynaActionForm)form;
+    		 reSetFormValues(request, dynaForm);
+    		 String treeBreadCrumb = request.getParameter(TreeConstants.TREE_BREADCRUMBS);
+    		 log.info("Setting formValues from TreeBreadCrumb: "+treeBreadCrumb);
+    		 String[] treeCrumbs = null;
+    		 String caDSRContext ="";
+			 String context = "";
+			 String projectsText = "";
+			 String projectName ="";
+			 String treeCrumbProjectId = "";
+			 String subProjectName = "";
+			 String treeCrumbSubProjectId = "";
+			 String packageName = "";
+			 String treeCrumbPackageId = "";
+			 String className = "";    		 
+    		 if(treeBreadCrumb != null){
+    			 treeCrumbs = treeBreadCrumb.split(">>");    			 
+    			 for (int i=0; i<treeCrumbs.length; i++){
+    				 if(i==0)
+    					 caDSRContext = treeCrumbs[0];
+    				 if(i==1)
+    					 context = treeCrumbs[1];
+    				 if(i==2)
+    					 projectsText = treeCrumbs[2];
+    				 if(i==3)
+    					 projectName = treeCrumbs[3];
+    				 if(i==4)
+    					 subProjectName = treeCrumbs[4];
+    				 if(i==5)
+    					 packageName = treeCrumbs[5];
+    				 if(i==6)
+    					 className = treeCrumbs[6];    				 
+    			 }
+    		 }
+    		 List<Project> formProjects = new ArrayList<Project>();
+    		 List<SubProject> formSubProjects = new ArrayList<SubProject>();
+    		 List<UMLPackageMetadata> formPackages = new ArrayList<UMLPackageMetadata> ();
+    		 if(projectName != null || !projectName.equals("")){
+    			 Project formProject = new Project();
+    			 formProject.setLongName(projectName);
+    			 formProjects = queryService.findProject(formProject);
+    			 //System.out.println(".... found "+formProjects.size()+" projects with LongName "+projectName);
+    			 for (Object obj: formProjects){
+    				 Project proj = (Project)obj;
+    				 treeCrumbProjectId = proj.getId();				////Get Project Id to set in form
+    				 //System.out.println("........ProjectId: "+proj.getId());
+    				 formSubProjects = (List<SubProject>) proj.getSubProjectCollection();    			 
+    				 log.debug("--- "+formSubProjects.size()+" subProjects for the project "+projectName);
+    				 if(formSubProjects.size() != 0){
+    					 for(Object oSub: formSubProjects){
+    						 SubProject formSub = (SubProject) oSub;
+    						 if(subProjectName.equalsIgnoreCase(formSub.getName())){
+    							 treeCrumbSubProjectId = formSub.getId();
+    							 //System.out.println("........Sub_ProjectId: "+formSub.getId());    				 
+    						 }
+    					 }//Get subproject Id to set in form
+    				 }else{   //If subproject does not exist for a Project, Rearrange breadcrumbs
+    					 log.debug("---Rearranging BreadCrumbs");
+    					 className = packageName;
+    					 packageName = subProjectName;
+    				 }
+    				 formPackages = (List<UMLPackageMetadata>) proj.getUMLPackageMetadataCollection();
+    				 for(Object oPackage: formPackages){
+    					 UMLPackageMetadata formPackage = (UMLPackageMetadata)oPackage;
+    					 if(packageName.equalsIgnoreCase(formPackage.getName())){
+    						 treeCrumbPackageId = formPackage.getId();
+    						 //System.out.println("........PackageId: "+formPackage.getId());
+    					 }
+    				 } //Get package Id to set in form
 
-      if (searchType.equalsIgnoreCase("Class")  ) {
-         UMLClassMetadata umlClass = new UMLClassMetadata();
-         umlClass.setId(searchId);
-         UMLAttributeMetadata umlAttribute = new UMLAttributeMetadata();
-         umlAttribute.setUMLClassMetadata(umlClass);
-         Collection umlAttributes = queryService.findUmlAttributes(umlAttribute);
-         setupSessionForAttributeResults(umlAttributes, request);
-         return mapping.findForward("showAttributes");
+    			 }
+    		 }
+    		 //GF 2579
+    		 if (searchType.equalsIgnoreCase("Class")  ) {
+    			 UMLClassMetadata umlClass = new UMLClassMetadata();
+    			 umlClass.setId(searchId);
+    			 UMLAttributeMetadata umlAttribute = new UMLAttributeMetadata();
+    			 umlAttribute.setUMLClassMetadata(umlClass);
+    			 Collection umlAttributes = queryService.findUmlAttributes(umlAttribute);
+    			 //System.out.println("---Class Id: "+searchId);    			 
+    			 dynaForm.set(UMLBrowserFormConstants.CLASS_NAME,className);
+    			 dynaForm.set(UMLBrowserFormConstants.PROJECT_IDSEQ,treeCrumbProjectId);
+    			 dynaForm.set(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ, treeCrumbSubProjectId);
+    			 dynaForm.set(UMLBrowserFormConstants.PACKAGE_IDSEQ, treeCrumbPackageId);
+    			 setupSessionForAttributeResults(umlAttributes, request);
+    			 return mapping.findForward("showAttributes");
+    		 }
+    		 if (searchType.equalsIgnoreCase("Context")  ) {
+    			 //System.out.println("---Context Id: "+searchId);
+    			 //setSessionObject(request, "TreeContext", searchId);
+    			 umlClasses = queryService.getClassesForContext(searchId);
+    		 }
+    		 if (searchType.equalsIgnoreCase("Project")  ) {
+    			 UMLClassMetadata umlClass = new UMLClassMetadata();
+    			 Project project = new Project();
+    			 project.setId(searchId);
+    			 //System.out.println("---Project Id: "+searchId);
+    			 dynaForm.set(UMLBrowserFormConstants.PROJECT_IDSEQ,searchId);
+    			 umlClass.setProject(project);
+    			 umlClasses = queryService.findUmlClass(umlClass);
+    		 }
+    		 if (searchType.equalsIgnoreCase("Container")  ) {
+    			 umlClasses = queryService.findUmlClassForContainer(searchId);
+    		 }
+    		 if (searchType.equalsIgnoreCase("SubProject")  ) {
+    			 UMLClassMetadata umlClass = new UMLClassMetadata();
+    			 SubProject subproject = new SubProject();
+    			 subproject.setId(searchId);
+    			 //System.out.println("---SubProject Id: "+searchId);
+    			 dynaForm.set(UMLBrowserFormConstants.PROJECT_IDSEQ,treeCrumbProjectId);
+    			 dynaForm.set(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ,searchId);
+    			 UMLPackageMetadata packageMetadata= new UMLPackageMetadata();
+    			 packageMetadata.setSubProject(subproject);
+    			 umlClass.setUMLPackageMetadata(packageMetadata);
+    			 umlClasses = queryService.findUmlClass(umlClass);
+    		 }
+    		 if (searchType.equalsIgnoreCase("Package")  ) {
+    			 UMLClassMetadata umlClass = new UMLClassMetadata();
+    			 UMLPackageMetadata packageMetadata= new UMLPackageMetadata();
+    			 packageMetadata.setId(searchId);
+    			 //System.out.println("---Package Id: "+searchId);
+    			 dynaForm.set(UMLBrowserFormConstants.PROJECT_IDSEQ,treeCrumbProjectId);
+    			 dynaForm.set(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ,treeCrumbSubProjectId);
+    			 dynaForm.set(UMLBrowserFormConstants.PACKAGE_IDSEQ,searchId);
+    			 umlClass.setUMLPackageMetadata(packageMetadata);
+    			 umlClasses = queryService.findUmlClass(umlClass);
+    		 }
+    		 setupSessionForClassResults(umlClasses, request);
+    	 } catch (Exception e) {
+    		 log.error(e);
+    		 throw new ServletException("Error occurred while performing tree search", e);
 
-      }
-
-
-
-     if (searchType.equalsIgnoreCase("Context")  ) {
-        umlClasses = queryService.getClassesForContext(searchId);
+    	 }
+    	 return mapping.findForward("umlSearch");
      }
-
-     if (searchType.equalsIgnoreCase("Project")  ) {
-        UMLClassMetadata umlClass = new UMLClassMetadata();
-        Project project = new Project();
-        project.setId(searchId);
-        umlClass.setProject(project);
-        umlClasses = queryService.findUmlClass(umlClass);
-     }
-
-       if (searchType.equalsIgnoreCase("Container")  ) {
-          umlClasses = queryService.findUmlClassForContainer(searchId);
-       }
-
-      if (searchType.equalsIgnoreCase("SubProject")  ) {
-         UMLClassMetadata umlClass = new UMLClassMetadata();
-         SubProject subproject = new SubProject();
-         subproject.setId(searchId);
-         UMLPackageMetadata packageMetadata= new UMLPackageMetadata();
-         packageMetadata.setSubProject(subproject);
-         umlClass.setUMLPackageMetadata(packageMetadata);
-         umlClasses = queryService.findUmlClass(umlClass);
-      }
-
-      if (searchType.equalsIgnoreCase("Package")  ) {
-         UMLClassMetadata umlClass = new UMLClassMetadata();
-         UMLPackageMetadata packageMetadata= new UMLPackageMetadata();
-         packageMetadata.setId(searchId);
-         umlClass.setUMLPackageMetadata(packageMetadata);
-         umlClasses = queryService.findUmlClass(umlClass);
-      }
-
-     setupSessionForClassResults(umlClasses, request);
-    } catch (Exception e) {
-        log.error(e);
-        throw new ServletException("Error occurred while performing tree search", e);
-        
-    }
-     return mapping.findForward("umlSearch");
-   }
   private void getLazyAssociationsForClass(Collection classList)
   {
      if(classList==null) return;
