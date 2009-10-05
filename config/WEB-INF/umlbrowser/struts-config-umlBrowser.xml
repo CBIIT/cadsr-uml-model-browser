@@ -34,18 +34,15 @@
   </form-beans>  
   
   <action-mappings>
-    <action name="umlSearchForm" path="/umlbrowser/umlSearchAction" parameter="method"
-      scope="request"
+    <action name="umlSearchForm" path="/umlbrowser/umlSearchAction" parameter="method" scope="request"
       type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.UMLSearchAction"
-      validate="false"
-      >
+      validate="false" >
       <forward name="umlbrowserHome" path="/umlbrowser/umlbrowser.jsp"/>
       <forward name="umlSearch" path="/umlbrowser/umlSearch.jsp"/>
       <forward name="showAttributes" path="/umlbrowser/umlAttributes.jsp"/>
     </action>
     
-    <action name="umlSearchForm" path="/umlbrowser/umlSortSearchAction" parameter="method"
-      scope="session"
+    <action name="umlSearchForm" path="/umlbrowser/umlSortSearchAction" parameter="method" scope="request"
       type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.UMLSearchAction"
       validate="false">
       <forward name="success" path="/umlbrowser/umlSearch.jsp"
@@ -67,20 +64,20 @@
     </action>     
         
     
-    <action name="umlSearchForm" path="/umlbrowser/sortAttributesAction" parameter="method" scope="session"
+    <action name="umlSearchForm" path="/umlbrowser/sortAttributesAction" parameter="method" scope="request"
       type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.UMLSearchAction"
       validate="false">
       <forward name="success" path="/umlbrowser/umlAttributes.jsp" redirect="false"/>  
     </action>      
    
     
-    <action name="umlSearchForm" path="/umlbrowser/pageAction" parameter="method" scope="session"
+    <action name="umlSearchForm" path="/umlbrowser/pageAction" parameter="method" scope="request"
       type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.PaginationAction"
       validate="false">
       <forward name="success" path="/umlbrowser/umlSearch.jsp"/>
     </action>
 
-    <action name="umlSearchForm" path="/umlbrowser/AttributePageAction" parameter="method" scope="session"
+    <action name="umlSearchForm" path="/umlbrowser/AttributePageAction" parameter="method" scope="request"
       type="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.actions.AttributePaginationAction"
       validate="false">
       <forward name="success" path="/umlbrowser/umlAttributes.jsp"/>
