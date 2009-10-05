@@ -15,7 +15,6 @@ function clearProject() {
   document.forms[0].packageIdseq.value = "";
   document.forms[0].className.value = "";
   document.forms[0].attributeName.value = "";
-  
 }
 function clearForm() {
   document.forms[0].reset();
@@ -69,10 +68,7 @@ function resetSubProjPackage() {
   <td align="right" width="20%" nowrap><a href="">Advanced search</a></td>
   --%>
     
-    <logic:equal name="<%=UMLBrowserFormConstants.CLASS_VIEW%>" value="true">
-     <% org.apache.struts.action.DynaActionForm dynaForm = (org.apache.struts.action.DynaActionForm) request.getAttribute("umlSearchForm");
-         dynaForm.set("className",(String)session.getAttribute("className"));
-     %> 
+    <logic:equal name="<%=UMLBrowserFormConstants.CLASS_VIEW%>" value="true">      
      <logic:present name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>" >      
      <bean:size id="listSize" name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>" />     
      <logic:notEmpty name="<%=UMLBrowserFormConstants.CLASS_SEARCH_RESULTS%>">
@@ -84,10 +80,7 @@ function resetSubProjPackage() {
      </logic:present>
     </logic:equal>
      
-    <logic:notEqual name="<%=UMLBrowserFormConstants.CLASS_VIEW%>" value="true">
-    <% org.apache.struts.action.DynaActionForm dynaForm = (org.apache.struts.action.DynaActionForm) request.getAttribute("umlSearchForm");
-       dynaForm.set("className",(String)session.getAttribute("className"));
-     %>
+    <logic:notEqual name="<%=UMLBrowserFormConstants.CLASS_VIEW%>" value="true">    
      <logic:present name="<%=UMLBrowserFormConstants.CLASS_ATTRIBUTES%>" >     
      <bean:size id="listSize" name="<%=UMLBrowserFormConstants.CLASS_ATTRIBUTES%>" />
      <logic:notEmpty name="<%=UMLBrowserFormConstants.CLASS_ATTRIBUTES%>">
