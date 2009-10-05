@@ -35,7 +35,7 @@ public class UMLBrowserTreeData implements Serializable {
 	public UMLBrowserTreeData() {
 	}
 
-	private /*synchronized static void*/LazyActionTreeNode buildTree() {
+	private LazyActionTreeNode buildTree() {
 		List<LazyActionTreeNode> newContextNodes = new ArrayList<LazyActionTreeNode>();
 		log.info("Building UML Browser tree start ....");
 		String testContext = UMLBrowserParams.getInstance().getTestContext();		
@@ -101,7 +101,7 @@ public class UMLBrowserTreeData implements Serializable {
 		return appServiceLocator;
 	}
 
-	private /*static*/ void addPackageNodes(Collection<UMLPackageMetadata> packages,LazyActionTreeNode parentNode){
+	private void addPackageNodes(Collection<UMLPackageMetadata> packages,LazyActionTreeNode parentNode){
 		boolean isParentProject = parentNode.getType().equalsIgnoreCase("Project Folder");
 
 		if (packages == null)
@@ -126,7 +126,7 @@ public class UMLBrowserTreeData implements Serializable {
 		}
 	}
 
-	private /*static*/ void addClassNodes(Collection<UMLClassMetadata> umlClasses,LazyActionTreeNode pkgNode){
+	private void addClassNodes(Collection<UMLClassMetadata> umlClasses,LazyActionTreeNode pkgNode){
 		// build class nodes
 		int bcIndex = pkgNode.getAction().indexOf("&treeBreadCrumbs=");
 		String pkgBreadCrumb = pkgNode.getAction().subSequence(bcIndex,pkgNode.getAction().length() - 3).toString();
@@ -146,12 +146,12 @@ public class UMLBrowserTreeData implements Serializable {
 		this.treeData = treeData;
 	}
 
-	public /*static*/ void refreshTree() {
+	public void refreshTree() {
 		//buildTree();
 		setTreeData(this.buildTree());
 	}
 
-	public /*static*/ LazyActionTreeNode getTreeData(boolean excludeTest,
+	public LazyActionTreeNode getTreeData(boolean excludeTest,
 			boolean excludeTraining) {
 		if (contextNodes == null){
 			//buildTree();
@@ -172,7 +172,7 @@ public class UMLBrowserTreeData implements Serializable {
 		return contextFolder;
 	}
 
-	private /*static*/ void addProject(Project project, LazyActionTreeNode pNode) {
+	private void addProject(Project project, LazyActionTreeNode pNode) {
 		if (project == null)
 			return;
 	//	if (project.getClassificationScheme().getLatestVersionIndicator().equalsIgnoreCase("YES")) {
@@ -186,7 +186,7 @@ public class UMLBrowserTreeData implements Serializable {
 					+ "&treeBreadCrumbs=caDSR Contexts>>"
 					+ projContext.getName() + ">>Projects>>"
 					+ project.getLongName() + " ')", project.getId(),false);
-			projectNode.setToolTip(project.getClassificationScheme().getPreferredDefinition());
+			projectNode.setToolTip(project.getClassificationScheme().getPreferredDefinition()+", "+project.getClassificationScheme().getWorkflowStatusName());//GF4200
 			pNode.getChildren().add(projectNode);
 			// build sub project nodes
 			if (subProjects != null) {
@@ -210,7 +210,7 @@ public class UMLBrowserTreeData implements Serializable {
 	//	}
 	}
 
-	private /*static*/ void addContainer(ClassificationScheme container,
+	private void addContainer(ClassificationScheme container,
 			LazyActionTreeNode pNode, HashMap<String, Project> projectMap) {
 		LazyActionTreeNode containerNode = new LazyActionTreeNode("Container",
 				container.getLongName(),
