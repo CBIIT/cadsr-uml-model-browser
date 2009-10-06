@@ -513,6 +513,90 @@ public class UMLSearchAction extends BaseDispatchAction
         return project;
 
      }
+     
+     /*
+      * Retrieves form values from the TreeBreadCrumb and sets them in session
+      */
+     private void getFormValuesFromTreeCrumb(HttpServletRequest request, UMLBrowserQueryService queryService){
+    	 String treeBreadCrumb = request.getParameter(TreeConstants.TREE_BREADCRUMBS);
+		 log.info("Setting formValues from TreeBreadCrumb: "+treeBreadCrumb);
+		 String[] treeCrumbs = null;
+		 String caDSRContext ="";
+		 String context = "";
+		 String projectsText = "";
+		 String projectName ="";
+		 String treeCrumbProjectId = "";
+		 String subProjectName = "";
+		 String treeCrumbSubProjectId = "";
+		 String packageName = "";
+		 String treeCrumbPackageId = "";
+		 String className = "";    		 
+		 if(treeBreadCrumb != null){
+			 treeCrumbs = treeBreadCrumb.split(">>");    			 
+			 for (int i=0; i<treeCrumbs.length; i++){
+				 if(i==0)
+					 caDSRContext = treeCrumbs[0];
+				 if(i==1)
+					 context = treeCrumbs[1];
+				 if(i==2)
+					 projectsText = treeCrumbs[2];
+				 if(i==3)
+					 projectName = treeCrumbs[3];
+				 if(i==4)
+					 subProjectName = treeCrumbs[4];
+				 if(i==5)
+					 packageName = treeCrumbs[5];
+				 if(i==6)
+					 className = treeCrumbs[6];    				 
+			 }
+		 }
+		 List<Project> formProjects = new ArrayList<Project>();
+		 List<SubProject> formSubProjects = new ArrayList<SubProject>();
+		 List<UMLPackageMetadata> formPackages = new ArrayList<UMLPackageMetadata> ();
+		 if(projectName != null || !projectName.equals("")){
+			 Project formProject = new Project();
+			 formProject.setLongName(projectName);
+			 formProjects = queryService.findProject(formProject);
+			 //System.out.println(".... found "+formProjects.size()+" projects with LongName "+projectName);
+			 for (Object obj: formProjects){
+				 Project proj = (Project)obj;
+				 treeCrumbProjectId = proj.getId();				////Get Project Id to set in form				 
+				 //System.out.println("........ProjectId: "+proj.getId());
+				 formSubProjects = (List<SubProject>) proj.getSubProjectCollection();    			 
+				 log.debug("--- "+formSubProjects.size()+" subProjects for the project "+projectName);
+				 if(formSubProjects.size() != 0){
+					 for(Object oSub: formSubProjects){
+						 SubProject formSub = (SubProject) oSub;
+						 if(subProjectName.equalsIgnoreCase(formSub.getName())){
+							 treeCrumbSubProjectId = formSub.getId();							 
+							 //System.out.println("........Sub_ProjectId: "+formSub.getId());    				 
+						 }
+					 }//Get subproject Id to set in form
+				 }else{   //If subproject does not exist for a Project, Rearrange breadcrumbs
+					 log.debug("---Rearranging BreadCrumbs");					 
+					 className = packageName;
+					 packageName = subProjectName;
+				 }
+				 formPackages = (List<UMLPackageMetadata>) proj.getUMLPackageMetadataCollection();
+				 if(!packageName.equals("")){
+					 for(Object oPackage: formPackages){
+						 UMLPackageMetadata formPackage = (UMLPackageMetadata)oPackage;
+						 if(packageName.equalsIgnoreCase(formPackage.getName())){
+							 treeCrumbPackageId = formPackage.getId();
+
+							 //System.out.println("........PackageId: "+formPackage.getId());
+						 }
+					 }
+				 } //Get package Id to set in form
+			 }
+		 }
+		 setSessionObject(request,UMLBrowserFormConstants.PROJECT_IDSEQ,treeCrumbProjectId);
+		 setSessionObject(request,UMLBrowserFormConstants.SUB_PROJECT_IDSEQ,treeCrumbSubProjectId);
+		 setSessionObject(request,UMLBrowserFormConstants.PACKAGE_IDSEQ,treeCrumbPackageId);
+		 setSessionObject(request,UMLBrowserFormConstants.CLASS_NAME,className);
+		 setSessionObject(request,UMLBrowserFormConstants.ATTRIBUT_NAME, "");
+		 setSessionObject(request,UMLBrowserFormConstants.PROJECT_VERSION,"");		 
+     }
 
      public ActionForward treeClassSearch(
     		 ActionMapping mapping,
@@ -528,76 +612,8 @@ public class UMLSearchAction extends BaseDispatchAction
     		 //GF: 2579    		 
     		 DynaActionForm dynaForm = (DynaActionForm)form;
     		 reSetFormValues(request, dynaForm);
-    		 String treeBreadCrumb = request.getParameter(TreeConstants.TREE_BREADCRUMBS);
-    		 log.info("Setting formValues from TreeBreadCrumb: "+treeBreadCrumb);
-    		 String[] treeCrumbs = null;
-    		 String caDSRContext ="";
-			 String context = "";
-			 String projectsText = "";
-			 String projectName ="";
-			 String treeCrumbProjectId = "";
-			 String subProjectName = "";
-			 String treeCrumbSubProjectId = "";
-			 String packageName = "";
-			 String treeCrumbPackageId = "";
-			 String className = "";    		 
-    		 if(treeBreadCrumb != null){
-    			 treeCrumbs = treeBreadCrumb.split(">>");    			 
-    			 for (int i=0; i<treeCrumbs.length; i++){
-    				 if(i==0)
-    					 caDSRContext = treeCrumbs[0];
-    				 if(i==1)
-    					 context = treeCrumbs[1];
-    				 if(i==2)
-    					 projectsText = treeCrumbs[2];
-    				 if(i==3)
-    					 projectName = treeCrumbs[3];
-    				 if(i==4)
-    					 subProjectName = treeCrumbs[4];
-    				 if(i==5)
-    					 packageName = treeCrumbs[5];
-    				 if(i==6)
-    					 className = treeCrumbs[6];    				 
-    			 }
-    		 }
-    		 List<Project> formProjects = new ArrayList<Project>();
-    		 List<SubProject> formSubProjects = new ArrayList<SubProject>();
-    		 List<UMLPackageMetadata> formPackages = new ArrayList<UMLPackageMetadata> ();
-    		 if(projectName != null || !projectName.equals("")){
-    			 Project formProject = new Project();
-    			 formProject.setLongName(projectName);
-    			 formProjects = queryService.findProject(formProject);
-    			 //System.out.println(".... found "+formProjects.size()+" projects with LongName "+projectName);
-    			 for (Object obj: formProjects){
-    				 Project proj = (Project)obj;
-    				 treeCrumbProjectId = proj.getId();				////Get Project Id to set in form
-    				 //System.out.println("........ProjectId: "+proj.getId());
-    				 formSubProjects = (List<SubProject>) proj.getSubProjectCollection();    			 
-    				 log.debug("--- "+formSubProjects.size()+" subProjects for the project "+projectName);
-    				 if(formSubProjects.size() != 0){
-    					 for(Object oSub: formSubProjects){
-    						 SubProject formSub = (SubProject) oSub;
-    						 if(subProjectName.equalsIgnoreCase(formSub.getName())){
-    							 treeCrumbSubProjectId = formSub.getId();
-    							 //System.out.println("........Sub_ProjectId: "+formSub.getId());    				 
-    						 }
-    					 }//Get subproject Id to set in form
-    				 }else{   //If subproject does not exist for a Project, Rearrange breadcrumbs
-    					 log.debug("---Rearranging BreadCrumbs");
-    					 className = packageName;
-    					 packageName = subProjectName;
-    				 }
-    				 formPackages = (List<UMLPackageMetadata>) proj.getUMLPackageMetadataCollection();
-    				 for(Object oPackage: formPackages){
-    					 UMLPackageMetadata formPackage = (UMLPackageMetadata)oPackage;
-    					 if(packageName.equalsIgnoreCase(formPackage.getName())){
-    						 treeCrumbPackageId = formPackage.getId();
-    						 //System.out.println("........PackageId: "+formPackage.getId());
-    					 }
-    				 } //Get package Id to set in form
-
-    			 }
-    		 }
+    		 getFormValuesFromTreeCrumb(request,queryService);  //This method will retrieve values from TreeBreadCrumb and set it in Session
+    		 
     		 //GF 2579
     		 if (searchType.equalsIgnoreCase("Class")  ) {
     			 UMLClassMetadata umlClass = new UMLClassMetadata();
@@ -606,16 +622,15 @@ public class UMLSearchAction extends BaseDispatchAction
     			 umlAttribute.setUMLClassMetadata(umlClass);
     			 Collection umlAttributes = queryService.findUmlAttributes(umlAttribute);
     			 //System.out.println("---Class Id: "+searchId);    			 
-    			 dynaForm.set(UMLBrowserFormConstants.CLASS_NAME,className);
-    			 dynaForm.set(UMLBrowserFormConstants.PROJECT_IDSEQ,treeCrumbProjectId);
-    			 dynaForm.set(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ, treeCrumbSubProjectId);
-    			 dynaForm.set(UMLBrowserFormConstants.PACKAGE_IDSEQ, treeCrumbPackageId);
+    			 dynaForm.set(UMLBrowserFormConstants.CLASS_NAME,(String)getSessionObject(request, UMLBrowserFormConstants.CLASS_NAME));
+    			 dynaForm.set(UMLBrowserFormConstants.PROJECT_IDSEQ,(String)getSessionObject(request, UMLBrowserFormConstants.PROJECT_IDSEQ));
+    			 dynaForm.set(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ, (String)getSessionObject(request, UMLBrowserFormConstants.SUB_PROJECT_IDSEQ));
+    			 dynaForm.set(UMLBrowserFormConstants.PACKAGE_IDSEQ, (String)getSessionObject(request, UMLBrowserFormConstants.PACKAGE_IDSEQ));
     			 setupSessionForAttributeResults(umlAttributes, request);
     			 return mapping.findForward("showAttributes");
     		 }
     		 if (searchType.equalsIgnoreCase("Context")  ) {
-    			 //System.out.println("---Context Id: "+searchId);
-    			 //setSessionObject(request, "TreeContext", searchId);
+    			 //System.out.println("---Context Id: "+searchId);    			 
     			 umlClasses = queryService.getClassesForContext(searchId);
     		 }
     		 if (searchType.equalsIgnoreCase("Project")  ) {
@@ -625,7 +640,7 @@ public class UMLSearchAction extends BaseDispatchAction
     			 //System.out.println("---Project Id: "+searchId);
     			 dynaForm.set(UMLBrowserFormConstants.PROJECT_IDSEQ,searchId);
     			 umlClass.setProject(project);
-    			 umlClasses = queryService.findUmlClass(umlClass);
+    			 umlClasses = queryService.findUmlClass(umlClass);    			 
     		 }
     		 if (searchType.equalsIgnoreCase("Container")  ) {
     			 umlClasses = queryService.findUmlClassForContainer(searchId);
@@ -635,7 +650,7 @@ public class UMLSearchAction extends BaseDispatchAction
     			 SubProject subproject = new SubProject();
     			 subproject.setId(searchId);
     			 //System.out.println("---SubProject Id: "+searchId);
-    			 dynaForm.set(UMLBrowserFormConstants.PROJECT_IDSEQ,treeCrumbProjectId);
+    			 dynaForm.set(UMLBrowserFormConstants.PROJECT_IDSEQ,(String)getSessionObject(request, UMLBrowserFormConstants.PROJECT_IDSEQ));
     			 dynaForm.set(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ,searchId);
     			 UMLPackageMetadata packageMetadata= new UMLPackageMetadata();
     			 packageMetadata.setSubProject(subproject);
@@ -647,8 +662,8 @@ public class UMLSearchAction extends BaseDispatchAction
     			 UMLPackageMetadata packageMetadata= new UMLPackageMetadata();
     			 packageMetadata.setId(searchId);
     			 //System.out.println("---Package Id: "+searchId);
-    			 dynaForm.set(UMLBrowserFormConstants.PROJECT_IDSEQ,treeCrumbProjectId);
-    			 dynaForm.set(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ,treeCrumbSubProjectId);
+    			 dynaForm.set(UMLBrowserFormConstants.PROJECT_IDSEQ,(String)getSessionObject(request, UMLBrowserFormConstants.PROJECT_IDSEQ));
+    			 dynaForm.set(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ, (String)getSessionObject(request, UMLBrowserFormConstants.SUB_PROJECT_IDSEQ));
     			 dynaForm.set(UMLBrowserFormConstants.PACKAGE_IDSEQ,searchId);
     			 umlClass.setUMLPackageMetadata(packageMetadata);
     			 umlClasses = queryService.findUmlClass(umlClass);
