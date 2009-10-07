@@ -413,7 +413,13 @@ public class UMLSearchAction extends BaseDispatchAction
 	   form.set(UMLBrowserFormConstants.PROJECT_IDSEQ,"");
 	   form.set(UMLBrowserFormConstants.PROJECT_VERSION,"");
 	   form.set(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ,"");
-	   form.set(UMLBrowserFormConstants.PACKAGE_IDSEQ,"");	   
+	   form.set(UMLBrowserFormConstants.PACKAGE_IDSEQ,"");
+	   removeSessionObject(request, UMLBrowserFormConstants.CLASS_NAME);
+	   removeSessionObject(request, UMLBrowserFormConstants.ATTRIBUT_NAME);
+	   removeSessionObject(request, UMLBrowserFormConstants.PROJECT_IDSEQ);
+	   removeSessionObject(request, UMLBrowserFormConstants.PROJECT_VERSION);
+	   removeSessionObject(request, UMLBrowserFormConstants.SUB_PROJECT_IDSEQ);
+	   removeSessionObject(request, UMLBrowserFormConstants.PACKAGE_IDSEQ);
 	   return;
    }
 
@@ -426,8 +432,7 @@ public class UMLSearchAction extends BaseDispatchAction
 
      DynaActionForm dynaForm = (DynaActionForm) form;
 
-     String projectId = ((String) dynaForm.get(UMLBrowserFormConstants.PROJECT_IDSEQ)).trim();
-
+     String projectId = ((String) dynaForm.get(UMLBrowserFormConstants.PROJECT_IDSEQ)).trim();     
      if (projectId == null || projectId.length() == 0) {
         setSessionObject(request,  UMLBrowserFormConstants.SUBPROJECT_OPTIONS,
            getSessionObject(request, UMLBrowserFormConstants.ALL_SUBPROJECTS ),true);
@@ -460,11 +465,10 @@ public class UMLSearchAction extends BaseDispatchAction
      ActionForm form,
      HttpServletRequest request,
      HttpServletResponse response) throws IOException, ServletException {
-
+	  
      DynaActionForm dynaForm = (DynaActionForm) form;
-     String projectId = ((String) dynaForm.get(UMLBrowserFormConstants.PROJECT_IDSEQ)).trim();
-     String subprojId = ((String) dynaForm.get(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ)).trim();
-
+     String projectId = ((String) dynaForm.get(UMLBrowserFormConstants.PROJECT_IDSEQ)).trim();     
+     String subprojId = ((String) dynaForm.get(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ)).trim();     
      if (subprojId == null || subprojId.length() == 0) {
      // if subProject is ALL, set package options by project
         setPackageOptionsForProjectId(request, projectId);
@@ -501,18 +505,50 @@ public class UMLSearchAction extends BaseDispatchAction
             project = (Project) projIter.next();
             if (project.getId().equalsIgnoreCase(projectId))
                break;
-        }
-
+        }        
         if (project != null ){
 
            UMLBrowserQueryService queryService = getAppServiceLocator().findQuerySerivce();
            setSessionObject(request,  UMLBrowserFormConstants.PACKAGE_OPTIONS,
               queryService.getAllPackageForProject(project),true);
         }
-
+        
         return project;
-
+        
      }
+     
+     private Project setSubProjectOptionsForProjectId (HttpServletRequest request, String projectId){
+         Project project = null;
+         Collection<Project> allProjects = (Collection) getSessionObject(request, UMLBrowserFormConstants.ALL_PROJECTS);
+         for (Iterator projIter =allProjects.iterator(); projIter.hasNext(); ) {
+             project = (Project) projIter.next();
+             if (project.getId().equalsIgnoreCase(projectId))
+                break;
+         }         
+         if (project != null ){
+        	 setSessionObject(request,  UMLBrowserFormConstants.SUBPROJECT_OPTIONS,
+                     project.getSubProjectCollection(), true);
+         }
+         return project;
+     }
+     
+     private SubProject setPackageOptionsForSubProjectId (HttpServletRequest request, String subProjectId){
+    	 SubProject subProject = null;
+    	 Collection<SubProject> allSubProjects = (Collection) getSessionObject(request, UMLBrowserFormConstants.ALL_SUBPROJECTS);
+         for (Iterator subprojIter =allSubProjects.iterator(); subprojIter.hasNext(); ) {
+             subProject = (SubProject) subprojIter.next();
+             if (subProject.getId().equalsIgnoreCase(subProjectId))
+                break;
+         }
+
+         if (subProject != null ){
+            setSessionObject(request,  UMLBrowserFormConstants.PACKAGE_OPTIONS,
+               subProject.getUMLPackageMetadataCollection(), true);
+
+         }
+         return subProject;
+      }
+     
      
      /*
       * Retrieves form values from the TreeBreadCrumb and sets them in session
@@ -630,7 +666,11 @@ public class UMLSearchAction extends BaseDispatchAction
     			 return mapping.findForward("showAttributes");
     		 }
     		 if (searchType.equalsIgnoreCase("Context")  ) {
-    			 //System.out.println("---Context Id: "+searchId);    			 
+    			 //System.out.println("---Context Id: "+searchId);
+    			 setSessionObject(request,  UMLBrowserFormConstants.SUBPROJECT_OPTIONS,
+    			           getSessionObject(request, UMLBrowserFormConstants.ALL_SUBPROJECTS ),true);
+    			 setSessionObject(request,  UMLBrowserFormConstants.PACKAGE_OPTIONS,
+    			           getSessionObject(request, UMLBrowserFormConstants.ALL_PACKAGES ),true);
     			 umlClasses = queryService.getClassesForContext(searchId);
     		 }
     		 if (searchType.equalsIgnoreCase("Project")  ) {
@@ -639,6 +679,8 @@ public class UMLSearchAction extends BaseDispatchAction
     			 project.setId(searchId);
     			 //System.out.println("---Project Id: "+searchId);
     			 dynaForm.set(UMLBrowserFormConstants.PROJECT_IDSEQ,searchId);
+    			 setSubProjectOptionsForProjectId(request,searchId);
+    			 setPackageOptionsForProjectId(request, searchId);
     			 umlClass.setProject(project);
     			 umlClasses = queryService.findUmlClass(umlClass);    			 
     		 }
@@ -652,6 +694,7 @@ public class UMLSearchAction extends BaseDispatchAction
     			 //System.out.println("---SubProject Id: "+searchId);
     			 dynaForm.set(UMLBrowserFormConstants.PROJECT_IDSEQ,(String)getSessionObject(request, UMLBrowserFormConstants.PROJECT_IDSEQ));
     			 dynaForm.set(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ,searchId);
+    			 setPackageOptionsForSubProjectId(request, searchId);
     			 UMLPackageMetadata packageMetadata= new UMLPackageMetadata();
     			 packageMetadata.setSubProject(subproject);
     			 umlClass.setUMLPackageMetadata(packageMetadata);
