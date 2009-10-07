@@ -9,6 +9,7 @@ import gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserFormConst
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.DynaActionForm;
 
 import java.io.IOException;
 
@@ -81,6 +82,8 @@ public class PaginationAction extends BaseDispatchAction
     PaginationBean pb = (PaginationBean)getSessionObject(request,
     UMLBrowserFormConstants.CLASS_SEARCH_RESULTS_PAGINATION);
     pb.next();
+    DynaActionForm dynaForm = (DynaActionForm)form;
+    setFormValues(request, dynaForm);
     setSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS_PAGINATION, pb,true);
     setSessionObject(request, ANCHOR, "results",true);  
     return mapping.findForward(SUCCESS);
@@ -105,6 +108,8 @@ public class PaginationAction extends BaseDispatchAction
     HttpServletResponse response) throws IOException, ServletException {
     PaginationBean pb = (PaginationBean)getSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS_PAGINATION);
     pb.previous();
+    DynaActionForm dynaForm = (DynaActionForm)form;
+    setFormValues(request, dynaForm);
     setSessionObject(request, ANCHOR, "results",true);  
     setSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS_PAGINATION, pb,true);
     return mapping.findForward(SUCCESS);
@@ -126,7 +131,7 @@ public class PaginationAction extends BaseDispatchAction
     ActionForm form,
     HttpServletRequest request,
     HttpServletResponse response) throws IOException, ServletException {
-    
+    	
     String pageIndexStr = request.getParameter("pageIndex");
     int pageIndex=0;
     if(pageIndexStr!=null)
@@ -135,8 +140,23 @@ public class PaginationAction extends BaseDispatchAction
     }
     PaginationBean pb = (PaginationBean)getSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS_PAGINATION);
     pb.setPageIndex(pageIndex);
+    DynaActionForm dynaForm = (DynaActionForm)form;
+    setFormValues(request, dynaForm);
     setSessionObject(request, UMLBrowserFormConstants.CLASS_SEARCH_RESULTS_PAGINATION, pb,true);
     setSessionObject(request, ANCHOR, "results",true);  
     return mapping.findForward(SUCCESS);
-    }        
+    }
+  	
+  private void setFormValues(HttpServletRequest request, DynaActionForm form){
+
+	  form.set(UMLBrowserFormConstants.CLASS_NAME,(String)getSessionObject(request,UMLBrowserFormConstants.CLASS_NAME) );
+	  form.set(UMLBrowserFormConstants.ATTRIBUT_NAME, (String) getSessionObject(request,UMLBrowserFormConstants.ATTRIBUT_NAME));
+	  form.set(UMLBrowserFormConstants.PROJECT_IDSEQ,(String) getSessionObject(request,UMLBrowserFormConstants.PROJECT_IDSEQ));
+	  form.set(UMLBrowserFormConstants.PROJECT_VERSION,(String) getSessionObject(request,UMLBrowserFormConstants.PROJECT_VERSION));
+	  form.set(UMLBrowserFormConstants.SUB_PROJECT_IDSEQ,(String) getSessionObject(request,UMLBrowserFormConstants.SUB_PROJECT_IDSEQ));
+	  form.set(UMLBrowserFormConstants.PACKAGE_IDSEQ,(String) getSessionObject(request,UMLBrowserFormConstants.PACKAGE_IDSEQ));
+
+	  return;
+  }
+  
 }
