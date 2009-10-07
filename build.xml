@@ -26,7 +26,7 @@
    
    <property name="cdebrowser.version" value="4.0.1" />
    <property name="umlmodelbrowser.version" value="4.0.2" />
-   <property name="umlmodelbrowser.build" value="5" />
+   <property name="umlmodelbrowser.build" value="6" />
    
    <!-- used for open source build for file suffix-->
    <property name="umlmodelbrowser.version.suffix" value="4_0_2" />
