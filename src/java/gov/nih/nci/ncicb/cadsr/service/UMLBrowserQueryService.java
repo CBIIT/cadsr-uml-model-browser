@@ -36,9 +36,13 @@ public interface UMLBrowserQueryService {
     
     public List<SubProject> getAllSubProjects() throws Exception;
     
+    public List<SubProject> getAllSubProjectsForProject(Project project) throws Exception ;
+    
     public List<SubProject> getAllSubProjects(SearchPreferences searchPreferences) throws Exception;
     
     public List<UMLPackageMetadata> getAllPackages() throws Exception;
+    
+    public List<UMLPackageMetadata> getAllPackagesForSubProject(SubProject subProject) throws Exception ;
     
     public List<UMLPackageMetadata> getAllPackages(SearchPreferences searchPreferences) throws Exception;
     

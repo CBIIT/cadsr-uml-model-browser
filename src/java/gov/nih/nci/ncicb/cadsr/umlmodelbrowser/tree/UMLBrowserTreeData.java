@@ -75,7 +75,7 @@ public class UMLBrowserTreeData implements Serializable {
 			for (Iterator projIter = projects.iterator(); projIter.hasNext();) {
 				Project project = (Project) projIter.next();
 				Context projContext = project.getClassificationScheme().getContext();
-				addProject(project, contextMap.get(projContext.getId()));
+				addProject(queryService, project, contextMap.get(projContext.getId()));				
 				projectMap.put(project.getClassificationScheme().getId(),project);
 			}
 			// add all containers
@@ -138,7 +138,8 @@ public class UMLBrowserTreeData implements Serializable {
 					+ umlClass.getId() + pkgBreadCrumb + ">>"
 					+ umlClass.getName() + " ')", umlClass.getId(),
 					false);
-			pkgNode.addLeafSortedByDescription(clsNode);
+			//pkgNode.addLeafSortedByDescription(clsNode);
+			pkgNode.getChildren().add(clsNode);
 		}
 	}
 
@@ -172,11 +173,22 @@ public class UMLBrowserTreeData implements Serializable {
 		return contextFolder;
 	}
 
-	private void addProject(Project project, LazyActionTreeNode pNode) {
+	private void addProject(UMLBrowserQueryService queryService,Project project, LazyActionTreeNode pNode) {
 		if (project == null)
 			return;
 	//	if (project.getClassificationScheme().getLatestVersionIndicator().equalsIgnoreCase("YES")) {
-			Collection<SubProject> subProjects = project.getSubProjectCollection();
+		 	
+		//Collection<SubProject> subProjects = project.getSubProjectCollection();
+		Collection<SubProject> subProjects = null;
+		Collection<UMLPackageMetadata> packagesCollection = null;
+		try{
+			if(queryService == null){
+				queryService = appServiceLocator.findQuerySerivce();
+			}
+			subProjects = queryService.getAllSubProjectsForProject(project);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 			Collection<UMLPackageMetadata> pkgs = project.getUMLPackageMetadataCollection();
 			Context projContext = project.getClassificationScheme().getContext();
 			LazyActionTreeNode projectNode = new LazyActionTreeNode(
@@ -200,9 +212,16 @@ public class UMLBrowserTreeData implements Serializable {
 							+ projContext.getName() + ">>Projects>>"
 							+ project.getLongName() + ">>"
 							+ subProject.getName() + " ')", subProject.getId(), false);
-					projectNode.addLeafSortedByDescription(subprojectNode);
+					//projectNode.addLeafSortedByDescription(subprojectNode);
+					projectNode.getChildren().add(subprojectNode);					
 					// build package nodes under sub project
-					addPackageNodes(subProject.getUMLPackageMetadataCollection(), subprojectNode);
+					try{
+						packagesCollection = queryService.getAllPackagesForSubProject(subProject);
+					}catch (Exception e){
+						e.printStackTrace();
+					}
+					//addPackageNodes(subProject.getUMLPackageMetadataCollection(), subprojectNode);
+					addPackageNodes(packagesCollection, subprojectNode);
 				}
 			}
 			// then build package nodes directly under project
@@ -231,7 +250,7 @@ public class UMLBrowserTreeData implements Serializable {
 				if (childCs.getType().equalsIgnoreCase("Container"))
 					addContainer(childCs, containerNode, projectMap);
 				else if (childCs.getType().equalsIgnoreCase("Project")) {
-					addProject(projectMap.get(childCs.getId()), containerNode);
+					addProject(null,projectMap.get(childCs.getId()), containerNode);
 				}
 			}
 		}
