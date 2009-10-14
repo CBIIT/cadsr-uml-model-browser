@@ -179,6 +179,18 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
     	   //caCoreService.query(subProjectCriteria, SubProject.class.getName());;
       return results;
     }
+    
+    public List<SubProject> getAllSubProjectsForProject(Project project) throws Exception {
+    	ApplicationService caCoreService = getCaCoreAPIService();
+    	DetachedCriteria subProjectCriteria = DetachedCriteria.forClass(SubProject.class);
+    	subProjectCriteria.addOrder(Order.asc("name").ignoreCase());
+    	if (project != null && project.getId().length() >0) {
+    		DetachedCriteria pjCri = subProjectCriteria.createCriteria("project");
+    		pjCri.add(Expression.eq("id", project.getId()));          
+    	}
+    	List results = caCoreService.query(subProjectCriteria);    	
+    	return results;
+    }
 
     public List<SubProject> getAllSubProjects(SearchPreferences searchPreferences) throws Exception {
         ApplicationService caCoreService = getCaCoreAPIService();
@@ -202,6 +214,18 @@ public class UMLBrowserQueryServiceImpl implements UMLBrowserQueryService
        List results = caCoreService.query(subPackageCriteria);
     	   //caCoreService.query(subPackageCriteria, UMLPackageMetadata.class.getName());;
       return results;
+    }
+    
+    public List<UMLPackageMetadata> getAllPackagesForSubProject(SubProject subProject) throws Exception {
+    	ApplicationService caCoreService = getCaCoreAPIService();
+    	DetachedCriteria pkgCriteria = DetachedCriteria.forClass(UMLPackageMetadata.class);
+    	pkgCriteria.addOrder(Order.asc("name").ignoreCase());
+    	if (subProject != null && subProject.getId().length() >0) {
+    		DetachedCriteria subpjCri = pkgCriteria.createCriteria("subProject");
+    		subpjCri.add(Expression.eq("id", subProject.getId()));          
+    	}
+    	List results = caCoreService.query(pkgCriteria);   	
+    	return results;
     }
 
     public List<UMLPackageMetadata> getAllPackages(SearchPreferences searchPreferences) throws Exception {
