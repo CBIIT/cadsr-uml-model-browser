@@ -119,7 +119,7 @@ public class UMLBrowserTreeData implements Serializable {
 					"Package Folder", pkg.getName(),
 					"javascript:classSearchAction('P_PARAM_TYPE=PACKAGE&P_IDSEQ="
 					+ pkg.getId() + parentBreadCrumb + ">>"
-					+ pkg.getName() + " ')", pkg.getId(), false);
+					+ pkg.getName() + " ')", pkg.getId(), false);			
 			parentNode.getChildren().add(pkgNode);
 			// addClassNodes to each package node
 			addClassNodes(pkg.getUMLClassMetadataCollection(), pkgNode);
@@ -186,7 +186,7 @@ public class UMLBrowserTreeData implements Serializable {
 					+ "&treeBreadCrumbs=caDSR Contexts>>"
 					+ projContext.getName() + ">>Projects>>"
 					+ project.getLongName() + " ')", project.getId(),false);
-			projectNode.setToolTip(project.getClassificationScheme().getPreferredDefinition()+", "+project.getClassificationScheme().getWorkflowStatusName());//GF4200
+			projectNode.setToolTip(project.getClassificationScheme().getPreferredDefinition()+", v"+project.getVersion()+", "+project.getClassificationScheme().getWorkflowStatusName());//GF4200
 			pNode.getChildren().add(projectNode);
 			// build sub project nodes
 			if (subProjects != null) {
