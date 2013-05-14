@@ -20,10 +20,7 @@
 <TITLE>
 UML Model Browser
 </TITLE>
-<div style="position:absolute;">
-                        <a href="#skip">                    
-                        </a>
-                </div>
+
 </HEAD>
   <jsp:useBean id="requestMap" scope="request" class="java.util.HashMap" />
   
@@ -45,7 +42,7 @@ UML Model Browser
               title="tree"
               />              
     </frameset>
-    <a name="skip" id="skip">&nbsp;</a>
+ 
        <html:frame action="/umlbrowser/umlSearchAction?method=initSearch"
               name="requestMap"
               frameborder="0"
