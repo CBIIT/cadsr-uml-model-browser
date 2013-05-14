@@ -20,29 +20,37 @@
 <TITLE>
 UML Model Browser
 </TITLE>
+<div style="position:absolute;">
+                        <a href="#skip">                    
+                        </a>
+                </div>
 </HEAD>
   <jsp:useBean id="requestMap" scope="request" class="java.util.HashMap" />
   
   
 <frameset rows="8%,*">
-  <html:frame page="/common/topHeader.jsp" frameborder="0" scrolling = "no" frameName="tree_header"/>
+  <html:frame page="/common/topHeader.jsp" frameborder="0" scrolling = "no" frameName="tree_header" title="tree_header"/>
   <frameset cols="25%,*">
     <frameset rows="15%,*">
        <html:frame page="/common/tree_hdr.html"
               name="requestMap"
               frameborder="0"
               frameName="tree_header"
+              title="tree_header"
               scrolling = "no"/>
        <html:frame page='/umlbrowser/tree2.jsf'
               name="requestMap"
               frameborder="0"
               frameName="tree"
+              title="tree"
               />              
     </frameset>
+    <a name="skip" id="skip">&nbsp;</a>
        <html:frame action="/umlbrowser/umlSearchAction?method=initSearch"
               name="requestMap"
               frameborder="0"
               frameName="body"
+              title="body"
               />      
   </frameset>  
    
