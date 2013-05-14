@@ -11,10 +11,7 @@
 <html>
 <head>
 <title>UML Model Browser Search Preferences</title>
-<div style="position:absolute;">
-                        <a href="#skip">                    
-                        </a>
-                </div>
+
 
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
 <LINK rel="stylesheet" TYPE="text/css" HREF="<html:rewrite page='/css/blaf.css' />">
@@ -77,7 +74,7 @@ function reset() {
 	<jsp:param name="label" value="Search&nbsp;Preferences" />
 	<jsp:param name="urlPrefix" value="../" />
 </jsp:include>
-<a name="skip" id="skip">&nbsp;</a>
+
 <html:form action="/umlbrowser/setSearchPreferencesAction.do">
    <html:hidden value="" property="<%=UMLBrowserNavigationConstants.METHOD_PARAM%>"/>
    
