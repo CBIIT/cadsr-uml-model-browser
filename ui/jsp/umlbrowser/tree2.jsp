@@ -50,7 +50,7 @@ function classSearchAction(urlParams){
                 <h:commandLink immediate="true"
                                action="#{treeBacker.selectedNode}"
                                actionListener="#{t.setNodeSelected}">
-                    <t:graphicImage value="/i/yellow-folder-closed.png"
+                    <t:graphicImage value="/i/yellow-folder-closed.png" alt="Context"
                                     border="0"/>
                     <f:param name="docNum"
                              value="#{node.identifier}"/>

@@ -27,7 +27,10 @@
 <TITLE>Welcome to UML Browser..</TITLE>
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
 <LINK rel="stylesheet" TYPE="text/css" HREF="<html:rewrite page='/css/blaf.css' />">
-
+<div style="position:absolute;">
+                        <a href="#skip">                    
+                        </a>
+                </div>
 </HEAD>
 <BODY topmargin=0 bgcolor="#ffffff">
 <%@ include  file="tab_include_search.jsp" %>
@@ -39,7 +42,7 @@
 </jsp:include>
 
 
-
+<a name="skip" id="skip">&nbsp;</a>
 <html:form action="/umlbrowser/umlSearchAction.do">
  <%@ include  file="/umlbrowser/umlSearch_inc.jsp" %>
   <P>

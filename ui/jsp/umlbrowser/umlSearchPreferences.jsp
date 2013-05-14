@@ -11,6 +11,11 @@
 <html>
 <head>
 <title>UML Model Browser Search Preferences</title>
+<div style="position:absolute;">
+                        <a href="#skip">                    
+                        </a>
+                </div>
+
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
 <LINK rel="stylesheet" TYPE="text/css" HREF="<html:rewrite page='/css/blaf.css' />">
 <SCRIPT LANGUAGE="JavaScript1.1" SRC='<html:rewrite page="/jsLib/checkbox"/>'></SCRIPT>
@@ -34,7 +39,7 @@ function reset() {
 
     <td valign="top" align="left" nowrap>
 
-    <html:img page="/i/umlbrowser_banner_full.gif" border="0" />
+    <html:img page="/i/umlbrowser_banner_full.gif" alt="UML Browser banner" border="0" />
     </td>
 
     <td align=right valign="top" colspan=2 nowrap>
@@ -44,7 +49,7 @@ function reset() {
            <html:link page="/" target="_top">
               <html:img page="/i/icon_home.gif" alt="Home" border="0"  width="32" height="32"/>
           </html:link><br><font color=brown face=verdana size=1>&nbsp;Home&nbsp;</font></TD>
-          <TD valign="TOP" align="CENTER" width="1%" colspan=1><A HREF="javascript:newBrowserWin('/help/','helpWin',700,600)"><html:img page="/i/icon_help.gif" alt="Task Help" border="0"  width="32" height="32" /></A><br><font color=brown face=verdana size=1>&nbsp;Help&nbsp;</font></TD>
+          <TD valign="TOP" align="CENTER" width="1%" colspan=1><A HREF=" https://wiki.nci.nih.gov/x/sIGDBw"><html:img page="/i/icon_help.gif" alt="Task Help" border="0"  width="32" height="32" /></A><br><font color=brown face=verdana size=1>&nbsp;Help&nbsp;</font></TD>
         </TR>
       </TABLE>
     </td>
@@ -72,7 +77,7 @@ function reset() {
 	<jsp:param name="label" value="Search&nbsp;Preferences" />
 	<jsp:param name="urlPrefix" value="../" />
 </jsp:include>
-
+<a name="skip" id="skip">&nbsp;</a>
 <html:form action="/umlbrowser/setSearchPreferencesAction.do">
    <html:hidden value="" property="<%=UMLBrowserNavigationConstants.METHOD_PARAM%>"/>
    
@@ -101,7 +106,7 @@ function reset() {
     </td>
   </tr>  
   <tr>
-    <td colspan="2" align="center"><html:img page="/i/beigedot.gif" align="top" border="0" height="1" width="99%"/> </td>
+    <td colspan="2" align="center"><html:img page="/i/beigedot.gif" alt="beigedot" align="top" border="0" height="1" width="99%"/> </td>
    </tr>
  </tbody></table>
 
@@ -111,14 +116,14 @@ function reset() {
           <table class="OraBGAccentVeryDark" cellpadding="1" cellspacing="1" width="100%">
             <tbody><tr>
               <td colspan="2" class="OraTableColumnHeaderNoBG">
-                <html:checkbox property="<%=UMLBrowserFormConstants.EXCLUDE_TEST_CONTEXT%>" value="true"  >
+                <html:checkbox title="Exclude test context" property="<%=UMLBrowserFormConstants.EXCLUDE_TEST_CONTEXT%>" value="true"  >
                    <bean:message key="cadsr.umlbrowser.excludeTestContext.label"/>
                 </html:checkbox>              
               </td>
             </tr>
             <tr>
               <td colspan="2" class="OraTableColumnHeaderNoBG">
-                <html:checkbox property="<%=UMLBrowserFormConstants.EXCLUDE_TRAINING_CONTEXT%>" value="true"  >
+                <html:checkbox title="Exclude training context" property="<%=UMLBrowserFormConstants.EXCLUDE_TRAINING_CONTEXT%>" value="true"  >
                    <bean:message key="cadsr.umlbrowser.excludeTrainingContext.label"/>
                 </html:checkbox>
               </td>
@@ -132,7 +137,7 @@ function reset() {
 
  <table width="100%">
   <tbody><tr>
-    <td align="center"><html:img page="/i/beigedot.gif" align="top" border="0" height="1" width="99%"/> </td>
+    <td align="center"><html:img page="/i/beigedot.gif" alt="beigedot" align="top" border="0" height="1" width="99%"/> </td>
    </tr>
  </tbody></table>
 
