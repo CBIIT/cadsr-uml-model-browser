@@ -1,0 +1,298 @@
+<!DOCTYPE project>
+<!--
+  UML Model Browser Open Source Ant build 
+  =============================================
+
+  Author: Jane Jiang
+  @version $Id: build.xml,v 1.5 2009-04-09 19:11:21 davet Exp $
+  
+
+  This build script was created using Ant version 1.6 and Java 1.5
+-->
+
+<project name="umlmodelbrowser" default="init" basedir=".">
+  
+  <!-- Project Settings -->
+  <!-- Use your own build.properties 
+       Properties in build.properties overide properties in build.xml
+       -->
+  <property file="build.properties"/>
+  
+   
+   <property name="umlmodelbrowser.version" value="3.2" />
+   <property name="umlmodelbrowser.build" value="7" />
+  
+  <property name="project.home" value="${basedir}"/>
+  
+  <property name="app.name" value="umlmodelbrowser" />
+  <property name="web.app.name" value="${app.name}-web" />
+  <property name="war.name" value="${app.name}-web" />
+
+    
+  <!-- Java Source Directories -->
+  <property name="java.src.dir" value="${project.home}/src/java"/>
+    
+  <!-- ui Directories -->
+  <property name="ui.dir" value="${project.home}/ui"/>  
+  <property name="jsp.dir" value="${ui.dir}/jsp"/>  
+  <property name="html.dir" value="${ui.dir}/html"/>    
+  <property name="build.dir" value="${project.home}/build"/>
+  <property name="dist.dir" value="${project.home}/dist"/>
+  <property name="classes.build.dir" value="${build.dir}/classes"/>
+  <property name="run.java.lib.dir" value="${project.home}/lib/java/run"/>
+  <property name="compile.java.lib.dir" value="${project.home}/lib/java/compile"/>
+  <property name="config.home" value="${project.home}/config"/>
+  
+  <property name="web.descriptor.home" value="${project.home}/config/WEB-INF"/>  
+  
+  <property name="app.docs.dir" value="${project.home}/docs" /> 
+  
+  <property name="umlmodelbrowser.docs.setup.dir" value="${project.home}/docs/setup" />  
+  
+  <property name="build.docs.setup.dir" value="${build.dir}/docs" />  
+  
+
+  <!-- =========== CLEAN BUILD AREA ======================= -->
+    
+    <target name="clean">
+          <delete dir="${classes.build.dir}" quiet="false"/>
+          <delete dir="${build.dir}" quiet="false"/>   
+          <delete dir="${dist.dir}" quiet="false"/>          
+    </target>
+    
+    <target name="clean_build_dir">
+          <delete dir="${classes.build.dir}" quiet="false"/>
+          <delete dir="${build.dir}" quiet="false"/>           
+    </target>
+ <!-- =========== END CLEAN BUILD AREA ======================= -->
+ 
+ 
+ <!-- =========== CONFIGURATION ======================= -->
+   <!-- Initialize the system -->
+   
+ 
+   <target name="init">
+     <!-- Create build dir -->
+     <!-- Create time stamp -->
+     <tstamp/>
+     <mkdir dir="${build.dir}"/>
+     <mkdir dir="${classes.build.dir}"/>
+     <mkdir dir="${dist.dir}"/>
+   </target>
+   <!-- end init -->
+ <!-- =========== END CONFIGURATION ======================= -->
+
+
+   <!--Set the lib classpath-->
+   <path id="classpath">
+    <fileset dir="${run.java.lib.dir}">
+      <include name="*.jar"/>
+      <include name="*.zip"/>
+    </fileset>
+
+    <fileset dir="${compile.java.lib.dir}">
+      <include name="*.jar"/>
+      <include name="*.zip"/>    
+    </fileset>
+  
+   </path>
+   
+   <path id="srcpath">
+         <pathelement location="${java.src.dir}"/>
+   </path>
+   
+   <target name="compile" depends="init">
+      <javac destdir="${classes.build.dir}" debug="on" >
+         <classpath refid="classpath"/>
+         <src refid="srcpath"/>
+      </javac>  
+            
+   </target>
+   
+  
+  
+  <!-- =========== DEV CONFIG ======================= -->
+    <target name="dev_config" depends="init">          
+     <copy todir="${classes.build.dir}/WEB-INF/classes">
+         <fileset dir="${config.home}/properties">
+           <patternset>
+             <include name="*.properties"/>
+           </patternset>
+         </fileset>
+       </copy>
+         
+     <filter token="umlmodelbrowser.version" value="${umlmodelbrowser.version}"/>
+     <filter token="umlmodelbrowser.build" value="${umlmodelbrowser.build}" />
+     <copy todir="${classes.build.dir}/jsp/common" filtering="true">
+              <fileset dir="${jsp.dir}/common">
+                <patternset>
+                  <include name="common_bottom_border.jsp"/>
+                </patternset>
+              </fileset>
+     </copy> 
+     
+       <property name="debug.config.home" value="${config.home}" /> 
+        
+   </target>
+  <!-- =========== END DEV CONFIG ======================= -->
+  
+  <target name="debug_setting" depends="debug_copy,debug_remove">
+ 
+  </target>
+  <target name="debug_copy" if="set_debug">
+    
+     <copy todir="${classes.build.dir}/WEB-INF/classes">
+                  <fileset dir="${debug.config.home}/properties">
+                    <patternset>
+                      <include name="umlmodelbrowser.properties"/>
+                    </patternset>
+                  </fileset>
+       </copy>  
+  </target>
+  
+  <target name="debug_remove" unless="set_debug" >
+     <delete quiet="true" failonerror="false">
+                  <fileset dir="${classes.build.dir}/WEB-INF/classes/properties" includes = "umlmodelbrowser.properties">
+                  </fileset>
+       </delete>  
+  </target>
+
+
+  <!-- =========== START WAR PROCESS ======================= -->
+  
+   <target name="war_umlmodelbrowser" depends="compile">  
+
+     <copy todir="${classes.build.dir}/WEB-INF/classes">      
+         <fileset dir="${java.src.dir}">
+           <patternset>
+             <include name="gov/nih/nci/ncicb/cadsr/umlmodelbrowser/struts/common/*.properties"/>
+           </patternset>
+         </fileset>      
+      </copy> 
+      
+      <!-- copy application classes -->
+      <copy todir="${classes.build.dir}/WEB-INF/classes">
+        <fileset dir="${classes.build.dir}">
+           <patternset>
+              <include name="**/*.*"/> 
+           </patternset>
+       </fileset>       
+     </copy>
+    
+    <war warfile="${build.dir}/${war.name}.war" webxml="${web.descriptor.home}/web.xml">
+       
+      <fileset dir="${config.home}">
+        <patternset>
+          <include name="WEB-INF/*.tld"/>
+          <include name="WEB-INF/struts-config*.xml"/>
+          <include name="WEB-INF/umlbrowser-faces-config.xml"/>
+          <include name="WEB-INF/tomahawk.taglib.xml"/>
+          <include name="WEB-INF/jboss-web.xml"/>
+          <include name="WEB-INF/umlbrowser/struts-config*.xml"/>
+          <include name="WEB-INF/spring/*.xml"/>
+
+        </patternset>
+      </fileset>
+      <fileset dir="${classes.build.dir}">
+        <patternset>
+          <include name="WEB-INF/classes/**/*.*"/>
+        </patternset>
+      </fileset>        
+
+
+      <fileset dir="${jsp.dir}/">
+              <patternset>
+                <include name="common/**/*.*"/>  
+                <include name="*.jsp"/>
+                <include name="umlbrowser/*.*"/>  
+                <exclude name="common_bottom_border.jsp"/>                
+              </patternset>
+      </fileset>
+
+      <fileset dir="${classes.build.dir}/jsp/">
+              <patternset>
+                <include name="common/**/*.*"/>                 
+              </patternset>
+      </fileset>
+      
+           
+      <fileset dir="${html.dir}/">
+        <patternset>
+          <include name="common/**/*.*"/>   
+        </patternset>         
+      </fileset>
+
+      <fileset dir="${ui.dir}/">
+        <patternset>
+          <include name="i/**/*.*"/>   
+        </patternset>
+      </fileset>
+
+      <fileset dir="${ui.dir}/">
+        <patternset>
+          <include name="jsLib/**/*.*"/>   
+          <include name="css/**/*.*"/>   
+        </patternset>      
+      </fileset>
+
+      <lib dir="${run.java.lib.dir}">
+      	<include name="*.jar"/>       	
+      	<include name="*.zip"/>      
+      </lib>
+       
+    </war>
+  </target>
+   
+  <!-- =========== END CREATE WAR FILE ======================= -->
+   
+  
+
+
+
+
+<!-- =========== Copy DISTRIBUTION EAR============== -->
+  <target name="dist_war_copy" depends="war_umlmodelbrowser">  
+     <copy todir="${dist.dir}">      
+         <fileset dir="${build.dir}">
+           <patternset>
+             <include name="${war.name}.war"/>
+           </patternset>
+         </fileset>    
+      </copy>          
+   </target>   
+  <!-- =========== DEV DISTRIBUTION============== -->
+  
+  <!-- =========== DEV DISTRIBUTION============== -->
+   <target name="dist" depends="clean_build_dir,debug_setting,dev_config,war_umlmodelbrowser,dist_war_copy">      
+   </target>      
+  <!-- =========== END DEV DISTRIBUTION ======================= -->
+
+
+ <!-- =========== BUILD HELPERS ======================= -->
+   <target name="help" depends="init">
+     <echo>
+ 
+       ===================================================================
+       umlmodelbrowser Build System - Help
+       ===================================================================
+ 
+       Targets:
+ 
+       clean                  -Cleans the build area.
+
+
+       
+       dist	      -Creates Clean distribution.
+       
+
+       help                   - This help screen.
+ 
+       Settings:
+           Project Home:    ${project.home}
+ 
+       ===================================================================
+ 
+     </echo>
+   </target>
+   <!-- end help -->  
+</project>
