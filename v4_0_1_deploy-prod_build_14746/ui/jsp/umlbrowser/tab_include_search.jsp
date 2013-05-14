@@ -54,7 +54,11 @@
            <td  align="center" width="15%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
                 <a href="<%=params.getSentinelToolUrl()%>" target="_blank">
                       Sentinel Tool&nbsp;</a></span>
-            </td>            
+            </td> 
+             <td  align="center" width="15%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
+                <a href="https://wiki.nci.nih.gov/x/sIGDBw" target="_blank">
+                      What's new&nbsp;</a></span>
+            </td>                       
         </tr>
       </table>
      </td>
