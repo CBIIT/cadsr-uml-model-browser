@@ -21,7 +21,7 @@
   <tr>
 
     <td align="left" nowrap>
-    <html:img page="/i/umlbrowser_banner_full.gif" border="0" />
+    <html:img page="/i/umlbrowser_banner_full.gif" alt="UML Model Browser Banner" border="0" />
     </td>
 
   </tr>
@@ -32,7 +32,7 @@
              </A><br><font color=brown face=verdana size=1>&nbsp;Home&nbsp;</font>
           </TD>
           <TD valign="TOP" align="right" width="1%" colspan=1>
-          <A HREF="javascript:newBrowserWin('/help/','helpWin',700,600)">
+          <A HREF=" https://wiki.nci.nih.gov/x/sIGDBw" target="_blank">
             <html:img page="/i/icon_help.gif" alt="Help" border="0"  width="32" height="32" />
           </A><br><font color=brown face=verdana size=1>&nbsp;Help&nbsp;</font></TD>
         </TR>

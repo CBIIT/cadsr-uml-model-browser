@@ -102,7 +102,7 @@ function resetSubProjPackage() {
          
  </tr>   
  <tr>
-   <td  align="center" colspan="3"><html:img page="/i/beigedot.gif" border="0"  height="1" width="99%" align="top" /> </td>
+   <td  align="center" colspan="3"><html:img page="/i/beigedot.gif" alt="beigedot" border="0"  height="1" width="99%" align="top" /> </td>
   </tr> 
  </table>
  
@@ -111,11 +111,11 @@ function resetSubProjPackage() {
             <tr>
               <td width="10%" class="OraTableColumnHeaderNoBG" nowrap>Class Name</td>
               <td class="OraTabledata" nowrap>
-                <html:text property="<%=UMLBrowserFormConstants.CLASS_NAME%>" size="35" onkeypress="if (event.keyCode==13){submitForm('classSearch')};"/>
+                <html:text title="class name" property="<%=UMLBrowserFormConstants.CLASS_NAME%>" size="35" onkeypress="if (event.keyCode==13){submitForm('classSearch')};"/>
               </td>
               <td width="10%" class="OraTableColumnHeaderNoBG" nowrap>Attribute Name</td>
               <td class="OraTabledata" nowrap>
-                <html:text property="attributeName" size="35" onkeypress="if (event.keyCode==13){submitForm('classSearch')};" />
+                <html:text title="Attibute name" property="attributeName" size="35" onkeypress="if (event.keyCode==13){submitForm('classSearch')};" />
               </td>
             </tr>
    </table>
@@ -127,7 +127,7 @@ function resetSubProjPackage() {
             <tr>            
                 <td width="10%" class="OraTableColumnHeaderNoBG" nowrap>UML Project Name</td>
                 <td class="OraTabledata"  nowrap width="50%">
-                <html:select styleClass = "FreeDropdown" property="<%=UMLBrowserFormConstants.PROJECT_IDSEQ%>"
+                <html:select title="UML Project Name" styleClass = "FreeDropdown" property="<%=UMLBrowserFormConstants.PROJECT_IDSEQ%>"
                 onchange="submitForm('resetSubProjPkgOptions')">
                    <html:option key="cadsr.umlbrowser.form.blank" value="<%=UMLBrowserFormConstants.SEARCH_ALL%>" /> 
 
@@ -146,13 +146,13 @@ function resetSubProjPackage() {
                 </td>
                 <td width="20%" class="OraTableColumnHeaderNoBG"  nowrap>Version</td>
                 <td class="OraTabledata" nowrap width="20%">
-                <html:text property="<%=UMLBrowserFormConstants.PROJECT_VERSION%>" size="10" onkeypress="if (event.keyCode==13){submitForm('classSearch')};"/>
+                <html:text title="version" property="<%=UMLBrowserFormConstants.PROJECT_VERSION%>" size="10" onkeypress="if (event.keyCode==13){submitForm('classSearch')};"/>
                 </td>
              </tr>
             <tr>            
               <td width="10%" class="OraTableColumnHeaderNoBG" nowrap>Sub Project Name</td>
               <td width="70%" class="OraTabledata" nowrap colspan="3">
-                <html:select styleClass = "FreeDropdown" property="<%=UMLBrowserFormConstants.SUB_PROJECT_IDSEQ%>" 
+                <html:select title="subproject name" styleClass = "FreeDropdown" property="<%=UMLBrowserFormConstants.SUB_PROJECT_IDSEQ%>" 
                 onchange="submitForm('resetPkgOptions')">
                    <html:option key="cadsr.umlbrowser.form.blank" value="<%=UMLBrowserFormConstants.SEARCH_ALL%>" /> 
                    <html:options collection="<%=UMLBrowserFormConstants.SUBPROJECT_OPTIONS%>" 
@@ -164,7 +164,7 @@ function resetSubProjPackage() {
             <tr>            
               <td width="10%" class="OraTableColumnHeaderNoBG" nowrap>Package Name</td>
              <td width="70%" class="OraTabledata" nowrap colspan="3">
-                <html:select styleClass = "FreeDropdown" property="<%=UMLBrowserFormConstants.PACKAGE_IDSEQ%>">
+                <html:select title="package name" styleClass = "FreeDropdown" property="<%=UMLBrowserFormConstants.PACKAGE_IDSEQ%>">
                    <html:option key="cadsr.umlbrowser.form.blank" value="<%=UMLBrowserFormConstants.SEARCH_ALL%>" /> 
                    <html:options collection="<%=UMLBrowserFormConstants.PACKAGE_OPTIONS%>" 
                      property="id" labelProperty="name" />
@@ -182,13 +182,13 @@ function resetSubProjPackage() {
       <table align="center" >
            <tr>
         <td nowrap>
-            <a href="javascript:submitForm('<%=UMLBrowserNavigationConstants.CLASS_SEARCH_METHOD%>')"><img src=<%=urlPrefix%>i/class_search.gif border=0></a>
+            <a href="javascript:submitForm('<%=UMLBrowserNavigationConstants.CLASS_SEARCH_METHOD%>')"><img src=<%=urlPrefix%>i/class_search.gif alt="class search" border=0></a>
           </td>       
         <td nowrap>
-            <a href="javascript:submitForm('<%=UMLBrowserNavigationConstants.ATTRIBUTE_SEARCH_METHOD%>')"><img src=<%=urlPrefix%>i/attribute_search.gif border=0></a>
+            <a href="javascript:submitForm('<%=UMLBrowserNavigationConstants.ATTRIBUTE_SEARCH_METHOD%>')"><img src=<%=urlPrefix%>i/attribute_search.gif alt="attribute search" border=0></a>
           </td>       
              <td  >
-               <a href="javascript:clearForm()"><img src=<%=urlPrefix%>i/reset.gif border=0></a>
+               <a href="javascript:clearForm()"><img src=<%=urlPrefix%>i/reset.gif alt=-"reset" border=0></a>
               </td>
               
               
