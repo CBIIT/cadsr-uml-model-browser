@@ -24,12 +24,12 @@
    <property name="jboss.start.debug.script.name" value="rundebug.bat" />
    <property name="jboss.stop.script.name" value="shutdown.bat" />
    
-   <property name="cdebrowser.version" value="4.0.3" />
-   <property name="umlmodelbrowser.version" value="4.0.3" />
-   <property name="umlmodelbrowser.build" value="1" />
+   <property name="cdebrowser.version" value="4.0.1" />
+   <property name="umlmodelbrowser.version" value="4.0.2" />
+   <property name="umlmodelbrowser.build" value="9" />
    
    <!-- used for open source build for file suffix-->
-   <property name="umlmodelbrowser.version.suffix" value="4_0_3" />
+   <property name="umlmodelbrowser.version.suffix" value="4_0_2" />
    <property name="CADSR.DS.USER" value="${CADSR.DS.USER}" />
    <property name="CADSR.DS.PSWD" value="${CADSR.DS.PSWD}" />   
    <property name="opensource.CADSR.DS.PSWD" value="${CADSR.DS.PSWD}" />
