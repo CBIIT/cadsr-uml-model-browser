@@ -13,14 +13,14 @@
 
     <td valign="top" align="left" nowrap>
 
-    <html:img page="/i/umlbrowserbanner.gif" border="0" />
+    <html:img page="/i/umlbrowserbanner.gif" alt="UML Model Browser banner" border="0" />
     </td>
 
     <td align=right valign="top" colspan=2 nowrap>
       <TABLE Cellpadding=0 Cellspacing=0 border=0 >
         <TR>
           <TD valign="TOP" align="CENTER" width="1%" colspan=1><html:link page="/" target="_top"><html:img page="/i/icon_home.gif" alt="Home" border="0"  width="32" height="32"/></html:link><br><font color=brown face=verdana size=1>&nbsp;Home&nbsp;</font></TD>
-          <TD valign="TOP" align="CENTER" width="1%" colspan=1><A HREF="javascript:newBrowserWin('/help/','helpWin',700,600)"><html:img page="/i/icon_help.gif" alt="Task Help" border="0"  width="32" height="32" /></A><br><font color=brown face=verdana size=1>&nbsp;Help&nbsp;</font></TD>
+          <TD valign="TOP" align="CENTER" width="1%" colspan=1><A HREF="https://wiki.nci.nih.gov/x/sIGDBw" target="_blank"><html:img page="/i/icon_help.gif" alt="Task Help" border="0"  width="32" height="32" /></A><br><font color=brown face=verdana size=1>&nbsp;Help&nbsp;</font></TD>
         </TR>
       </TABLE>
     </td>
@@ -44,7 +44,11 @@
            <td  valign="bottom" align="center" width="35%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
                 <a href="<%=params.getNciTerminologyServerUrl()%>" target="_blank">NCI Terminology Server&nbsp;</a> </span></td>
            <td  valign="bottom" align="right" width="15%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
-                <a href="<%=params.getSentinelToolUrl()%>" target="_blank"> Sentinel Tool&nbsp;</a> </span></td>            
+                <a href="<%=params.getSentinelToolUrl()%>" target="_blank"> Sentinel Tool&nbsp;</a> </span></td>
+                <td  align="center" width="15%" height="10" nowrap><span style="font-size: 10.0pt; font-family: Arial">
+		                <a href="https://wiki.nci.nih.gov/display/caDSR/UML+Model+Browser+4.0.3+Release+Notes" target="_blank">
+		                      What's new&nbsp;</a></span>
+            </td>           
           </tr>
     </table>
     </td>
