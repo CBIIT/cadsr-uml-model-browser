@@ -1,0 +1,30 @@
+<?xml version = '1.0' encoding = 'windows-1252'?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config>
+ <global-forwards>
+    <forward name="login" path="http://cadsr-dev.nci.nih.gov/pls/cadsr" redirect="true"/>
+  </global-forwards>
+  <action-mappings>
+    <action path="/testAction" type="gov.nih.nci.ncicb.cadsr.admintool.struts.actions.MainAction">
+      <forward name="success" path="/page1.do"/>
+      <forward name="failure" path="/page2.do"/>
+    </action>
+    <action path="/getConceptAction" type="gov.nih.nci.ncicb.cadsr.admintool.struts.actions.GetConceptAction" parameter="conId" >
+      <forward name="success" path="/showConcept.jsp"/>
+      <forward name="failure" path="/page2.do"/>
+    </action>
+    <action path="/getContextAction" type="gov.nih.nci.ncicb.cadsr.admintool.struts.actions.GetContextAction">
+      <forward name="success" path="/showContexts.jsp"/>
+      <forward name="failure" path="/page2.do"/>
+    </action>
+    <action path="/page1" forward="/index.jsp"/>
+    <action path="/page2" forward="/failure.jsp"/>
+    <action path="/indexAction" type="gov.nih.nci.ncicb.cadsr.admintool.struts.actions.IndexAction">
+      <forward name="success" path="/page3.do"/>
+    </action>
+    <action path="/page3" forward="/menu.jsp"/>
+  </action-mappings>
+  <message-resources parameter="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.ApplicationResources"/>
+    <plug-in className="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.SpringWebContextPlugIn">  
+    </plug-in> 
+</struts-config>
