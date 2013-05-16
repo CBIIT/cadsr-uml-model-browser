@@ -112,15 +112,15 @@ function reset() {
          <td valign="top" width="100%">
           <table class="OraBGAccentVeryDark" cellpadding="1" cellspacing="1" width="100%">
             <tbody><tr>
-              <td colspan="2" class="OraTableColumnHeaderNoBG">
-                <html:checkbox title="Exclude test context" property="<%=UMLBrowserFormConstants.EXCLUDE_TEST_CONTEXT%>" value="true"  >
+              <td colspan="2" class="OraTableColumnHeaderNoBG"><label for="Exclude test context">EXCLUDE_TEST_CONTEXT</label>
+                <html:checkbox styleId="Exclude test context" property="<%=UMLBrowserFormConstants.EXCLUDE_TEST_CONTEXT%>" value="true"  >
                    <bean:message key="cadsr.umlbrowser.excludeTestContext.label"/>
                 </html:checkbox>              
               </td>
             </tr>
             <tr>
-              <td colspan="2" class="OraTableColumnHeaderNoBG">
-                <html:checkbox title="exclude training context" property="<%=UMLBrowserFormConstants.EXCLUDE_TRAINING_CONTEXT%>" value="true"  >
+              <td colspan="2" class="OraTableColumnHeaderNoBG"><label for="exclude training context">EXCLUDE_TRAINING_CONTEXT</label>
+                <html:checkbox styleId="exclude training context" property="<%=UMLBrowserFormConstants.EXCLUDE_TRAINING_CONTEXT%>" value="true"  >
                    <bean:message key="cadsr.umlbrowser.excludeTrainingContext.label"/>
                 </html:checkbox>
               </td>
