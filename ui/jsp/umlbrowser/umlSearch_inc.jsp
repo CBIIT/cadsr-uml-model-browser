@@ -109,7 +109,7 @@ function resetSubProjPackage() {
     <table align="center" valign="top" width="100%" cellpadding="0" cellspacing="1" class="OraBGAccentVeryDark" border="0">
   
             <tr>
-              <td width="10%" class="OraTableColumnHeaderNoBG" nowrap><label for="className">Class Name</td>
+              <td width="10%" class="OraTableColumnHeaderNoBG" nowrap><label for="className">Class Name</label></td>
               <td class="OraTabledata" nowrap>
                 <html:text styleId="className" property="<%=UMLBrowserFormConstants.CLASS_NAME%>" size="35" onkeypress="if (event.keyCode==13){submitForm('classSearch')};"/>
               </td>
@@ -125,7 +125,7 @@ function resetSubProjPackage() {
       <td width="50%"  valign="top" >
           <table width="100%" cellpadding="0" cellspacing="1" class="OraBGAccentVeryDark" border="0" %>
             <tr>            
-                <td width="10%" class="OraTableColumnHeaderNoBG" nowrap><label for="UML Project Name">UML Project Name</td>
+                <td width="10%" class="OraTableColumnHeaderNoBG" nowrap><label for="UML Project Name">UML Project Name</label></td>
                 <td class="OraTabledata"  nowrap width="50%">
                 <html:select styleId="UML Project Name" styleClass = "FreeDropdown" property="<%=UMLBrowserFormConstants.PROJECT_IDSEQ%>"
                 onchange="submitForm('resetSubProjPkgOptions')">
@@ -144,13 +144,13 @@ function resetSubProjPackage() {
           </html:select>
 
                 </td>
-                <td width="20%" class="OraTableColumnHeaderNoBG"  nowrap><label for="version">Version</td>
+                <td width="20%" class="OraTableColumnHeaderNoBG"  nowrap><label for="version">Version</label></td>
                 <td class="OraTabledata" nowrap width="20%">
                 <html:text styleId="version" property="<%=UMLBrowserFormConstants.PROJECT_VERSION%>" size="10" onkeypress="if (event.keyCode==13){submitForm('classSearch')};"/>
                 </td>
              </tr>
             <tr>            
-              <td width="10%" class="OraTableColumnHeaderNoBG" nowrap><label for="subproject name">Sub Project Name</td>
+              <td width="10%" class="OraTableColumnHeaderNoBG" nowrap><label for="subproject name">Sub Project Name</label></td>
               <td width="70%" class="OraTabledata" nowrap colspan="3">
                 <html:select styleId="subproject name" styleClass = "FreeDropdown" property="<%=UMLBrowserFormConstants.SUB_PROJECT_IDSEQ%>" 
                 onchange="submitForm('resetPkgOptions')">
@@ -162,7 +162,7 @@ function resetSubProjPackage() {
                 </td>
              </tr>  
             <tr>            
-              <td width="10%" class="OraTableColumnHeaderNoBG" nowrap><label for="package name">Package Name</td>
+              <td width="10%" class="OraTableColumnHeaderNoBG" nowrap><label for="package name">Package Name</label></td>
              <td width="70%" class="OraTabledata" nowrap colspan="3">
                 <html:select styleId="package name" styleClass = "FreeDropdown" property="<%=UMLBrowserFormConstants.PACKAGE_IDSEQ%>">
                    <html:option key="cadsr.umlbrowser.form.blank" value="<%=UMLBrowserFormConstants.SEARCH_ALL%>" /> 
