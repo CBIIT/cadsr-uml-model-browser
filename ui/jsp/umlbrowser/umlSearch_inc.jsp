@@ -1,4 +1,5 @@
 <%@page import="gov.nih.nci.ncicb.cadsr.umlmodelbrowser.struts.common.UMLBrowserNavigationConstants" %>
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
 <SCRIPT LANGUAGE="JavaScript">
 <!--
@@ -63,7 +64,7 @@ function resetSubProjPackage() {
  <%--
     <td class="OraHeaderSubSub" width="60%" align="left" nowrap>Search For Classes</td>
  --%>
-   <td valign="top" class="CDEBrowserPageContext"><%=pageContextInfo%></td >
+   <td valign="top" class="CDEBrowserPageContext"><c:out value="${pageContextInfo}" escapeXml="false"/></td >
   <%--
   <td align="right" width="20%" nowrap><a href="">Advanced search</a></td>
   --%>
