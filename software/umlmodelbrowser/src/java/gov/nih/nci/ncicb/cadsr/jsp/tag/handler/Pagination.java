@@ -1,3 +1,10 @@
+/*L
+ * Copyright Oracle Inc, SAIC-F
+ *
+ * Distributed under the OSI-approved BSD 3-Clause License.
+ * See http://ncip.github.com/cadsr-uml-model-browser/LICENSE.txt for details.
+ */
+
 package gov.nih.nci.ncicb.cadsr.jsp.tag.handler;
 import gov.nih.nci.ncicb.cadsr.CaDSRConstants;
 import gov.nih.nci.ncicb.cadsr.jsp.bean.PaginationBean;

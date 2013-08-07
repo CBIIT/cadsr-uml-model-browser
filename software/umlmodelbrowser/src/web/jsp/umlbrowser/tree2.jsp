@@ -1,3 +1,10 @@
+<%--L
+  Copyright Oracle Inc, SAIC-F
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/cadsr-uml-model-browser/LICENSE.txt for details.
+L--%>
+
 <%@ page errorPage="/common/systemError.jsp" %> 
 <%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>

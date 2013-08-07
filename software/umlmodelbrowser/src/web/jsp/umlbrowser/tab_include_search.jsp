@@ -1,3 +1,9 @@
+<%--L
+  Copyright Oracle Inc, SAIC-F
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/cadsr-uml-model-browser/LICENSE.txt for details.
+L--%>
 
 <%@ page import="gov.nih.nci.ncicb.cadsr.CaDSRConstants"%>
 <%@page import="gov.nih.nci.ncicb.cadsr.util.* " %>

@@ -1,4 +1,12 @@
 <?xml version="1.0"  encoding="windows-1252"?>
+
+<!--L
+  Copyright Oracle Inc, SAIC-F
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/cadsr-uml-model-browser/LICENSE.txt for details.
+L-->
+
 <XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="2006-01-18 15:21:06">
 	<XMI.header>
 		<XMI.documentation>
