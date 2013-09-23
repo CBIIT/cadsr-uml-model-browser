@@ -13,7 +13,7 @@ You will find more details about the caDSR UML Model Browser in the following li
  * [Community Wiki] (https://wiki.nci.nih.gov/x/PoEI)
  * [Code Repository] (https://github.com/NCIP/cadsr-uml-model-browser)
  * [Issue Tracker] (https://gforge.nci.nih.gov/tracker/?group_id=46)
- * [Downloads] (http://gforge.nci.nih.gov/frs/?group_id=46)
+ * [Installation Package] (http://gforge.nci.nih.gov/frs/?group_id=46)
  * [Documentation] (https://gforge.nci.nih.gov/docman/?group_id=46)
  * [NCI Instance] (http://umlmodelbrowser.nci.nih.gov) 
 
