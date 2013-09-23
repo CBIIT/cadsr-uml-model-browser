@@ -1,7 +1,7 @@
 Welcome to the caDSR UML Model Browser Project!
 =====================================
 
-The caDSR UML Model Browser supports browsing and searching UML Models that have been transformed into caDSR metadata via the UML Loader. This tool allows users to find and view caDSR content that is related to their registered UML models
+The caDSR UML Model Browser supports browsing and searching UML models that have been transformed into caDSR metadata via the UML Loader. This tool allows users to find and view caDSR content that is related to their registered UML models
 
 The caDSR UML Model Browser is developed in Java and requires Apache Ant for building.
 
