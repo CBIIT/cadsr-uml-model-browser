@@ -15,11 +15,7 @@ You will find more details about the caDSR UML Model Browser in the following li
  * [Issue Tracker] (https://gforge.nci.nih.gov/tracker/?group_id=46)
  * [Downloads] (http://gforge.nci.nih.gov/frs/?group_id=46)
  * [Documentation] (https://gforge.nci.nih.gov/docman/?group_id=46)
- 
- 
-An NCI hosted instance of caDSR UML Model Browser is publicly available at:
-
-[Production Instance] (http://umlmodelbrowser.nci.nih.gov) 
+ * [NCI Instance] (http://umlmodelbrowser.nci.nih.gov) 
 
 
 Please join us in further developing and improving the caDSR UML Model Browser project.
